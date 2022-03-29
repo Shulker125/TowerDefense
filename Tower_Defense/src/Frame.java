@@ -21,10 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener{
-	
+	Background back = new Background(0, 0);
 	
 	public void paint(Graphics g) {
 		super.paint(g);
+		back.paint(g);
 	}
 	public static void main(String[] arg) {
 		Frame f = new Frame();

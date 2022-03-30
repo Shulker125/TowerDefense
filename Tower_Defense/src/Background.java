@@ -57,21 +57,5 @@ public class Background {
 		}
 		return tempImage;
 	}
-	//logic for changing the background after each stage
-	public void changeImage() {
-		
-		if (stageNum < 3) {
-			stageNum++;
-		}
-		else {
-			stageNum = 0;
-		}
-		img = getImage(stage[stageNum]);
-	}
-	//resets the background to the first one
-	public void resetBg() {
-		stageNum = 0;
-		img = getImage(stage[stageNum]);
-	}
 
 }

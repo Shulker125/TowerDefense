@@ -8,13 +8,16 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Background {
-	private Image img; 	
+	public Image img, easy, medium, hard; 	
 	private AffineTransform tx;
 	private String[] stage = {"/imgs/bg.png", "/imgs/bg2.png", "/imgs/bg3.png", "/imgs/bg4.png"};
 	private int stageNum = 0;
 	public Background(int x, int y) {
-		img = getImage("/imgs/Background.png"); //load the image for Tree
-		tx = AffineTransform.getTranslateInstance(x, y );
+		img = getImage("/imgs/homescreen.png"); //load the image for Tree
+		easy = getImage("/imgs/easy.png");
+		medium = getImage("/imgs/medium.png");
+		hard = getImage("imgs/hard.png");
+		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
 									//use your variables
 	}
@@ -31,7 +34,9 @@ public class Background {
 		
 		
 		g2.drawImage(img, tx, null);
-		
+		g2.drawImage(easy, 100, 300, 100, 50, null);
+		g2.drawImage(medium, 240, 300, 120, 50, null);
+		g2.drawImage(hard, 400, 300, 100, 50, null);
 		
 
 	}

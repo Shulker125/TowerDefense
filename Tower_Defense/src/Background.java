@@ -62,5 +62,28 @@ public class Background {
 		}
 		return tempImage;
 	}
-
+	public void switchEasy() {
+		easy = getImage("/imgs/easy-hover.png");
+	}
+	public void returnEasy() {
+		easy = getImage("/imgs/easy.png");
+	}
+	public void switchMed() {
+		medium = getImage("/imgs/medium-hover.png");
+	}
+	public void returnMed() {
+		medium = getImage("/imgs/medium.png");
+	}
+	public void switchHard() {
+		hard = getImage("/imgs/hard-hover.png");
+	}
+	public void returnhard() {
+		hard = getImage("/imgs/hard.png");
+	}
+	public void setBackground(String imageName) {
+		img = getImage(imageName);
+		easy = null;
+		medium = null;
+		hard = null;
+	}
 }

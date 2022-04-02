@@ -23,9 +23,18 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener{
+	JFrame f = new JFrame("Tower Defense");
 	Background back = new Background(0, 0);
 	Point p = MouseInfo.getPointerInfo().getLocation();
+	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
+	public boolean isOnHomescreen = true;
 	public void paint(Graphics g) {
+		int winX = f.getX(), winY = f.getY();
+		p.x -= winX;
+		p.y -= winY;
+		if (isOnHomescreen) {
+			checkHover();
+		}
 		super.paint(g);
 		back.paint(g);
 		p = MouseInfo.getPointerInfo().getLocation();
@@ -35,7 +44,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 ;	}
 	public Frame() {
-		JFrame f = new JFrame("Tower Defense");
 		Timer t = new Timer(16, this);
 		f.setSize(new Dimension(600, 600));
 		f.setBackground(Color.blue);
@@ -69,6 +77,23 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		if(e.getButton() == 1) {
 			System.out.println(p.getX() + "," + p.getY());
+			if (isOnHomescreen) {
+				if (p.getX() >= 105 && p.getX() <= 210 && p.getY() >= 340 && p.getY() <= 385) {
+					difficulty = 0;
+					back.setBackground("/imgs/Background.png");
+					isOnHomescreen = false;
+				}
+				if (p.getX() >= 250 && p.getX() <= 365 && p.getY() >= 340 && p.getY() <= 385) {
+					difficulty = 1;
+					back.setBackground("/imgs/Background.png");
+					isOnHomescreen = false;
+				}
+				if (p.getX() >= 410 && p.getX() <= 505 && p.getY() >= 340 && p.getY() <= 385) {
+					difficulty = 2;
+					back.setBackground("/imgs/Background.png");
+					isOnHomescreen = false;
+				}
+			}
 		}
 	}
 	@Override
@@ -98,8 +123,23 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public void checkHover() {
-		if (p.getX() >= 105 && p.getX() <= 200 && p.getY() >= 335 && p.getY() <= 380) {
-			
+		if (p.getX() >= 105 && p.getX() <= 210 && p.getY() >= 340 && p.getY() <= 385) {
+			back.switchEasy();
+		}
+		else {
+			back.returnEasy();
+		}
+		if (p.getX() >= 250 && p.getX() <= 365 && p.getY() >= 340 && p.getY() <= 385) {
+			back.switchMed();
+		}
+		else {
+			back.returnMed();
+		}
+		if (p.getX() >= 410 && p.getX() <= 505 && p.getY() >= 340 && p.getY() <= 385) {
+			back.switchHard();
+		}
+		else {
+			back.returnhard();
 		}
 	}
 }

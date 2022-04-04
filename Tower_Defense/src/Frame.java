@@ -25,9 +25,14 @@ import javax.swing.Timer;
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener{
 	JFrame f = new JFrame("Tower Defense");
 	Background back = new Background(0, 0);
+	ArrayList<Soap> soap = new ArrayList<Soap>();
+	ArrayList<Bleach> bleach = new ArrayList<Bleach>();
+	ArrayList<Flamethrower> flame = new ArrayList<Flamethrower>();
+	ArrayList<Sanitizer> sanitizer = new ArrayList<Sanitizer>();
 	Point p = MouseInfo.getPointerInfo().getLocation();
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
+	public boolean isPointerActive = false;
 	public void paint(Graphics g) {
 		int winX = f.getX(), winY = f.getY();
 		p.x -= winX;
@@ -35,6 +40,24 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		checkHover();
 		super.paint(g);
 		back.paint(g);
+		if (!isOnHomescreen) {
+			for (Soap s : soap) {
+				s.paint(g);
+				s.placeHover(p.x-40, p.y-40);
+			}
+			for (Bleach b : bleach) {
+				b.paint(g);
+				b.placeHover(p.x-40, p.y-40);
+			}
+			for (Flamethrower fl : flame) {
+				fl.paint(g);
+				fl.placeHover(p.x-40, p.y-40);
+			}
+			for (Sanitizer st : sanitizer) {
+				st.paint(g);
+				st.placeHover(p.x-40, p.y-40);
+			}
+		}
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -42,6 +65,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 ;	}
 	public Frame() {
+		soap.add(new Soap(150, 10, 2.5, false));
+		bleach.add(new Bleach(350, 10, 2.7, false));
+		flame.add(new Flamethrower(450, 10, 3, false));
+		sanitizer.add(new Sanitizer(250, 10, 2.8, false));
 		Timer t = new Timer(16, this);
 		f.setSize(new Dimension(600, 600));
 		f.setBackground(Color.blue);
@@ -73,8 +100,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getButton() == 1) {
+		if (e.getButton() == 3) {
+			int winX = f.getX(), winY = f.getY();
+			p.x -= winX;
+			p.y -= winY;
 			System.out.println(p.x + "," + p.y);
+		}
+		if(e.getButton() == 1) {
 			int winX = f.getX(), winY = f.getY();
 			p.x -= winX;
 			p.y -= winY;
@@ -104,6 +136,45 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				if (p.x >= 20 && p.x <= 115 && p.y >= 50 && p.y <= 95) {
 					back.returnToMenu();
 					isOnHomescreen = true;
+				}
+				
+				if (!isPointerActive) {
+					if (p.x >= 155 && p.x <= 215 && p.y >= 45 && p.y <= 100) {
+						soap.add(new Soap(p.x-40, p.y-40, 2.5, true));
+						isPointerActive = true;
+					}
+					if (p.x >= 270 && p.x <= 295 && p.y >= 45 && p.y <= 105) {
+						sanitizer.add(new Sanitizer(p.x-40, p.y-40, 2.5, true));
+						isPointerActive = true;
+					}
+					if (p.x >= 365 && p.x <= 410 && p.y >= 45 && p.y <= 105) {
+						bleach.add(new Bleach(p.x-40, p.y-40, 2.5, true));
+						isPointerActive = true;
+					}
+					if (p.x >= 450 && p.x <= 525 && p.y >= 65 && p.y <= 95) {
+						flame.add(new Flamethrower(p.x-40, p.y-40, 2.5, true));
+						isPointerActive = true;
+					}
+				}
+				else {
+					if (p.y > 130) {
+						for (Soap s : soap) {
+							s.setHover(false);
+							isPointerActive = false;
+						}
+						for (Bleach b : bleach) {
+							b.setHover(false);
+							isPointerActive = false;
+						}
+						for (Flamethrower fl : flame) {
+							fl.setHover(false);
+							isPointerActive = false;
+						}
+						for (Sanitizer st : sanitizer) {
+							st.setHover(false);
+							isPointerActive = false;
+						}
+					}
 				}
 			}
 		}

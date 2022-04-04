@@ -32,9 +32,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		int winX = f.getX(), winY = f.getY();
 		p.x -= winX;
 		p.y -= winY;
-		if (isOnHomescreen) {
-			checkHover();
-		}
+		checkHover();
 		super.paint(g);
 		back.paint(g);
 		p = MouseInfo.getPointerInfo().getLocation();
@@ -76,22 +74,36 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getButton() == 1) {
-			System.out.println(p.getX() + "," + p.getY());
+			System.out.println(p.x + "," + p.y);
+			int winX = f.getX(), winY = f.getY();
+			p.x -= winX;
+			p.y -= winY;
 			if (isOnHomescreen) {
-				if (p.getX() >= 105 && p.getX() <= 210 && p.getY() >= 340 && p.getY() <= 385) {
+				back.menu = null;
+				if (p.x >= 105 && p.x <= 210 && p.y >= 340 && p.y <= 385) {
 					difficulty = 0;
 					back.setBackground("/imgs/Background.png");
+					back.returnMenu();
 					isOnHomescreen = false;
 				}
-				if (p.getX() >= 250 && p.getX() <= 365 && p.getY() >= 340 && p.getY() <= 385) {
+				if (p.x >= 250 && p.x <= 365 && p.y >= 340 && p.y <= 385) {
 					difficulty = 1;
 					back.setBackground("/imgs/Background.png");
+					back.returnMenu();
 					isOnHomescreen = false;
 				}
-				if (p.getX() >= 410 && p.getX() <= 505 && p.getY() >= 340 && p.getY() <= 385) {
+				if (p.x >= 410 && p.x <= 505 && p.y >= 340 && p.y <= 385) {
 					difficulty = 2;
 					back.setBackground("/imgs/Background.png");
+					back.returnMenu();
 					isOnHomescreen = false;
+				}
+			}
+			else {
+				
+				if (p.x >= 20 && p.x <= 115 && p.y >= 50 && p.y <= 95) {
+					back.returnToMenu();
+					isOnHomescreen = true;
 				}
 			}
 		}
@@ -123,23 +135,34 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public void checkHover() {
-		if (p.getX() >= 105 && p.getX() <= 210 && p.getY() >= 340 && p.getY() <= 385) {
-			back.switchEasy();
+		if (isOnHomescreen) {
+			if (p.x >= 105 && p.x <= 210 && p.y >= 340 && p.y <= 385) {
+				back.switchEasy();
+			}
+			else {
+				back.returnEasy();
+			}
+			if (p.x >= 250 && p.x <= 365 && p.y >= 340 && p.y <= 385) {
+				back.switchMed();
+			}
+			else {
+				back.returnMed();
+			}
+			if (p.x >= 410 && p.x <= 505 && p.y >= 340 && p.y <= 385) {
+				back.switchHard();
+			}
+			else {
+				back.returnHard();
+			}
 		}
 		else {
-			back.returnEasy();
+			if (p.x >= 20 && p.x <= 115 && p.y >= 50 && p.y <= 95) {
+				back.switchMenu();
+			}
+			else {
+				back.returnMenu();
+			}
 		}
-		if (p.getX() >= 250 && p.getX() <= 365 && p.getY() >= 340 && p.getY() <= 385) {
-			back.switchMed();
-		}
-		else {
-			back.returnMed();
-		}
-		if (p.getX() >= 410 && p.getX() <= 505 && p.getY() >= 340 && p.getY() <= 385) {
-			back.switchHard();
-		}
-		else {
-			back.returnhard();
-		}
+		
 	}
 }

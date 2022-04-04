@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Background {
-	public Image img, easy, medium, hard; 	
+	public Image img, easy, medium, hard, menu; 	
 	private AffineTransform tx;
 	private String[] stage = {"/imgs/bg.png", "/imgs/bg2.png", "/imgs/bg3.png", "/imgs/bg4.png"};
 	private int stageNum = 0;
@@ -17,6 +17,7 @@ public class Background {
 		easy = getImage("/imgs/easy.png");
 		medium = getImage("/imgs/medium.png");
 		hard = getImage("imgs/hard.png");
+		menu = null;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
 									//use your variables
@@ -37,7 +38,7 @@ public class Background {
 		g2.drawImage(easy, 100, 300, 100, 50, null);
 		g2.drawImage(medium, 240, 300, 120, 50, null);
 		g2.drawImage(hard, 400, 300, 100, 50, null);
-		
+		g2.drawImage(menu, 10, 10, 100, 50, null);
 
 	}
 	/* update the picture variable location */
@@ -77,13 +78,26 @@ public class Background {
 	public void switchHard() {
 		hard = getImage("/imgs/hard-hover.png");
 	}
-	public void returnhard() {
+	public void returnHard() {
 		hard = getImage("/imgs/hard.png");
+	}
+	public void switchMenu() {
+		menu = getImage("/imgs/menu-hover.png");
+	}
+	public void returnMenu() {
+		menu = getImage("/imgs/menu.png");
 	}
 	public void setBackground(String imageName) {
 		img = getImage(imageName);
 		easy = null;
 		medium = null;
 		hard = null;
+	}
+	public void returnToMenu() {
+		img = getImage("/imgs/homescreen.png");
+		easy = getImage("/imgs/easy.png");
+		medium = getImage("/imgs/medium.png");
+		hard = getImage("imgs/hard.png");
+		menu = null;
 	}
 }

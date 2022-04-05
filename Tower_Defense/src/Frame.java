@@ -26,6 +26,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	JFrame f = new JFrame("Tower Defense");
 	Background back = new Background(0, 0);
 	Point p = MouseInfo.getPointerInfo().getLocation();
+	Virus v1 = new Virus(0, 435);
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
 	public void paint(Graphics g) {
@@ -35,7 +36,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		checkHover();
 		super.paint(g);
 		back.paint(g);
+		v1.paint(g);
 		p = MouseInfo.getPointerInfo().getLocation();
+		
+		if(!isOnHomescreen) {
+			v1.setGameStarted();
+			v1.spawn1();
+		}
 	}
 	public static void main(String[] arg) {
 		Frame f = new Frame();
@@ -58,6 +65,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+//		if(e.getKeyCode() == 37) {
+//			if(!isOnHomescreen) {
+//				v1.spawn1();
+//			}
+//		}
 		
 		
 	} 
@@ -104,6 +116,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				if (p.x >= 20 && p.x <= 115 && p.y >= 50 && p.y <= 95) {
 					back.returnToMenu();
 					isOnHomescreen = true;
+					v1.homescreenVirus();
 				}
 			}
 		}
@@ -165,4 +178,5 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 	}
+	
 }

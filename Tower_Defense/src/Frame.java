@@ -30,6 +30,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Flamethrower> flame = new ArrayList<Flamethrower>();
 	ArrayList<Sanitizer> sanitizer = new ArrayList<Sanitizer>();
 	Point p = MouseInfo.getPointerInfo().getLocation();
+	Picture game = new Picture("/imgs/Background.png");
+	Pixel[][] pixel = game.getPixels2D();
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
 	public boolean isPointerActive = false;
@@ -157,7 +159,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					}
 				}
 				else {
-					if (p.y > 130) {
+					if (p.y > 130 && !isInNoZone()) {
 						for (Soap s : soap) {
 							s.setHover(false);
 							isPointerActive = false;
@@ -235,5 +237,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 		}
 		
+	}
+	public boolean isInNoZone() {
+		if (pixel[p.x][p.y].getBlue() == 241 && pixel[p.x][p.y].getRed() == 236 && pixel[p.x][p.y].getGreen() == 239) {
+			return true;
+		}
+		return false;
 	}
 }

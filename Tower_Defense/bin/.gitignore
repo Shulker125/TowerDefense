@@ -10,3 +10,9 @@
 /Sanitizer.class
 /Bleach.class
 /Flamethrower.class
+/Picture.class
+/SimplePicture.class
+/DigitalPicture.class
+/Pixel.class
+/PictureFrame.class
+/FileChooser.class

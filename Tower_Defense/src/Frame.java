@@ -30,7 +30,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Flamethrower> flame = new ArrayList<Flamethrower>();
 	ArrayList<Sanitizer> sanitizer = new ArrayList<Sanitizer>();
 	Point p = MouseInfo.getPointerInfo().getLocation();
-	Picture game = new Picture("/imgs/Background.png");
+	Picture game = new Picture("bigBackground.png");
 	Pixel[][] pixel = game.getPixels2D();
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
@@ -60,6 +60,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.placeHover(p.x-40, p.y-40);
 			}
 		}
+		g.drawRect(p.x-40, p.y-40, 50, 50);
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -71,7 +72,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		bleach.add(new Bleach(350, 10, 2.7, false));
 		flame.add(new Flamethrower(450, 10, 3, false));
 		sanitizer.add(new Sanitizer(250, 10, 2.8, false));
-		Timer t = new Timer(16, this);
+		Timer t = new Timer(1, this);
 		f.setSize(new Dimension(600, 600));
 		f.setBackground(Color.blue);
 		f.add(this);
@@ -239,7 +240,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public boolean isInNoZone() {
-		if (pixel[p.x][p.y].getBlue() == 241 && pixel[p.x][p.y].getRed() == 236 && pixel[p.x][p.y].getGreen() == 239) {
+		if (pixel[p.x-40][p.y-40].getBlue() == 241 && pixel[p.x-40][p.y-40].getRed() == 236 && pixel[p.x-40][p.y-40].getGreen() == 239) {
 			return true;
 		}
 		return false;

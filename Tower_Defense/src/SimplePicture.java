@@ -365,13 +365,19 @@ public class SimplePicture implements DigitalPicture
  public void load(Image image)
  {
    // get a graphics context to use to draw on the buffered image
-   Graphics2D graphics2d = bufferedImage.createGraphics();
-   
-   // draw the image on the buffered image starting at 0,0
-   graphics2d.drawImage(image,0,0,null);
-   
-   // show the new image
-   show();
+	 BufferedImage b = new BufferedImage(600, 600, 0);
+	 bufferedImage = b;
+	 Graphics2D graphics2d = bufferedImage.createGraphics();
+	   AffineTransform tx = AffineTransform.getTranslateInstance(0, 0);
+	   tx.setToTranslation(0, 0);
+	   tx.scale(5.95, 5.65);
+	   // draw the image on the buffered image starting at 0,0
+	   graphics2d.drawImage(image, tx, null);
+	   
+	   
+	   // show the new image
+	   show();
+	   
  }
  
  /**
@@ -416,7 +422,7 @@ public class SimplePicture implements DigitalPicture
  public void explore()
  {
    // create a copy of the current picture and explore it
-   
+  
  }
  
  /**

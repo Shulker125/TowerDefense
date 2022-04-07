@@ -38,10 +38,16 @@ public class Virus {
 		
 		
 		g2.drawImage(virus1, x, y, 40, 40, null);
-		g2.drawImage(virus2, 200, 200, 100, 100, null);
+		g2.drawImage(virus2, x, y, 40, 40, null);
+		g2.drawImage(virus3, x, y, 40, 40, null);
+		g2.drawImage(virus4, x, y, 40, 40, null);
+		g2.drawImage(virus5, x, y, 40, 40, null);
+		g2.drawImage(virus6, x, y, 40, 40, null);
 	}
 	
 	private void update() {
+		
+		//code for attacker movement through the course
 		if(y > 400 && x < 190) {
 			x += speed;
 		}else if(y > 275 && x < 195) {
@@ -132,6 +138,13 @@ public class Virus {
 	
 	public void setGameStarted() {
 		gameStarted = true;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
 	}
 	
 }

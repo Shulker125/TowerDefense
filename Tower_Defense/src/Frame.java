@@ -27,8 +27,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Background back = new Background(0, 0);
 	Point p = MouseInfo.getPointerInfo().getLocation();
 	Virus v1 = new Virus(0, 435, 5);
+	Virus temp = new Virus(0, 435, 5);
+	private boolean yesSpawn = false;
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
+	private int rNum;
+	
 	public void paint(Graphics g) {
 		int winX = f.getX(), winY = f.getY();
 		p.x -= winX;
@@ -43,6 +47,32 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			v1.setGameStarted();
 			v1.spawn1();
 		}
+		
+		rNum = (int)(Math.random() * 6 + 1);
+		if(v1.getX() == 150 && v1.getY() == 435) {
+			yesSpawn = true;
+		}else if(v1.getX() > 500 && v1.getY() > 550) {
+			yesSpawn = true;
+		}
+		if(yesSpawn) {
+			temp.paint(g);
+			if(rNum == 1) {
+				temp.spawn1();
+			}else if(rNum == 2) {
+				temp.spawn2();
+			}else if(rNum == 3) {
+				temp.spawn3();
+			}else if(rNum == 4) {
+				temp.spawn4();
+			}else if(rNum == 5) {
+				temp.spawn5();
+			}else if(rNum == 6) {
+				temp.spawn5();
+			}
+
+			temp.setGameStarted();
+		}
+
 	}
 	public static void main(String[] arg) {
 		Frame f = new Frame();
@@ -70,6 +100,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 //				v1.spawn1();
 //			}
 //		}
+
 		
 		
 	} 
@@ -117,6 +148,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					back.returnToMenu();
 					isOnHomescreen = true;
 					v1.homescreenVirus();
+					temp.homescreenVirus();
 				}
 			}
 		}

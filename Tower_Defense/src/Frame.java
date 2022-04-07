@@ -63,7 +63,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.placeHover(cursorX-40, cursorY-40);
 			}
 		}
-		g.drawRect(cursorX-30, cursorY-30, 45, 45);
+		g.drawRect(cursorX-40, cursorY-40, 40, 40);
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -251,8 +251,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	public void setCursor() {
 		if (cursorX >= 40 && cursorX <= 570 && cursorY >= 40 && cursorY <= 570) {
-			for (int r = cursorY-30, i = 0; r < cursorY+10; r++, i++) {
-				for (int c = cursorX-30, j = 0; c < cursorX+10; c++, j++) {
+			for (int r = cursorY-40, i = 0; r < cursorY; r++, i++) {
+				for (int c = cursorX-40, j = 0; c < cursorX; c++, j++) {
 					cursor[i][j] = pixel[r][c];
 				}
 			}

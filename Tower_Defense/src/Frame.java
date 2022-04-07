@@ -26,7 +26,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	JFrame f = new JFrame("Tower Defense");
 	Background back = new Background(0, 0);
 	Point p = MouseInfo.getPointerInfo().getLocation();
-	Virus v1 = new Virus(0, 435);
+	Virus v1 = new Virus(0, 435, 5);
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
 	public void paint(Graphics g) {

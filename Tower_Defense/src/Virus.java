@@ -7,13 +7,14 @@ import java.net.URL;
 
 public class Virus {
 	public Image virus1, virus2, virus3, virus4, virus5, virus6;
-	private int x, y;
+	private int x, y, speed;  //for now, max speed is 5
 	private boolean gameStarted;
 	private AffineTransform tx;
 	
-	public Virus(int x, int y) {
+	public Virus(int x, int y, int speed1) {
 		this.x = x;
 		this.y = y;
+		speed = speed1;
 		virus1 = null;
 		virus2 = null;
 		virus3 = null;
@@ -42,33 +43,37 @@ public class Virus {
 	
 	private void update() {
 		if(y > 400 && x < 190) {
-			x += 5;
-		}else if(y > 275 && x == 190) {
-			y -= 5;
-		}else if(y == 275 && x > 30 && x < 200) {
-			x -= 5;
-		}else if(y > 150 && x == 30) {
-			y -= 5;
-		}else if(y == 150 && x < 290) {
-			x += 5;
-		}else if(y < 235 && x == 290) {
-			y += 5;
-		}else if(y == 235 && x < 455) {
-			x += 5;
-		}else if(y > 150 && y < 240 && x == 455) {
-			y -= 5;
-		}else if(y == 150 && x < 545) {
-			x += 5;
-		}else if(y < 335 && x == 545) {
-			y += 5;
-		}else if(y == 335 && x > 270) {
-			x -= 5;
-		}else if(y < 490 && x == 270) {
-			y += 5;
-		}else if(y == 490 && x < 435) {
-			x += 5;
-		}else if(y > 400 && x == 435) {
-			y -= 5;
+			x += speed;
+		}else if(y > 275 && x < 195) {
+			y -= speed;
+		}else if(y > 270 && x > 30 && x < 200) {
+			x -= speed;
+		}else if(y > 150 && x > 25 && x < 50) {
+			y -= speed;
+		}else if(y > 145 && y < 195 && x < 290) {
+			x += speed;
+		}else if(y < 235 && x < 295) {
+			y += speed;
+		}else if(y < 240 && y < 260 && x < 455) {
+			x += speed;
+		}else if(y > 150 && y < 240 && x < 460) {
+			y -= speed;
+		}else if(y > 145 && y < 165 && x < 545) {
+			x += speed;
+		}else if(y < 335 && x < 550) {
+			y += speed;
+		}else if(y < 340 && x > 270) {
+			x -= speed;
+		}else if(y < 490 && x > 265 && x < 285) {
+			y += speed;
+		}else if(y < 495 && x < 435) {
+			x += speed;
+		}else if(y > 410 && x < 440) {
+			y -= speed;
+		}else if(y > 405 && x < 535) {
+			x += speed;
+		}else if(y < 600 && x < 540) {
+			y += speed;
 		}
 	}
 	

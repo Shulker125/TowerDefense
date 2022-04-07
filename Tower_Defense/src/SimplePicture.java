@@ -370,7 +370,7 @@ public class SimplePicture implements DigitalPicture
 	 Graphics2D graphics2d = bufferedImage.createGraphics();
 	   AffineTransform tx = AffineTransform.getTranslateInstance(0, 0);
 	   tx.setToTranslation(0, 0);
-	   tx.scale(5.95, 5.65);
+	   tx.scale(1, 1);
 	   // draw the image on the buffered image starting at 0,0
 	   graphics2d.drawImage(image, tx, null);
 	   

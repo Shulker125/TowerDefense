@@ -32,35 +32,38 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Point p = MouseInfo.getPointerInfo().getLocation();
 	Picture game = new Picture("bigBackground.png");
 	Pixel[][] pixel = game.getPixels2D();
+	Pixel[][] cursor = new Pixel[50][50];
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
+	public int cursorX, cursorY;
 	public boolean isOnHomescreen = true;
 	public boolean isPointerActive = false;
 	public void paint(Graphics g) {
-		int winX = f.getX(), winY = f.getY();
-		p.x -= winX;
-		p.y -= winY;
+		pointerSet();
+		setCursor();
 		checkHover();
+		System.out.println(isInNoZone());
+		//System.out.println(cursorX+","+cursorY);
 		super.paint(g);
 		back.paint(g);
 		if (!isOnHomescreen) {
 			for (Soap s : soap) {
 				s.paint(g);
-				s.placeHover(p.x-40, p.y-40);
+				s.placeHover(cursorX-40, cursorY-40);
 			}
 			for (Bleach b : bleach) {
 				b.paint(g);
-				b.placeHover(p.x-40, p.y-40);
+				b.placeHover(cursorX-40, cursorY-40);
 			}
 			for (Flamethrower fl : flame) {
 				fl.paint(g);
-				fl.placeHover(p.x-40, p.y-40);
+				fl.placeHover(cursorX-40, cursorY-40);
 			}
 			for (Sanitizer st : sanitizer) {
 				st.paint(g);
-				st.placeHover(p.x-40, p.y-40);
+				st.placeHover(cursorX-40, cursorY-40);
 			}
 		}
-		g.drawRect(p.x-40, p.y-40, 50, 50);
+		g.drawRect(cursorX-30, cursorY-30, 45, 45);
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -76,7 +79,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		f.setSize(new Dimension(600, 600));
 		f.setBackground(Color.blue);
 		f.add(this);
-		f.setResizable(false);
+		f.setResizable(true);
 		f.setLayout(new GridLayout(1,2));
 		f.addMouseListener(this);
 		f.addKeyListener(this);
@@ -104,63 +107,57 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getButton() == 3) {
-			int winX = f.getX(), winY = f.getY();
-			p.x -= winX;
-			p.y -= winY;
-			System.out.println(p.x + "," + p.y);
+			System.out.println(cursorX + "," + cursorY);
 		}
 		if(e.getButton() == 1) {
-			int winX = f.getX(), winY = f.getY();
-			p.x -= winX;
-			p.y -= winY;
 			if (isOnHomescreen) {
 				back.menu = null;
-				if (p.x >= 105 && p.x <= 210 && p.y >= 340 && p.y <= 385) {
+				if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 0;
 					back.setBackground("/imgs/Background.png");
 					back.returnMenu();
 					isOnHomescreen = false;
 				}
-				if (p.x >= 250 && p.x <= 365 && p.y >= 340 && p.y <= 385) {
+				if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 1;
 					back.setBackground("/imgs/Background.png");
 					back.returnMenu();
 					isOnHomescreen = false;
 				}
-				if (p.x >= 410 && p.x <= 505 && p.y >= 340 && p.y <= 385) {
+				if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 2;
-					back.setBackground("/imgs/Background.png");
+					back.setBackground("imgs/Background.png");
 					back.returnMenu();
 					isOnHomescreen = false;
 				}
 			}
 			else {
 				
-				if (p.x >= 20 && p.x <= 115 && p.y >= 50 && p.y <= 95) {
+				if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 					back.returnToMenu();
 					isOnHomescreen = true;
 				}
 				
 				if (!isPointerActive) {
-					if (p.x >= 155 && p.x <= 215 && p.y >= 45 && p.y <= 100) {
-						soap.add(new Soap(p.x-40, p.y-40, 2.5, true));
+					if (cursorX >= 155 && cursorX <= 215 && cursorY >= 45 && cursorY <= 100) {
+						soap.add(new Soap(cursorX-40, cursorY-40, 2.5, true));
 						isPointerActive = true;
 					}
-					if (p.x >= 270 && p.x <= 295 && p.y >= 45 && p.y <= 105) {
-						sanitizer.add(new Sanitizer(p.x-40, p.y-40, 2.5, true));
+					if (cursorX >= 270 && cursorX <= 295 && cursorY >= 45 && cursorY <= 105) {
+						sanitizer.add(new Sanitizer(cursorX-40, cursorY-40, 2.5, true));
 						isPointerActive = true;
 					}
-					if (p.x >= 365 && p.x <= 410 && p.y >= 45 && p.y <= 105) {
-						bleach.add(new Bleach(p.x-40, p.y-40, 2.5, true));
+					if (cursorX >= 365 && cursorX <= 410 && cursorY >= 45 && cursorY <= 105) {
+						bleach.add(new Bleach(cursorX-40, cursorY-40, 2.5, true));
 						isPointerActive = true;
 					}
-					if (p.x >= 450 && p.x <= 525 && p.y >= 65 && p.y <= 95) {
-						flame.add(new Flamethrower(p.x-40, p.y-40, 2.5, true));
+					if (cursorX >= 450 && cursorX <= 525 && cursorY >= 65 && cursorY <= 95) {
+						flame.add(new Flamethrower(cursorX-40, cursorY-40, 2.5, true));
 						isPointerActive = true;
 					}
 				}
 				else {
-					if (p.y > 130 && !isInNoZone()) {
+					if (cursorY > 130 && !isInNoZone()) {
 						for (Soap s : soap) {
 							s.setHover(false);
 							isPointerActive = false;
@@ -210,19 +207,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	public void checkHover() {
 		if (isOnHomescreen) {
-			if (p.x >= 105 && p.x <= 210 && p.y >= 340 && p.y <= 385) {
+			if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 				back.switchEasy();
 			}
 			else {
 				back.returnEasy();
 			}
-			if (p.x >= 250 && p.x <= 365 && p.y >= 340 && p.y <= 385) {
+			if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
 				back.switchMed();
 			}
 			else {
 				back.returnMed();
 			}
-			if (p.x >= 410 && p.x <= 505 && p.y >= 340 && p.y <= 385) {
+			if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
 				back.switchHard();
 			}
 			else {
@@ -230,7 +227,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 		}
 		else {
-			if (p.x >= 20 && p.x <= 115 && p.y >= 50 && p.y <= 95) {
+			if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 				back.switchMenu();
 			}
 			else {
@@ -240,9 +237,38 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public boolean isInNoZone() {
-		if (pixel[p.x-40][p.y-40].getBlue() == 241 && pixel[p.x-40][p.y-40].getRed() == 236 && pixel[p.x-40][p.y-40].getGreen() == 239) {
-			return true;
+		try {
+			for (Pixel[] r : cursor) {
+				for (Pixel p : r) {
+					if (p.getBlue() == 241 && p.getRed() == 236 && p.getGreen() == 239) {
+						return true;
+					}
+				}
+			}
 		}
+		catch(NullPointerException e) {}
 		return false;
+	}
+	public void setCursor() {
+		if (cursorX >= 40 && cursorX <= 570 && cursorY >= 40 && cursorY <= 570) {
+			for (int r = cursorY-30, i = 0; r < cursorY+10; r++, i++) {
+				for (int c = cursorX-30, j = 0; c < cursorX+10; c++, j++) {
+					cursor[i][j] = pixel[r][c];
+				}
+			}
+		}
+	}
+	public void pointerSet() {
+		int winX = f.getX(), winY = f.getY();
+		p.x -= winX;
+		p.y -= winY;
+		if (p.x <= 600 && p.x >= 0 && p.y <= 600 && p.y >= 0) {
+			cursorX = p.x;
+			cursorY = p.y;
+		}
+		else {
+			cursorX = 0;
+			cursorY = 0;
+		}
 	}
 }

@@ -9,6 +9,7 @@ public class Virus {
 	public Image virus1, virus2, virus3, virus4, virus5, virus6;
 	private int x, y, speed;  //for now, max speed is 5
 	private boolean gameStarted;
+	private boolean yesSpawn;
 	private AffineTransform tx;
 	
 	public Virus(int x, int y, int speed1) {
@@ -145,6 +146,16 @@ public class Virus {
 	}
 	public int getY() {
 		return y;
+	}
+	public void setX(int x1) {
+		x = x1;
+	}
+	public void setY(int y1) {
+		y = y1;
+	}
+	
+	public boolean getYesSpawn() {
+		return yesSpawn;
 	}
 	
 }

@@ -28,7 +28,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Point p = MouseInfo.getPointerInfo().getLocation();
 	Virus v1 = new Virus(0, 435, 5);
 	Virus temp = new Virus(0, 435, 5);
-	private boolean yesSpawn = false;
+	Virus v2 = new Virus(0, 435, 5);
+	Virus v3 = new Virus(0, 435, 5);
+	Virus v4 = new Virus(0, 435, 5);
+	Virus v5 = new Virus(0, 435, 5);
+	Virus v6 = new Virus(0, 435, 5);
+//	Virus temp;
+	//private boolean yesSpawn = false;
+	private int yesSpawn = 0;
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
 	private int rNum;
@@ -48,29 +55,20 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			v1.spawn1();
 		}
 		
-		rNum = (int)(Math.random() * 6 + 1);
+//		rNum = (int)(Math.random() * 6 + 1);
 		if(v1.getX() == 150 && v1.getY() == 435) {
-			yesSpawn = true;
-		}else if(v1.getX() > 500 && v1.getY() > 550) {
-			yesSpawn = true;
+			yesSpawn++;
+//		}else if(v1.getX() > 500 && v1.getY() > 550) {
+//			yesSpawn = true;
 		}
-		if(yesSpawn) {
-			temp.paint(g);
-			if(rNum == 1) {
-				temp.spawn1();
-			}else if(rNum == 2) {
-				temp.spawn2();
-			}else if(rNum == 3) {
-				temp.spawn3();
-			}else if(rNum == 4) {
-				temp.spawn4();
-			}else if(rNum == 5) {
-				temp.spawn5();
-			}else if(rNum == 6) {
-				temp.spawn5();
-			}
-
-			temp.setGameStarted();
+		if(temp.getX() == 150 && temp.getY() == 435) {
+			yesSpawn++;
+		}
+		if(yesSpawn == 1) {
+			spawnAttack(temp, g);
+		}
+		if(yesSpawn == 2) {
+			spawnAttack(v2, g);
 		}
 
 	}
@@ -91,6 +89,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 		
+		rNum = (int)(Math.random() * 6 + 1);
+		System.out.print(rNum);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -209,6 +209,29 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 		}
 		
+	}
+	
+	public void spawnAttack(Virus v, Graphics g) {
+		v.paint(g);
+		if(rNum == 1) {
+			v.spawn1();
+		}else if(rNum == 2) {
+			v.spawn2();
+		}else if(rNum == 3) {
+			v.spawn3();
+		}else if(rNum == 4) {
+			v.spawn4();
+		}else if(rNum == 5) {
+			v.spawn5();
+		}else if(rNum == 6) {
+			v.spawn5();
+		}
+
+		v.setGameStarted();
+	}
+	public void attackReset(Virus v) {
+		v.setX(0);
+		v.setY(450);
 	}
 	
 }

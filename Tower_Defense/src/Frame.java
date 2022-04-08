@@ -70,6 +70,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(yesSpawn == 2) {
 			spawnAttack(v2, g);
 		}
+		
+		
+		//reset
+		if(v1.getX() > 500 && v1.getY() > 550) {
+			attackReset(v1);
+		}
 
 	}
 	public static void main(String[] arg) {
@@ -231,7 +237,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	public void attackReset(Virus v) {
 		v.setX(0);
-		v.setY(450);
+		v.setY(435);
 	}
 	
 }

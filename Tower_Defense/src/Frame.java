@@ -32,16 +32,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Point p = MouseInfo.getPointerInfo().getLocation();
 	Picture game = new Picture("bigBackground.png");
 	Pixel[][] pixel = game.getPixels2D();
-	Pixel[][] cursor = new Pixel[50][50];
+	Pixel[][] cursor = new Pixel[40][40];
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public int cursorX, cursorY;
 	public boolean isOnHomescreen = true;
 	public boolean isPointerActive = false;
+	public boolean placementError = false;
+	public long start = System.currentTimeMillis();
 	public void paint(Graphics g) {
 		pointerSet();
 		setCursor();
 		checkHover();
-		System.out.println(isInNoZone());
+		//System.out.println(isInNoZone());
 		//System.out.println(cursorX+","+cursorY);
 		super.paint(g);
 		back.paint(g);
@@ -63,7 +65,21 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.placeHover(cursorX-40, cursorY-40);
 			}
 		}
-		g.drawRect(cursorX-40, cursorY-40, 40, 40);
+		
+		if (placementError) {
+			long time = System.currentTimeMillis() - start;
+			if (time <= 500) {
+				g.setColor(new Color(235, 236, 239));
+				g.fillRect(250, 300, 100, 35);
+				g.setColor(Color.black);
+				g.drawRect(250, 300, 100, 35);
+				g.setFont(new Font("Arial", Font.PLAIN, 20));
+				g.drawString("Invalid", 273, 325);
+			}
+			else {
+				placementError = false;
+			}
+		}
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -106,6 +122,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		start = System.currentTimeMillis();
 		if (e.getButton() == 3) {
 			System.out.println(cursorX + "," + cursorY);
 		}
@@ -174,6 +191,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							st.setHover(false);
 							isPointerActive = false;
 						}
+					}
+					else {
+						placementError = true;
 					}
 				}
 			}

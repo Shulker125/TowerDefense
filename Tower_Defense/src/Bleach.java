@@ -10,11 +10,21 @@ public class Bleach{
 	private AffineTransform tx;
 	private double scale;
 	private boolean hover;
-	public Bleach(int x, int y, double scale, boolean hover) {
+	private int cost;
+	public Bleach(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/bleach.png");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		this.scale = scale;
 		this.hover = hover;
+		if (difficulty == 0) {
+			cost = 200;
+		}
+		else if (difficulty == 1) {
+			cost = 250;
+		}
+		else {
+			cost = 275;
+		}
 		init(x, y);
 	}
 	public void paint(Graphics g) {
@@ -43,5 +53,8 @@ public class Bleach{
 	}
 	public void setHover(boolean h) {
 		hover = h;
+	}
+	public int getCost() {
+		return cost;
 	}
 }

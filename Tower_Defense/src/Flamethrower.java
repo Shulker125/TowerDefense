@@ -10,11 +10,21 @@ public class Flamethrower{
 	private AffineTransform tx;
 	private double scale;
 	private boolean hover;
-	public Flamethrower(int x, int y, double scale, boolean hover) {
+	private int cost;
+	public Flamethrower(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/flamethrower.png");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		this.scale = scale;
 		this.hover = hover;
+		if (difficulty == 0) {
+			cost = 500;
+		}
+		else if (difficulty == 1) {
+			cost = 550;
+		}
+		else {
+			cost = 600;
+		}
 		init(x, y);
 	}
 	public void paint(Graphics g) {
@@ -43,5 +53,8 @@ public class Flamethrower{
 	}
 	public void setHover(boolean h) {
 		hover = h;
+	}
+	public int getCost() {
+		return cost;
 	}
 }

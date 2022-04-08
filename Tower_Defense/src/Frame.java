@@ -35,16 +35,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Pixel[][] cursor = new Pixel[40][40];
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public int cursorX, cursorY;
+	public int money = 100;
 	public boolean isOnHomescreen = true;
 	public boolean isPointerActive = false;
 	public boolean placementError = false;
+	public boolean fundError = false;
 	public long start = System.currentTimeMillis();
 	public void paint(Graphics g) {
 		pointerSet();
 		setCursor();
 		checkHover();
-		//System.out.println(isInNoZone());
-		//System.out.println(cursorX+","+cursorY);
 		super.paint(g);
 		back.paint(g);
 		if (!isOnHomescreen) {
@@ -64,6 +64,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.paint(g);
 				st.placeHover(cursorX-40, cursorY-40);
 			}
+			g.setFont(new Font("Arial", Font.PLAIN, 20));
+			g.drawString("$"+money, 10, 95);
+			g.drawString("$" + soap.get(0).getCost(), 160, 95);
+			g.drawString("$" + sanitizer.get(0).getCost(), 255, 95);
+			g.drawString("$" + bleach.get(0).getCost(), 360, 95);
+			g.drawString("$" + flame.get(0).getCost(), 460, 95);
 		}
 		
 		if (placementError) {
@@ -80,6 +86,20 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				placementError = false;
 			}
 		}
+		if (fundError) {
+			long time2 = System.currentTimeMillis() - start;
+			if (time2 <= 500) {
+				g.setColor(new Color(235, 236, 239));
+				g.fillRect(200, 300, 200, 35);
+				g.setColor(Color.black);
+				g.drawRect(200, 300, 200, 35);
+				g.setFont(new Font("Arial", Font.PLAIN, 20));
+				g.drawString("Not Enough Money!", 215, 325);
+			}
+			else {
+				fundError = false;
+			}
+		}
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -87,11 +107,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 ;	}
 	public Frame() {
-		soap.add(new Soap(150, 10, 2.5, false));
-		bleach.add(new Bleach(350, 10, 2.7, false));
-		flame.add(new Flamethrower(450, 10, 3, false));
-		sanitizer.add(new Sanitizer(250, 10, 2.8, false));
-		Timer t = new Timer(1, this);
+		Timer t = new Timer(16, this);
 		f.setSize(new Dimension(600, 600));
 		f.setBackground(Color.blue);
 		f.add(this);
@@ -134,43 +150,56 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					back.setBackground("/imgs/Background.png");
 					back.returnMenu();
 					isOnHomescreen = false;
+					soap.add(new Soap(150, 10, 2.5, false, difficulty));
+					bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
+					flame.add(new Flamethrower(450, 10, 3, false, difficulty));
+					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				}
 				if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 1;
 					back.setBackground("/imgs/Background.png");
 					back.returnMenu();
 					isOnHomescreen = false;
+					soap.add(new Soap(150, 10, 2.5, false, difficulty));
+					bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
+					flame.add(new Flamethrower(450, 10, 3, false, difficulty));
+					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				}
 				if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 2;
 					back.setBackground("imgs/Background.png");
 					back.returnMenu();
 					isOnHomescreen = false;
+					soap.add(new Soap(150, 10, 2.5, false, difficulty));
+					bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
+					flame.add(new Flamethrower(450, 10, 3, false, difficulty));
+					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				}
 			}
 			else {
 				
 				if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 					back.returnToMenu();
+					soap.clear();
+					bleach.clear();
+					sanitizer.clear();
+					flame.clear();
+					money = 100;
 					isOnHomescreen = true;
 				}
 				
 				if (!isPointerActive) {
 					if (cursorX >= 155 && cursorX <= 215 && cursorY >= 45 && cursorY <= 100) {
-						soap.add(new Soap(cursorX-40, cursorY-40, 2.5, true));
-						isPointerActive = true;
+						buyDefender(1);
 					}
 					if (cursorX >= 270 && cursorX <= 295 && cursorY >= 45 && cursorY <= 105) {
-						sanitizer.add(new Sanitizer(cursorX-40, cursorY-40, 2.5, true));
-						isPointerActive = true;
+						buyDefender(2);
 					}
 					if (cursorX >= 365 && cursorX <= 410 && cursorY >= 45 && cursorY <= 105) {
-						bleach.add(new Bleach(cursorX-40, cursorY-40, 2.5, true));
-						isPointerActive = true;
+						buyDefender(3);
 					}
 					if (cursorX >= 450 && cursorX <= 525 && cursorY >= 65 && cursorY <= 95) {
-						flame.add(new Flamethrower(cursorX-40, cursorY-40, 2.5, true));
-						isPointerActive = true;
+						buyDefender(4);
 					}
 				}
 				else {
@@ -289,6 +318,31 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		else {
 			cursorX = 0;
 			cursorY = 0;
+		}
+	}
+	public void buyDefender(int num) {
+		if (num == 1 && money >= soap.get(0).getCost()) {
+			soap.add(new Soap(cursorX-40, cursorY-40, 2.5, true, difficulty));
+			isPointerActive = true;
+			money -= soap.get(0).getCost();
+		}
+		else if (num == 2 && money >= sanitizer.get(0).getCost()) {
+			sanitizer.add(new Sanitizer(cursorX-40, cursorY-40, 2.5, true, difficulty));
+			isPointerActive = true;
+			money -= sanitizer.get(0).getCost();
+		}
+		else if (num == 3 && money >= bleach.get(0).getCost()) {
+			bleach.add(new Bleach(cursorX-40, cursorY-40, 2.5, true, difficulty));
+			isPointerActive = true;
+			money -= bleach.get(0).getCost();
+		}
+		else if (num == 4 && money >= flame.get(0).getCost()) {
+			flame.add(new Flamethrower(cursorX-40, cursorY-40, 2.5, true, difficulty));
+			isPointerActive = true;
+			money -= flame.get(0).getCost();
+		}
+		else {
+			fundError = true;
 		}
 	}
 }

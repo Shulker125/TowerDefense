@@ -50,7 +50,7 @@ public class Background {
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(5.95, 5.65);
+		tx.scale(5.85, 5.65);
 	}
 
 	private Image getImage(String path) {

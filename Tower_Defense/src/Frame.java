@@ -176,7 +176,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				}
 			}
-			else {
+			else { 
 				
 				if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 					back.returnToMenu();

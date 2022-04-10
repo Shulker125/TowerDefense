@@ -30,6 +30,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Flamethrower> flame = new ArrayList<Flamethrower>();
 	ArrayList<Sanitizer> sanitizer = new ArrayList<Sanitizer>();
 	Point p = MouseInfo.getPointerInfo().getLocation();
+	Virus v1 = new Virus(0, 435, 5);
 	Picture game = new Picture("bigBackground.png");
 	Pixel[][] pixel = game.getPixels2D();
 	Pixel[][] cursor = new Pixel[40][40];
@@ -47,7 +48,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		checkHover();
 		super.paint(g);
 		back.paint(g);
+		v1.paint(g);
 		if (!isOnHomescreen) {
+			v1.setGameStarted();
+			v1.spawn1();
 			for (Soap s : soap) {
 				s.paint(g);
 				s.placeHover(cursorX-40, cursorY-40);
@@ -123,6 +127,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		//		if(e.getKeyCode() == 37) {
+//			if(!isOnHomescreen) {
+//				v1.spawn1();
+//			}
+//		}
 		
 		
 	} 
@@ -186,6 +195,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					flame.clear();
 					money = 100;
 					isOnHomescreen = true;
+					v1.homescreenVirus();
 				}
 				
 				if (!isPointerActive) {

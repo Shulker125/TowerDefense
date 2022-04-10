@@ -111,7 +111,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					isOnHomescreen = false;
 				}
 			}
-			else {
+			else { 
 				
 				if (p.x >= 20 && p.x <= 115 && p.y >= 50 && p.y <= 95) {
 					back.returnToMenu();

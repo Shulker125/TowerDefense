@@ -10,8 +10,6 @@ import java.net.URL;
 public class Background {
 	public Image img, easy, medium, hard, menu; 	
 	private AffineTransform tx;
-	private String[] stage = {"/imgs/bg.png", "/imgs/bg2.png", "/imgs/bg3.png", "/imgs/bg4.png"};
-	private int stageNum = 0;
 	public Background(int x, int y) {
 		img = getImage("/imgs/homescreen.png"); //load the image for Tree
 		easy = getImage("/imgs/easy.png");

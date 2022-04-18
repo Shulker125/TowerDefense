@@ -69,6 +69,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.placeHover(cursorX-40, cursorY-40);
 			}
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
+			g.drawString("Balance", 10, 78);
 			g.drawString("$"+money, 10, 95);
 			g.drawString("$" + soap.get(0).getCost(), 160, 95);
 			g.drawString("$" + sanitizer.get(0).getCost(), 255, 95);

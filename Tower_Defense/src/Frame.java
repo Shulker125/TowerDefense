@@ -36,11 +36,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Pixel[][] cursor = new Pixel[40][40];
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public int cursorX, cursorY;
-	public int money = 100;
+	public int money = 100000;
 	public boolean isOnHomescreen = true;
 	public boolean isPointerActive = false;
 	public boolean placementError = false;
 	public boolean fundError = false;
+	public boolean openGUI = false;
 	public long start = System.currentTimeMillis();
 	public void paint(Graphics g) {
 		pointerSet();
@@ -104,6 +105,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			else {
 				fundError = false;
 			}
+		}
+		if (openGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 290, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 290, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Click again to upgrade, click out to cancel", 195, 325);
 		}
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
@@ -200,6 +209,26 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 				
 				if (!isPointerActive) {
+					for (int i = 1; i < soap.size(); i++) {
+						if(soap.get(i).isInHitbox(cursorX, cursorY)) {
+							openGUI = true;
+						}
+					}
+					for (int i = 1; i < bleach.size(); i++) {
+						if(bleach.get(i).isInHitbox(cursorX, cursorY)) {
+							openGUI = true;
+						}
+					}
+					for (int i = 1; i < sanitizer.size(); i++) {
+						if(sanitizer.get(i).isInHitbox(cursorX, cursorY)) {
+							openGUI = true;
+						}
+					}
+					for (int i = 1; i < flame.size(); i++) {
+						if(flame.get(i).isInHitbox(cursorX, cursorY)) {
+							openGUI = true;
+						}
+					}
 					if (cursorX >= 155 && cursorX <= 215 && cursorY >= 45 && cursorY <= 100) {
 						buyDefender(1);
 					}

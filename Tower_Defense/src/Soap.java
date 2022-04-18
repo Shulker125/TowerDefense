@@ -9,21 +9,27 @@ public class Soap{
 	private Image img;
 	private AffineTransform tx;
 	private double scale;
-	private boolean hover;
-	private int cost;
+	private boolean hover, upgrade;
+	private int cost, x, y, upgradeCost;
 	public Soap(int x, int y, double scale, boolean hover, int difficulty){
 		img = getImage("/imgs/soap.png");
 		tx = AffineTransform.getTranslateInstance(x, y);
+		this.x = x;
+		this.y = y;
 		this.scale = scale;
 		this.hover = hover;
+		upgrade = false;
 		if (difficulty == 0) {
 			cost = 50;
+			upgradeCost = 100;
 		}
 		else if (difficulty == 1) {
 			cost = 75;
+			upgradeCost = 125;
 		}
 		else {
 			cost = 80;
+			upgradeCost = 150;
 		}
 		init(x, y);
 	}
@@ -49,6 +55,8 @@ public class Soap{
 	public void placeHover(int x, int y) {
 		if (hover) {
 			init(x, y);
+			this.x = x;
+			this.y = y;
 		}
 	}
 	public void setHover(boolean h) {
@@ -56,5 +64,20 @@ public class Soap{
 	}
 	public int getCost() {
 		return cost;
+	}
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void upgrade() {
+		upgrade = true;
+	}
+	public boolean isInHitbox(int pointerX, int pointerY) {
+		if (pointerX-10 >= x && pointerX-10 <= x+63 && pointerY-40 >= y && pointerY-40 <= y+63) {
+			return true;
+		}
+		return false;
 	}
 }

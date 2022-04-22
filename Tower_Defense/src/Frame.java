@@ -36,12 +36,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Pixel[][] cursor = new Pixel[40][40];
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public int cursorX, cursorY;
-	public int money = 100000;
+	public int money = 200;
+	public int index = 0;
 	public boolean isOnHomescreen = true;
 	public boolean isPointerActive = false;
 	public boolean placementError = false;
 	public boolean fundError = false;
-	public boolean openGUI = false;
+	public boolean upgradeError = false;
+	public boolean openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false;
 	public long start = System.currentTimeMillis();
 	public void paint(Graphics g) {
 		pointerSet();
@@ -96,23 +98,61 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			long time2 = System.currentTimeMillis() - start;
 			if (time2 <= 500) {
 				g.setColor(new Color(235, 236, 239));
-				g.fillRect(200, 300, 200, 35);
+				g.fillRect(200, 350, 200, 35);
 				g.setColor(Color.black);
-				g.drawRect(200, 300, 200, 35);
+				g.drawRect(200, 350, 200, 35);
 				g.setFont(new Font("Arial", Font.PLAIN, 20));
-				g.drawString("Not Enough Money!", 215, 325);
+				g.drawString("Not Enough Money!", 215, 375);
 			}
 			else {
 				fundError = false;
 			}
 		}
-		if (openGUI) {
+		if (upgradeError) {
+			long time3 = System.currentTimeMillis() - start;
+			if (time3 <= 500) {
+				g.setColor(new Color(235, 236, 239));
+				g.fillRect(200, 350, 200, 35);
+				g.setColor(Color.black);
+				g.drawRect(200, 350, 200, 35);
+				g.setFont(new Font("Arial", Font.PLAIN, 20));
+				g.drawString("Already Upgraded!", 217, 375);
+			}
+			else {
+				upgradeError = false;
+			}
+		}
+		if (openSoapGUI) {
 			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(180, 300, 290, 35);
+			g.fillRect(180, 300, 250, 35);
 			g.setColor(Color.black);
-			g.drawRect(180, 300, 290, 35);
+			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Click again to upgrade, click out to cancel", 195, 325);
+			g.drawString("Upgrade Costs: $" + soap.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+		}
+		if (openBleachGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 250, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 250, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Upgrade Costs: $" + bleach.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+		}
+		if (openSanGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 250, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 250, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Upgrade Costs: $" + sanitizer.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+		}
+		if (openFlameGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 250, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 250, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Upgrade Costs: $" + flame.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
 		}
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
@@ -137,11 +177,68 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		//		if(e.getKeyCode() == 37) {
-//			if(!isOnHomescreen) {
-//				v1.spawn1();
-//			}
-//		}
+		start = System.currentTimeMillis();
+		int key = e.getKeyCode();
+		if (key == 89) {
+			if (openSoapGUI) {
+				if (soap.get(index).getUpgrade()) {
+					upgradeError = true;
+				}
+				if (money >= soap.get(index).getUpgradeCost() && !soap.get(index).getUpgrade()) {
+					money -= soap.get(index).getUpgradeCost();
+					soap.get(index).upgrade();
+					openSoapGUI = false;
+				}
+				else if (money < soap.get(index).getUpgradeCost()){
+					fundError = true;
+				}
+			}
+			else if (openBleachGUI) {
+				if (bleach.get(index).getUpgrade()) {
+					upgradeError = true;
+				}
+				if (money >= bleach.get(index).getUpgradeCost() && !bleach.get(index).getUpgrade()) {
+					money -= bleach.get(index).getUpgradeCost();
+					bleach.get(index).upgrade();
+					openBleachGUI = false;
+				}
+				else if (money < bleach.get(index).getUpgradeCost()){
+					fundError = true;
+				}
+			}
+			else if (openSanGUI) {
+				if (sanitizer.get(index).getUpgrade()) {
+					upgradeError = true;
+				}
+				if (money >= sanitizer.get(index).getUpgradeCost() && !sanitizer.get(index).getUpgrade()) {
+					money -= sanitizer.get(index).getUpgradeCost();
+					sanitizer.get(index).upgrade();
+					openSanGUI = false;
+				}
+				else if (money < sanitizer.get(index).getUpgradeCost()){
+					fundError = true;
+				}
+			}
+			else if (openFlameGUI) {
+				if (flame.get(index).getUpgrade()) {
+					upgradeError = true;
+				}
+				if (money >= flame.get(index).getUpgradeCost() && !flame.get(index).getUpgrade()) {
+					money -= flame.get(index).getUpgradeCost();
+					flame.get(index).upgrade();
+					openFlameGUI = false;
+				}
+				else if (money < flame.get(index).getUpgradeCost()){
+					fundError = true;
+				}
+			}
+		}
+		else if (key == 78) {
+			openSoapGUI = false;
+			openBleachGUI = false;
+			openSanGUI = false;
+			openFlameGUI = false;
+		}
 		
 		
 	} 
@@ -162,6 +259,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			System.out.println(cursorX + "," + cursorY);
 		}
 		if(e.getButton() == 1) {
+			openSoapGUI = false;
+			openBleachGUI = false;
+			openSanGUI = false;
+			openFlameGUI = false;
 			if (isOnHomescreen) {
 				back.menu = null;
 				if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
@@ -211,22 +312,26 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				if (!isPointerActive) {
 					for (int i = 1; i < soap.size(); i++) {
 						if(soap.get(i).isInHitbox(cursorX, cursorY)) {
-							openGUI = true;
+							openSoapGUI = true;
+							index = i;
 						}
 					}
 					for (int i = 1; i < bleach.size(); i++) {
 						if(bleach.get(i).isInHitbox(cursorX, cursorY)) {
-							openGUI = true;
+							openBleachGUI = true;
+							index = i;
 						}
 					}
 					for (int i = 1; i < sanitizer.size(); i++) {
 						if(sanitizer.get(i).isInHitbox(cursorX, cursorY)) {
-							openGUI = true;
+							openSanGUI = true;
+							index = i;
 						}
 					}
 					for (int i = 1; i < flame.size(); i++) {
 						if(flame.get(i).isInHitbox(cursorX, cursorY)) {
-							openGUI = true;
+							openFlameGUI = true;
+							index = i;
 						}
 					}
 					if (cursorX >= 155 && cursorX <= 215 && cursorY >= 45 && cursorY <= 100) {

@@ -71,8 +71,14 @@ public class Soap{
 	public int getY() {
 		return y;
 	}
+	public int getUpgradeCost() {
+		return upgradeCost;
+	}
 	public void upgrade() {
 		upgrade = true;
+	}
+	public boolean getUpgrade() {
+		return upgrade;
 	}
 	public boolean isInHitbox(int pointerX, int pointerY) {
 		if (pointerX-10 >= x && pointerX-10 <= x+63 && pointerY-40 >= y && pointerY-40 <= y+63) {

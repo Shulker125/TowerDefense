@@ -34,13 +34,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Virus v4 = new Virus(0, 435, 5);
 	Virus v5 = new Virus(0, 435, 5);
 	Virus v6 = new Virus(0, 435, 5);
-	public long start = System.currentTimeMillis();
+	public long startAttack;
+	long timeAttack;
 
 	//private boolean yesSpawn = false;
 	private int yesSpawn = 0;
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public boolean isOnHomescreen = true;
 	private int rNum;
+	private int attackStagger;
 	
 	public void paint(Graphics g) {
 		int winX = f.getX(), winY = f.getY();
@@ -50,33 +52,31 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		super.paint(g);
 		back.paint(g);
 		p = MouseInfo.getPointerInfo().getLocation();
-		long timeAttack = System.currentTimeMillis() - start;
 		
-		for(Virus v: virus) {
-			v.paint(g);
-			if(!isOnHomescreen) {
+		if(!isOnHomescreen) {
+			timeAttack = System.currentTimeMillis() - startAttack;
+			//System.out.println(timeAttack);
+			for(Virus v: virus) {
+				v.paint(g);
 				v.setGameStarted();
 				v1.spawn1();
-				if(timeAttack >= 1000) {
-					//System.out.print("x ");
-					//start = System.currentTimeMillis();
-					
+				if(timeAttack >= attackStagger && timeAttack <= 2 * attackStagger) {
+					//System.out.println(timeAttack);
+					spawnAttack(v2, g);
 				}
-//				if(v1.getX() == 150 && v1.getY() == 435) {
-//					spawnAttack(v2, g);
-//				}
-//				if(v2.getX() == 150 && v2.getY() == 435) {
-//					spawnAttack(v3, g);
-//				}
-//				if(v3.getX() == 150 && v3.getY() == 435) {
-//					spawnAttack(v4, g);
-//				}
-//				if(v4.getX() == 150 && v4.getY() == 435) {
-//					spawnAttack(v5, g);
-//				}
-//				if(v5.getX() == 150 && v5.getY() == 435) {
-//					spawnAttack(v6, g);
-//				}
+				if(timeAttack >= 3 * attackStagger && timeAttack <= 4 * attackStagger) {
+					//System.out.println(timeAttack);
+					spawnAttack(v3, g);
+				}
+				if(timeAttack >= 5 * attackStagger && timeAttack <= 6 * attackStagger) {
+					spawnAttack(v4, g);
+				}
+				if(timeAttack >= 7 * attackStagger && timeAttack <= 8 * attackStagger) {
+					spawnAttack(v5, g);
+				}
+				if(timeAttack >= 9 * attackStagger && timeAttack <= 10 * attackStagger) {
+					spawnAttack(v6, g);
+				}
 				
 				//reset
 				if(v.getX() > 500 && v.getY() > 550) {
@@ -145,6 +145,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					back.returnMenu();
 					isOnHomescreen = false;
 					addToArrayList(difficulty);
+					startAttack = System.currentTimeMillis();
+					attackStagger = 1000;
 				}
 				if (p.x >= 250 && p.x <= 365 && p.y >= 340 && p.y <= 385) {
 					difficulty = 1;
@@ -152,6 +154,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					back.returnMenu();
 					isOnHomescreen = false;
 					addToArrayList(difficulty);
+					startAttack = System.currentTimeMillis();
+					attackStagger = 500;
 				}
 				if (p.x >= 410 && p.x <= 505 && p.y >= 340 && p.y <= 385) {
 					difficulty = 2;
@@ -159,6 +163,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					back.returnMenu();
 					isOnHomescreen = false;
 					addToArrayList(difficulty);
+					startAttack = System.currentTimeMillis();
+					attackStagger = 250;
 				}
 			}
 			else {
@@ -253,7 +259,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		rNum = (int)(Math.random() * 6 + 1);
 		v.setGameStarted();
-		start = System.currentTimeMillis();
+		//start = System.currentTimeMillis();
 	}
 	
 	public void addToArrayList(int num) {

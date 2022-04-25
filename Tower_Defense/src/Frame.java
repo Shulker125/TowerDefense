@@ -98,11 +98,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			long time2 = System.currentTimeMillis() - start;
 			if (time2 <= 500) {
 				g.setColor(new Color(235, 236, 239));
-				g.fillRect(200, 350, 200, 35);
+				g.fillRect(200, 380, 200, 35);
 				g.setColor(Color.black);
-				g.drawRect(200, 350, 200, 35);
+				g.drawRect(200, 380, 200, 35);
 				g.setFont(new Font("Arial", Font.PLAIN, 20));
-				g.drawString("Not Enough Money!", 215, 375);
+				g.drawString("Not Enough Money!", 215, 405);
 			}
 			else {
 				fundError = false;
@@ -112,11 +112,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			long time3 = System.currentTimeMillis() - start;
 			if (time3 <= 500) {
 				g.setColor(new Color(235, 236, 239));
-				g.fillRect(200, 350, 200, 35);
+				g.fillRect(200, 380, 200, 35);
 				g.setColor(Color.black);
-				g.drawRect(200, 350, 200, 35);
+				g.drawRect(200, 380, 200, 35);
 				g.setFont(new Font("Arial", Font.PLAIN, 20));
-				g.drawString("Already Upgraded!", 217, 375);
+				g.drawString("Already Upgraded!", 217, 405);
 			}
 			else {
 				upgradeError = false;
@@ -128,7 +128,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.setColor(Color.black);
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + soap.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.drawString("Upgrade Costs: $" + soap.get(index).getUpgradeCost() + " Upgrade? y/n" , 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
 		}
 		if (openBleachGUI) {
 			g.setColor(new Color(235, 236, 239, 220));
@@ -179,6 +184,41 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		start = System.currentTimeMillis();
 		int key = e.getKeyCode();
+		System.out.println(key);
+		if (key == 83) {
+			if (openSoapGUI) {
+				if (soap.get(index).getUpgrade()) {
+					money += soap.get(0).getUpgradeCost();
+				}
+				soap.remove(index);
+				money += soap.get(0).getCost();
+				openSoapGUI = false;
+			}
+			if (openBleachGUI) {
+				if (bleach.get(index).getUpgrade()) {
+					money += bleach.get(0).getUpgradeCost();
+				}
+				bleach.remove(index);
+				money += bleach.get(0).getCost();
+				openBleachGUI = false;
+			}
+			if (openSanGUI) {
+				if (sanitizer.get(index).getUpgrade()) {
+					money += sanitizer.get(0).getUpgradeCost();
+				}
+				sanitizer.remove(index);
+				money += sanitizer.get(0).getCost();
+				openSanGUI = false;
+			}
+			if (openFlameGUI) {
+				if (flame.get(index).getUpgrade()) {
+					money += flame.get(0).getUpgradeCost();
+				}
+				flame.remove(index);
+				money += flame.get(0).getCost();
+				openFlameGUI = false;
+			}
+		}
 		if (key == 89) {
 			if (openSoapGUI) {
 				if (soap.get(index).getUpgrade()) {

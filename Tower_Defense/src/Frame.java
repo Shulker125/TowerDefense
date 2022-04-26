@@ -142,6 +142,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
 			g.drawString("Upgrade Costs: $" + bleach.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
 		}
 		if (openSanGUI) {
 			g.setColor(new Color(235, 236, 239, 220));
@@ -150,6 +155,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
 			g.drawString("Upgrade Costs: $" + sanitizer.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
 		}
 		if (openFlameGUI) {
 			g.setColor(new Color(235, 236, 239, 220));
@@ -158,6 +168,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
 			g.drawString("Upgrade Costs: $" + flame.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
 		}
 		p = MouseInfo.getPointerInfo().getLocation();
 	}

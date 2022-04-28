@@ -39,6 +39,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public int money = 200;
 	public int index = 0;
 	public boolean isOnHomescreen = true;
+	public boolean isOnHelpscreen = false;
 	public boolean isPointerActive = false;
 	public boolean placementError = false;
 	public boolean fundError = false;
@@ -52,6 +53,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		super.paint(g);
 		back.paint(g);
 		v1.paint(g);
+		if (isOnHelpscreen) {
+			g.setColor(new Color(220, 220, 220));
+			g.fillRect(10, 70, 560, 400);
+		}
 		if (!isOnHomescreen) {
 			v1.setGameStarted();
 			v1.spawn1();
@@ -318,7 +323,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			openBleachGUI = false;
 			openSanGUI = false;
 			openFlameGUI = false;
-			if (isOnHomescreen) {
+			if (isOnHomescreen && !isOnHelpscreen) {
 				back.menu = null;
 				if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 0;
@@ -350,6 +355,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				}
+				if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
+					back.enterHelp();
+					isOnHelpscreen = true;
+				}
 			}
 			else { 
 				
@@ -359,8 +368,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					bleach.clear();
 					sanitizer.clear();
 					flame.clear();
-					money = 100;
+					money = 200;
 					isOnHomescreen = true;
+					isOnHelpscreen = false;
 					v1.homescreenVirus();
 				}
 				
@@ -455,7 +465,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public void checkHover() {
-		if (isOnHomescreen) {
+		if (isOnHomescreen && !isOnHelpscreen) {
 			if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 				back.switchEasy();
 			}
@@ -473,6 +483,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 			else {
 				back.returnHard();
+			}
+			if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
+				back.switchHelp();
+			}
+			else {
+				back.returnHelp();
 			}
 		}
 		else {

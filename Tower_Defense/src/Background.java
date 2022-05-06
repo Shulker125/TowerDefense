@@ -14,7 +14,7 @@ public class Background {
 		img = getImage("/imgs/homescreen.png"); //load the image for Tree
 		easy = getImage("/imgs/easy.png");
 		medium = getImage("/imgs/medium.png");
-		hard = getImage("imgs/hard.png");
+		hard = getImage("/imgs/hard.png");
 		menu = null;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
@@ -95,7 +95,7 @@ public class Background {
 		img = getImage("/imgs/homescreen.png");
 		easy = getImage("/imgs/easy.png");
 		medium = getImage("/imgs/medium.png");
-		hard = getImage("imgs/hard.png");
+		hard = getImage("/imgs/hard.png");
 		menu = null;
 	}
 }

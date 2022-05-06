@@ -38,41 +38,46 @@ public class Virus {
 		
 		
 		g2.drawImage(virus1, x, y, 40, 40, null);
-		g2.drawImage(virus2, 200, 200, 100, 100, null);
+		g2.drawImage(virus2, x, y, 40, 40, null);
+		g2.drawImage(virus3, x, y, 40, 40, null);
+		g2.drawImage(virus4, x, y, 40, 40, null);
+		g2.drawImage(virus5, x, y, 40, 40, null);
+		g2.drawImage(virus6, x, y, 40, 40, null);
 	}
 	
 	private void update() {
-		if(y > 400 && x < 190) {
+		//code for attacker movement through the course
+		if(y > 400 && x < 185) {
 			x += speed;
-		}else if(y > 275 && x < 195) {
+		}else if(y > 275 && x < 190) {
 			y -= speed;
-		}else if(y > 270 && x > 30 && x < 200) {
+		}else if(y > 270 && x > 25 && x < 200) {
 			x -= speed;
-		}else if(y > 150 && x > 25 && x < 50) {
+		}else if(y > 150 && x > 20 && x < 50) {
 			y -= speed;
-		}else if(y > 145 && y < 195 && x < 290) {
+		}else if(y > 145 && y < 195 && x < 285) {
 			x += speed;
-		}else if(y < 235 && x < 295) {
+		}else if(y < 235 && x < 290) {
 			y += speed;
-		}else if(y < 240 && y < 260 && x < 455) {
+		}else if(y < 240 && y < 260 && x < 450) {
 			x += speed;
-		}else if(y > 150 && y < 240 && x < 460) {
+		}else if(y > 150 && y < 240 && x < 455) {
 			y -= speed;
-		}else if(y > 145 && y < 165 && x < 545) {
+		}else if(y > 145 && y < 165 && x < 535) {
 			x += speed;
-		}else if(y < 335 && x < 550) {
+		}else if(y < 335 && x < 540) {
 			y += speed;
-		}else if(y < 340 && x > 270) {
+		}else if(y < 340 && x > 265) {
 			x -= speed;
-		}else if(y < 490 && x > 265 && x < 285) {
+		}else if(y < 490 && x > 260 && x < 285) {
 			y += speed;
-		}else if(y < 495 && x < 435) {
+		}else if(y < 495 && x > 380 && x < 425) {
 			x += speed;
-		}else if(y > 410 && x < 440) {
+		}else if(y > 410 && x > 390 && x < 430) {
 			y -= speed;
-		}else if(y > 405 && x < 535) {
+		}else if(y > 405 && x < 525) {
 			x += speed;
-		}else if(y < 600 && x < 540) {
+		}else if(y < 600 && x < 530) {
 			y += speed;
 		}
 	}
@@ -132,6 +137,19 @@ public class Virus {
 	
 	public void setGameStarted() {
 		gameStarted = true;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setX(int x1) {
+		x = x1;
+	}
+	public void setY(int y1) {
+		y = y1;
 	}
 	
 }

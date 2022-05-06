@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -11,11 +12,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame; 
@@ -34,6 +37,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Picture game = new Picture("bigBackground.png");
 	Pixel[][] pixel = game.getPixels2D();
 	Pixel[][] cursor = new Pixel[40][40];
+	Image helpScreen1 = null;
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public int cursorX, cursorY;
 	public int money = 200;
@@ -47,6 +51,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public boolean openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false;
 	public long start = System.currentTimeMillis();
 	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
 		pointerSet();
 		setCursor();
 		checkHover();
@@ -56,10 +61,22 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (isOnHelpscreen) {
 			g.setColor(new Color(220, 220, 220));
 			g.fillRect(10, 70, 560, 400);
+			g.setColor(Color.black);
+			g.drawString("1. Use the top bar to select the", 350, 120);
+			g.drawString(" defender you want if you have sufficient ", 350, 140);
+			g.drawString("funds", 350, 160);
+			g2.drawImage(helpScreen1, 20, 120, 300, 300, null);
 		}
 		if (!isOnHomescreen) {
 			v1.setGameStarted();
 			v1.spawn1();
+			g.setFont(new Font("Arial", Font.PLAIN, 20));
+			g.drawString("Balance", 10, 78);
+			g.drawString("$"+money, 10, 95);
+			g.drawString("$" + soap.get(0).getCost(), 160, 95);
+			g.drawString("$" + sanitizer.get(0).getCost(), 255, 95);
+			g.drawString("$" + bleach.get(0).getCost(), 360, 95);
+			g.drawString("$" + flame.get(0).getCost(), 460, 95);
 			for (Soap s : soap) {
 				s.paint(g);
 				s.placeHover(cursorX-40, cursorY-40);
@@ -76,13 +93,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.paint(g);
 				st.placeHover(cursorX-40, cursorY-40);
 			}
-			g.setFont(new Font("Arial", Font.PLAIN, 20));
-			g.drawString("Balance", 10, 78);
-			g.drawString("$"+money, 10, 95);
-			g.drawString("$" + soap.get(0).getCost(), 160, 95);
-			g.drawString("$" + sanitizer.get(0).getCost(), 255, 95);
-			g.drawString("$" + bleach.get(0).getCost(), 360, 95);
-			g.drawString("$" + flame.get(0).getCost(), 460, 95);
 		}
 		
 		if (placementError) {
@@ -357,6 +367,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 				if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
 					back.enterHelp();
+					helpScreen1 = getImage("/imgs/helpWalkthrough1.gif");
 					isOnHelpscreen = true;
 				}
 			}
@@ -371,6 +382,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					money = 200;
 					isOnHomescreen = true;
 					isOnHelpscreen = false;
+					helpScreen1 = null;
 					v1.homescreenVirus();
 				}
 				
@@ -560,5 +572,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		else {
 			fundError = true;
 		}
+	}
+	private Image getImage(String path) {
+		Image tempImage = null;
+		try {
+			URL imageURL = Background.class.getResource(path);
+			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tempImage;
 	}
 }

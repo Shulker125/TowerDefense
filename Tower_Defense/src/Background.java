@@ -8,12 +8,13 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Background {
-	public Image img, easy, medium, hard, menu; 	
+	public Image img, easy, medium, hard, menu, help; 	
 	private AffineTransform tx;
 	public Background(int x, int y) {
 		img = getImage("/imgs/homescreen.png"); //load the image for Tree
 		easy = getImage("/imgs/easy.png");
 		medium = getImage("/imgs/medium.png");
+		help = getImage("/imgs/help.png");
 		hard = getImage("/imgs/hard.png");
 		menu = null;
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -37,6 +38,7 @@ public class Background {
 		g2.drawImage(medium, 240, 300, 120, 50, null);
 		g2.drawImage(hard, 400, 300, 100, 50, null);
 		g2.drawImage(menu, 10, 10, 100, 50, null);
+		g2.drawImage(help, 250, 370, 100, 50, null);
 
 	}
 	/* update the picture variable location */
@@ -85,17 +87,40 @@ public class Background {
 	public void returnMenu() {
 		menu = getImage("/imgs/menu.png");
 	}
+	public void switchHelp() {
+		help = getImage("/imgs/help-hover.png");
+	}
+	public void returnHelp() {
+		help = getImage("/imgs/help.png");
+	}
+	public void enterHelp() {
+		easy = null;
+		medium = null;
+		hard = null;
+		help = null;
+		menu = getImage("/imgs/menu.png");
+	}
+	public void leaveHelp() {
+		img = getImage("/imgs/homescreen.png");
+		easy = getImage("/imgs/easy.png");
+		medium = getImage("/imgs/medium.png");
+		hard = getImage("imgs/hard.png");
+		help = getImage("/imgs/help.png");
+		menu = null;
+	}
 	public void setBackground(String imageName) {
 		img = getImage(imageName);
 		easy = null;
 		medium = null;
 		hard = null;
+		help = null;
 	}
 	public void returnToMenu() {
 		img = getImage("/imgs/homescreen.png");
 		easy = getImage("/imgs/easy.png");
 		medium = getImage("/imgs/medium.png");
 		hard = getImage("/imgs/hard.png");
+		help = getImage("/imgs/help.png");
 		menu = null;
 	}
 }

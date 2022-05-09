@@ -61,10 +61,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (isOnHelpscreen) {
 			g.setColor(new Color(220, 220, 220));
 			g.fillRect(10, 70, 560, 400);
-			g.setColor(Color.black);
-			g.drawString("1. Use the top bar to select the", 350, 120);
-			g.drawString(" defender you want if you have sufficient ", 350, 140);
-			g.drawString("funds", 350, 160);
+			paintHelp(g);
 			g2.drawImage(helpScreen1, 20, 120, 300, 300, null);
 		}
 		if (!isOnHomescreen) {
@@ -94,101 +91,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.placeHover(cursorX-40, cursorY-40);
 			}
 		}
-		
-		if (placementError) {
-			long time = System.currentTimeMillis() - start;
-			if (time <= 500) {
-				g.setColor(new Color(235, 236, 239));
-				g.fillRect(250, 300, 100, 35);
-				g.setColor(Color.black);
-				g.drawRect(250, 300, 100, 35);
-				g.setFont(new Font("Arial", Font.PLAIN, 20));
-				g.drawString("Invalid", 273, 325);
-			}
-			else {
-				placementError = false;
-			}
-		}
-		if (fundError) {
-			long time2 = System.currentTimeMillis() - start;
-			if (time2 <= 500) {
-				g.setColor(new Color(235, 236, 239));
-				g.fillRect(200, 380, 200, 35);
-				g.setColor(Color.black);
-				g.drawRect(200, 380, 200, 35);
-				g.setFont(new Font("Arial", Font.PLAIN, 20));
-				g.drawString("Not Enough Money!", 215, 405);
-			}
-			else {
-				fundError = false;
-			}
-		}
-		if (upgradeError) {
-			long time3 = System.currentTimeMillis() - start;
-			if (time3 <= 500) {
-				g.setColor(new Color(235, 236, 239));
-				g.fillRect(200, 380, 200, 35);
-				g.setColor(Color.black);
-				g.drawRect(200, 380, 200, 35);
-				g.setFont(new Font("Arial", Font.PLAIN, 20));
-				g.drawString("Already Upgraded!", 217, 405);
-			}
-			else {
-				upgradeError = false;
-			}
-		}
-		if (openSoapGUI) {
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(180, 300, 250, 35);
-			g.setColor(Color.black);
-			g.drawRect(180, 300, 250, 35);
-			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + soap.get(index).getUpgradeCost() + " Upgrade? y/n" , 192, 325);
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(255, 340, 100, 35);
-			g.setColor(Color.black);
-			g.drawRect(255, 340, 100, 35);
-			g.drawString("Click s to sell" , 263, 365);
-		}
-		if (openBleachGUI) {
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(180, 300, 250, 35);
-			g.setColor(Color.black);
-			g.drawRect(180, 300, 250, 35);
-			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + bleach.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(255, 340, 100, 35);
-			g.setColor(Color.black);
-			g.drawRect(255, 340, 100, 35);
-			g.drawString("Click s to sell" , 263, 365);
-		}
-		if (openSanGUI) {
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(180, 300, 250, 35);
-			g.setColor(Color.black);
-			g.drawRect(180, 300, 250, 35);
-			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + sanitizer.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(255, 340, 100, 35);
-			g.setColor(Color.black);
-			g.drawRect(255, 340, 100, 35);
-			g.drawString("Click s to sell" , 263, 365);
-		}
-		if (openFlameGUI) {
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(180, 300, 250, 35);
-			g.setColor(Color.black);
-			g.drawRect(180, 300, 250, 35);
-			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + flame.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
-			g.setColor(new Color(235, 236, 239, 220));
-			g.fillRect(255, 340, 100, 35);
-			g.setColor(Color.black);
-			g.drawRect(255, 340, 100, 35);
-			g.drawString("Click s to sell" , 263, 365);
-		}
+		paintErrors(g);
+		paintDefenderGUI(g);
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -582,5 +486,115 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			e.printStackTrace();
 		}
 		return tempImage;
+	}
+	public void paintHelp(Graphics c) {
+		c.setColor(Color.black);
+		c.drawString("1. Use the top bar to select the", 350, 120);
+		c.drawString(" defender you want if you have sufficient ", 350, 140);
+		c.drawString("funds", 350, 160);
+		c.drawString("2. Place defender on anywhere on the", 350, 220);
+		c.drawString("screen except for the white path", 350, 240);
+		c.drawString("3. To upgrade click on defender and", 350, 300);
+		c.drawString("click y or n on keyboard", 350, 320);
+		c.drawString("4. To sell, click on defender and press", 350, 380);
+		c.drawString("s on the keyboard", 350, 400);
+	}
+	public void paintDefenderGUI(Graphics g) {
+		if (openSoapGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 250, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 250, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Upgrade Costs: $" + soap.get(index).getUpgradeCost() + " Upgrade? y/n" , 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
+		}
+		if (openBleachGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 250, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 250, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Upgrade Costs: $" + bleach.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
+		}
+		if (openSanGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 250, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 250, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Upgrade Costs: $" + sanitizer.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
+		}
+		if (openFlameGUI) {
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(180, 300, 250, 35);
+			g.setColor(Color.black);
+			g.drawRect(180, 300, 250, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 15));
+			g.drawString("Upgrade Costs: $" + flame.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.setColor(new Color(235, 236, 239, 220));
+			g.fillRect(255, 340, 100, 35);
+			g.setColor(Color.black);
+			g.drawRect(255, 340, 100, 35);
+			g.drawString("Click s to sell" , 263, 365);
+		}
+	}
+	public void paintErrors(Graphics g) {
+		if (placementError) {
+			long time = System.currentTimeMillis() - start;
+			if (time <= 500) {
+				g.setColor(new Color(235, 236, 239));
+				g.fillRect(250, 300, 100, 35);
+				g.setColor(Color.black);
+				g.drawRect(250, 300, 100, 35);
+				g.setFont(new Font("Arial", Font.PLAIN, 20));
+				g.drawString("Invalid", 273, 325);
+			}
+			else {
+				placementError = false;
+			}
+		}
+		if (fundError) {
+			long time2 = System.currentTimeMillis() - start;
+			if (time2 <= 500) {
+				g.setColor(new Color(235, 236, 239));
+				g.fillRect(200, 380, 200, 35);
+				g.setColor(Color.black);
+				g.drawRect(200, 380, 200, 35);
+				g.setFont(new Font("Arial", Font.PLAIN, 20));
+				g.drawString("Not Enough Money!", 215, 405);
+			}
+			else {
+				fundError = false;
+			}
+		}
+		if (upgradeError) {
+			long time3 = System.currentTimeMillis() - start;
+			if (time3 <= 500) {
+				g.setColor(new Color(235, 236, 239));
+				g.fillRect(200, 380, 200, 35);
+				g.setColor(Color.black);
+				g.drawRect(200, 380, 200, 35);
+				g.setFont(new Font("Arial", Font.PLAIN, 20));
+				g.drawString("Already Upgraded!", 217, 405);
+			}
+			else {
+				upgradeError = false;
+			}
+		}
 	}
 }

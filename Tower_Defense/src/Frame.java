@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.net.URL;
 
 import javax.swing.JButton;
@@ -276,7 +277,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			openBleachGUI = false;
 			openSanGUI = false;
 			openFlameGUI = false;
-			if (isOnHomescreen && !isOnHelpScreen) {
+			if (isOnHomescreen && !isOnHelpscreen) {
 				back.menu = null;
 				if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 0;
@@ -333,7 +334,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					flame.clear();
 					money = 200;
 					isOnHomescreen = true;
-					isOnHelpScreen = false;
+					isOnHelpscreen = false;
 					helpScreen1 = null;
 					for(Virus v: virus) {
 						v.homescreenVirus();

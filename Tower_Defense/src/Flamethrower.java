@@ -4,15 +4,18 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Flamethrower{
 	private Image img;
+	private ArrayList<Projectile> projectile;
 	private AffineTransform tx;
 	private double scale;
 	private boolean hover, upgrade;
 	private int cost, x, y, upgradeCost;
 	public Flamethrower(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/flamethrower.png");
+		projectile = new ArrayList<Projectile>();
 		tx = AffineTransform.getTranslateInstance(x, y);
 		this.x = x;
 		this.y = y;
@@ -36,6 +39,9 @@ public class Flamethrower{
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img,  tx, null);
+		for (Projectile p : projectile) {
+			p.paint(g);
+		}
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
@@ -85,5 +91,8 @@ public class Flamethrower{
 			return true;
 		}
 		return false;
+	}
+	public void fire(int x, int y) {
+		projectile.add(new Projectile(this.x, this.y, "/imgs/flamethrower-projectile.png", 3));
 	}
 }

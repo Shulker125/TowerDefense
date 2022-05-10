@@ -47,15 +47,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Image helpScreen1 = null;
 	public int difficulty; // 0 = easy, 1 = medium, 2 = hard
 	public int cursorX, cursorY;
-	public int money = 200;
+	public int money = 20000;
 	public int index = 0;
-	public boolean isOnHomescreen = true;
-	public boolean isOnHelpscreen = false;
-	public boolean isPointerActive = false;
-	public boolean placementError = false;
-	public boolean fundError = false;
-	public boolean upgradeError = false;
-	public boolean openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false;
+	public boolean isOnHomescreen = true, isOnHelpscreen = false, isPointerActive = false, placementError = false, fundError = false, upgradeError = false, openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false;
 	public long start = System.currentTimeMillis();
 	public long startAttack;
 	public long timeAttack;
@@ -159,6 +153,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		start = System.currentTimeMillis();
 		int key = e.getKeyCode();
 		System.out.println(key);
+		if (key == 32) {
+			soap.get(1).fire(100, 100);
+			sanitizer.get(1).fire(100, 100);
+			bleach.get(1).fire(100, 100);
+			flame.get(1).fire(100, 100);
+			
+		}
 		if (key == 83) {
 			if (openSoapGUI) {
 				if (soap.get(index).getUpgrade()) {

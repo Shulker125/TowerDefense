@@ -94,5 +94,14 @@ public class Soap{
 	}
 	public void fire(int x, int y) {
 		projectile.add(new Projectile(this.x, this.y, "/imgs/soap-projectile.png", 0.6));
+		for (Projectile p : projectile) {
+			p.setVelocity(this.x, this.y, x, y);
+		}
+		
+	}
+	public void projectileMove(int x, int y) {
+		for (Projectile p : projectile) {
+			p.move(x, y);
+		}
 	}
 }

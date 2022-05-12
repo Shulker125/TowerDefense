@@ -7,13 +7,17 @@ import java.net.URL;
 
 public class Projectile {
 	public Image img;
-	private int x, y;
+	private double x, y, vx, vy;
+	private double baseSpeed;
 	private double scale;
 	private AffineTransform tx;
 	
-	public Projectile(int x, int y, String fileName, double scale) {
+	public Projectile(double x, double y, String fileName, double scale) {
 		img = getImage(fileName);
 		this.scale = scale;
+		vy = 0;
+		vx = 0;
+		baseSpeed = 0.04;
 		this.x = x;
 		this.y = y;
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -53,10 +57,10 @@ public class Projectile {
 	
 	
 	
-	public int getX() {
+	public double getX() {
 		return x;
 	}
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 	public void setX(int x1) {
@@ -64,6 +68,31 @@ public class Projectile {
 	}
 	public void setY(int y1) {
 		y = y1;
+	}
+	public double getVX() {
+		return vx;
+	}
+	public double getVY() {
+		return vy;
+	}
+	public void setVelocity(int x1, int y1, int x2, int y2) {
+		double displacementX = 100 - x1;
+		double displacementY = 100 - y1;
+		double angle = Math.atan(displacementY/displacementX) * (180/Math.PI); 
+		//System.out.println(angle);
+		
+		vx = x1 + (displacementX * baseSpeed);
+		vy = y1 + (displacementY * baseSpeed);
+		System.out.println(vx + "," + vy);
+	}
+	public void move(int x, int y) {
+		if (this.x != x && this.y != y) {
+			
+		}
+		this.x += vx;
+		this.y += vy;
+		tx.setToTranslation(this.x, this.y);
+		tx.scale(scale, scale);
 	}
 	
 }

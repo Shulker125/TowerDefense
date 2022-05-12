@@ -97,10 +97,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					attackReset(v);
 				}
 			}
-
+			if (soap.size() > 1) {
+				//System.out.println(soap.get(1).getX() + "," + soap.get(1).getY());
+			}
 			for (Soap s : soap) {
 				s.paint(g);
 				s.placeHover(cursorX-40, cursorY-40);
+				s.projectileMove(100, 100);
 			}
 			for (Bleach b : bleach) {
 				b.paint(g);
@@ -144,7 +147,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		f.setVisible(true);
 		
 		rNum = (int)(Math.random() * 6 + 1);
-		System.out.print(rNum);
+		//System.out.print(rNum);
 		
 	}
 	@Override
@@ -152,12 +155,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		start = System.currentTimeMillis();
 		int key = e.getKeyCode();
-		System.out.println(key);
 		if (key == 32) {
 			soap.get(1).fire(100, 100);
-			sanitizer.get(1).fire(100, 100);
-			bleach.get(1).fire(100, 100);
-			flame.get(1).fire(100, 100);
 			
 		}
 		if (key == 83) {

@@ -4,15 +4,18 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Soap{
 	private Image img;
+	private ArrayList<Projectile> projectile;
 	private AffineTransform tx;
 	private double scale;
 	private boolean hover, upgrade;
 	private int cost, x, y, upgradeCost;
 	public Soap(int x, int y, double scale, boolean hover, int difficulty){
 		img = getImage("/imgs/soap.png");
+		projectile = new ArrayList<Projectile>();
 		tx = AffineTransform.getTranslateInstance(x, y);
 		this.x = x;
 		this.y = y;
@@ -36,6 +39,9 @@ public class Soap{
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img,  tx, null);
+		for (Projectile p : projectile) {
+			p.paint(g);
+		}
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
@@ -71,6 +77,9 @@ public class Soap{
 	public int getY() {
 		return y;
 	}
+	public boolean getHover() {
+		return hover;
+	}
 	public int getUpgradeCost() {
 		return upgradeCost;
 	}
@@ -85,5 +94,19 @@ public class Soap{
 			return true;
 		}
 		return false;
+	}
+	public void fire(int x, int y) {
+		int displacementX = this.x - x;
+		int displacementY = this.y - y;
+		if(Math.abs(displacementX) < 100 && Math.abs(displacementY) < 100) {
+			projectile.add(new Projectile(this.x, this.y, "/imgs/soap-projectile.png", 0.6));
+			projectile.get(projectile.size() - 1).setVelocity(this.x, this.y, x, y);
+		}
+		
+	}
+	public void projectileMove(int x, int y) {
+		for (Projectile p : projectile) {
+			p.move();
+		}
 	}
 }

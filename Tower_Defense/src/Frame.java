@@ -53,6 +53,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public long start = System.currentTimeMillis();
 	public long startAttack;
 	public long timeAttack;
+	private long startDefend1, startDefend2, startDefend3, startDefend4;
+	private long timeDefend1, timeDefend2, timeDefend3, timeDefend4;
 	private int rNum;
 	private int attackStagger;
 	
@@ -108,15 +110,68 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			for (Bleach b : bleach) {
 				b.paint(g);
 				b.placeHover(cursorX-40, cursorY-40);
+				b.projectileMove(100, 100);
 			}
 			for (Flamethrower fl : flame) {
 				fl.paint(g);
 				fl.placeHover(cursorX-40, cursorY-40);
+				fl.projectileMove(100, 100);
 			}
 			for (Sanitizer st : sanitizer) {
 				st.paint(g);
 				st.placeHover(cursorX-40, cursorY-40);
+				st.projectileMove(100, 100);
 			}
+			
+			if(soap.size() > 1) {
+				timeDefend1 = System.currentTimeMillis() - startDefend1;
+				for(Soap s: soap) {
+					Virus v = calculateClosestToSoap(s);
+					if(timeDefend1 > 500) {
+						if(!s.getHover()) {
+							s.fire(v.getX(), v.getY());
+						}
+						startDefend1 = System.currentTimeMillis();
+					}
+				}
+			}
+			if(sanitizer.size() > 1) {
+				timeDefend2 = System.currentTimeMillis() - startDefend2;
+				for(Sanitizer s: sanitizer) {
+					Virus v = calculateClosestToSanitizer(s);
+					if(timeDefend2 > 500) {
+						if(!s.getHover()) {
+							s.fire(v.getX(), v.getY());
+						}
+						startDefend2 = System.currentTimeMillis();
+					}
+				}
+			}
+			if(bleach.size() > 1) {
+				timeDefend3 = System.currentTimeMillis() - startDefend3;
+				for(Bleach s: bleach) {
+					Virus v = calculateClosestToBleach(s);
+					if(timeDefend3 > 500) {
+						if(!s.getHover()) {
+							s.fire(v.getX(), v.getY());
+						}
+						startDefend3 = System.currentTimeMillis();
+					}
+				}
+			}
+			if(flame.size() > 1) {
+				timeDefend4 = System.currentTimeMillis() - startDefend4;
+				for(Flamethrower s: flame) {
+					Virus v = calculateClosestToFlamethrower(s);
+					if(timeDefend4 > 500) {
+						if(!s.getHover()) {
+							s.fire(v.getX(), v.getY());
+						}
+						startDefend4 = System.currentTimeMillis();
+					}
+				}
+			}
+			
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
 			g.drawString("Balance", 10, 78);
 			g.drawString("$"+money, 10, 95);
@@ -156,8 +211,21 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		start = System.currentTimeMillis();
 		int key = e.getKeyCode();
 		if (key == 32) {
-			soap.get(1).fire(100, 100);
-			
+			//System.out.println(calculateClosestToSoap(soap.get(1)));
+			Virus v = calculateClosestToSoap(soap.get(1));
+			soap.get(1).fire(v.getX(), v.getY());
+		}
+		if(key == 65) {
+			Virus v = calculateClosestToSanitizer(sanitizer.get(1));
+			sanitizer.get(1).fire(v.getX(), v.getY());
+		}
+		if(key == 70) {
+			Virus v = calculateClosestToFlamethrower(flame.get(1));
+			flame.get(1).fire(v.getX(), v.getY());
+		}
+		if(key == 68) {
+			Virus v = calculateClosestToBleach(bleach.get(1));
+			bleach.get(1).fire(v.getX(), v.getY());
 		}
 		if (key == 83) {
 			if (openSoapGUI) {
@@ -544,7 +612,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}else if(rNum == 5) {
 			v.spawn5();
 		}else if(rNum == 6) {
-			v.spawn5();
+			v.spawn6();
 		}
 		
 		rNum = (int)(Math.random() * 6 + 1);
@@ -571,6 +639,96 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		v.setX(0);
 		v.setY(435);
 	}
+	
+	public Virus calculateClosestToSoap(Soap s) {
+		int x1 = s.getX();
+		int y1 = s.getY();
+		
+		Virus closest = null;
+		double smallest = 1000;
+		
+		for(Virus v: virus) {
+			int x2 = v.getX();
+			int y2 = v.getY();
+			double displacementX = x2 - x1;
+			double displacementY = y2 - y1;
+			displacementX *= displacementX;
+			displacementY *= displacementY;
+			double displacement = Math.sqrt(displacementX + displacementY);
+			if(displacement < smallest) {
+				smallest = displacement;
+				closest = v;
+			}
+		}
+		return closest;
+	}
+	public Virus calculateClosestToSanitizer(Sanitizer s) {
+		int x1 = s.getX();
+		int y1 = s.getY();
+		
+		Virus closest = null;
+		double smallest = 1000;
+		
+		for(Virus v: virus) {
+			int x2 = v.getX();
+			int y2 = v.getY();
+			double displacementX = x2 - x1;
+			double displacementY = y2 - y1;
+			displacementX *= displacementX;
+			displacementY *= displacementY;
+			double displacement = Math.sqrt(displacementX + displacementY);
+			if(displacement < smallest) {
+				smallest = displacement;
+				closest = v;
+			}
+		}
+		return closest;
+	}
+	public Virus calculateClosestToBleach(Bleach s) {
+		int x1 = s.getX();
+		int y1 = s.getY();
+		
+		Virus closest = null;
+		double smallest = 1000;
+		
+		for(Virus v: virus) {
+			int x2 = v.getX();
+			int y2 = v.getY();
+			double displacementX = x2 - x1;
+			double displacementY = y2 - y1;
+			displacementX *= displacementX;
+			displacementY *= displacementY;
+			double displacement = Math.sqrt(displacementX + displacementY);
+			if(displacement < smallest) {
+				smallest = displacement;
+				closest = v;
+			}
+		}
+		return closest;
+	}
+	public Virus calculateClosestToFlamethrower(Flamethrower s) {
+		int x1 = s.getX();
+		int y1 = s.getY();
+		
+		Virus closest = null;
+		double smallest = 1000;
+		
+		for(Virus v: virus) {
+			int x2 = v.getX();
+			int y2 = v.getY();
+			double displacementX = x2 - x1;
+			double displacementY = y2 - y1;
+			displacementX *= displacementX;
+			displacementY *= displacementY;
+			double displacement = Math.sqrt(displacementX + displacementY);
+			if(displacement < smallest) {
+				smallest = displacement;
+				closest = v;
+			}
+		}
+		return closest;
+	}
+	
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {

@@ -11,13 +11,14 @@ public class Projectile {
 	private double baseSpeed;
 	private double scale;
 	private AffineTransform tx;
+	private double displacementX, displacementY;
 	
 	public Projectile(double x, double y, String fileName, double scale) {
 		img = getImage(fileName);
 		this.scale = scale;
 		vy = 0;
 		vx = 0;
-		baseSpeed = 0.04;
+		baseSpeed = 0.1;
 		this.x = x;
 		this.y = y;
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -76,21 +77,21 @@ public class Projectile {
 		return vy;
 	}
 	public void setVelocity(int x1, int y1, int x2, int y2) {
-		double displacementX = 100 - x1;
-		double displacementY = 100 - y1;
-		double angle = Math.atan(displacementY/displacementX) * (180/Math.PI); 
-		//System.out.println(angle);
+		displacementX = x2 - x1;
+		displacementY = y2 - y1;
 		
-		vx = x1 + (displacementX * baseSpeed);
-		vy = y1 + (displacementY * baseSpeed);
+		
+		vx = (displacementX * baseSpeed);
+		vy = (displacementY * baseSpeed);
+	
 		System.out.println(vx + "," + vy);
 	}
-	public void move(int x, int y) {
-		if (this.x != x && this.y != y) {
-			
+	public void move() {
+
+		if(Math.abs(displacementX) < 100 && Math.abs(displacementY) < 100) {
+			this.x += vx;
+			this.y += vy;
 		}
-		this.x += vx;
-		this.y += vy;
 		tx.setToTranslation(this.x, this.y);
 		tx.scale(scale, scale);
 	}

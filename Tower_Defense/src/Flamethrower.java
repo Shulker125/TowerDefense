@@ -77,6 +77,9 @@ public class Flamethrower{
 	public int getY() {
 		return y;
 	}
+	public boolean getHover() {
+		return hover;
+	}
 	public int getUpgradeCost() {
 		return upgradeCost;
 	}
@@ -93,6 +96,16 @@ public class Flamethrower{
 		return false;
 	}
 	public void fire(int x, int y) {
-		projectile.add(new Projectile(this.x, this.y, "/imgs/flamethrower-projectile.png", 3));
+		int displacementX = this.x - x;
+		int displacementY = this.y - y;
+		if(Math.abs(displacementX) < 100 && Math.abs(displacementY) < 100) {
+			projectile.add(new Projectile(this.x, this.y, "/imgs/flamethrower-projectile.png", 3));
+			projectile.get(projectile.size() - 1).setVelocity(this.x, this.y, x, y);
+		}
+	}
+	public void projectileMove(int x, int y) {
+		for (Projectile p : projectile) {
+			p.move();
+		}
 	}
 }

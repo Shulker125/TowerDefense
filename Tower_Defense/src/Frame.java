@@ -35,12 +35,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Sanitizer> sanitizer = new ArrayList<Sanitizer>();
 	ArrayList<Virus> virus = new ArrayList<Virus>(); 
 	Point p = MouseInfo.getPointerInfo().getLocation();
-	Virus v1 = new Virus(0, 435, 5);
-	Virus v2 = new Virus(0, 435, 5);
-	Virus v3 = new Virus(0, 435, 5);
-	Virus v4 = new Virus(0, 435, 5);
-	Virus v5 = new Virus(0, 435, 5);
-	Virus v6 = new Virus(0, 435, 5);
 	Picture game = new Picture("bigBackground.png");
 	Pixel[][] pixel = game.getPixels2D();
 	Pixel[][] cursor = new Pixel[40][40];
@@ -49,14 +43,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public int cursorX, cursorY;
 	public int money = 20000;
 	public int index = 0;
-	public boolean isOnHomescreen = true, isOnHelpscreen = false, isPointerActive = false, placementError = false, fundError = false, upgradeError = false, openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false;
+	public int level = 10;
+	public boolean isOnHomescreen = true, isOnHelpscreen = false, isPointerActive = false, placementError = false, fundError = false, upgradeError = false, openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false, gameStarted = false;
 	public long start = System.currentTimeMillis();
 	public long startAttack;
 	public long timeAttack;
 	private long startDefend1, startDefend2, startDefend3, startDefend4;
 	private long timeDefend1, timeDefend2, timeDefend3, timeDefend4;
-	private int rNum;
-	private int attackStagger;
+	private double attackStagger;
 	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -72,35 +66,23 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g2.drawImage(helpScreen1, 20, 120, 300, 300, null);
 		}
 		if (!isOnHomescreen) {
-			timeAttack = System.currentTimeMillis() - startAttack;
-			for(Virus v: virus) {
+			if (gameStarted) {
+
+				timeAttack = System.currentTimeMillis() - startAttack;
+				if(virus.size() < level &&  (timeAttack/100) / attackStagger == 1) {
+					spawnAttack();
+					timeAttack = 0;
+					startAttack = System.currentTimeMillis();
+				}
+			if (soap.size() > 1) {
+				//System.out.println(soap.get(1).getX() + "," + soap.get(1).getY());
+			}
+			for (Virus v : virus) {
 				v.paint(g);
-				v.setGameStarted();
-				v1.spawn1();
-				if(timeAttack >= attackStagger && timeAttack <= 2 * attackStagger) {
-					//System.out.println(timeAttack);
-					spawnAttack(v2, g);
-				}
-				if(timeAttack >= 3 * attackStagger && timeAttack <= 4 * attackStagger) {
-					//System.out.println(timeAttack);
-					spawnAttack(v3, g);
-				}
-				if(timeAttack >= 5 * attackStagger && timeAttack <= 6 * attackStagger) {
-					spawnAttack(v4, g);
-				}
-				if(timeAttack >= 7 * attackStagger && timeAttack <= 8 * attackStagger) {
-					spawnAttack(v5, g);
-				}
-				if(timeAttack >= 9 * attackStagger && timeAttack <= 10 * attackStagger) {
-					spawnAttack(v6, g);
-				}
-				//reset
 				if(v.getX() > 500 && v.getY() > 550) {
 					attackReset(v);
 				}
-			}
-			if (soap.size() > 1) {
-				//System.out.println(soap.get(1).getX() + "," + soap.get(1).getY());
+				v.setGameStarted();
 			}
 			for (Soap s : soap) {
 				s.paint(g);
@@ -201,8 +183,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 		
-		rNum = (int)(Math.random() * 6 + 1);
-		//System.out.print(rNum);
 		
 	}
 	@Override
@@ -226,6 +206,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(key == 68) {
 			Virus v = calculateClosestToBleach(bleach.get(1));
 			bleach.get(1).fire(v.getX(), v.getY());
+		}
+		if (key == 10) {
+			if (!gameStarted) {
+				setGameStarted();
+			}
+
 		}
 		if (key == 83) {
 			if (openSoapGUI) {
@@ -356,9 +342,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 					flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-					addToArrayList(difficulty);
-					startAttack = System.currentTimeMillis();
-					attackStagger = 1000;
+					attackStagger = 15;
 				}
 				if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 1;
@@ -369,9 +353,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 					flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-					addToArrayList(difficulty);
-					startAttack = System.currentTimeMillis();
-					attackStagger = 500;
+					attackStagger = 10;
 				}
 				if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 2;
@@ -382,9 +364,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 					flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-					addToArrayList(difficulty);
-					startAttack = System.currentTimeMillis();
-					attackStagger = 250;
+					attackStagger = 5;
 				}
 				if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
 					back.enterHelp();
@@ -403,10 +383,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					money = 200;
 					isOnHomescreen = true;
 					isOnHelpscreen = false;
+					gameStarted = false;
 					helpScreen1 = null;
 					for(Virus v: virus) {
 						v.homescreenVirus();
 					}
+					virus.clear();
 				}
 				
 				if (!isPointerActive) {
@@ -597,47 +579,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 	}
 	
-	public void spawnAttack(Virus v, Graphics g) {
-		//v.paint(g);
-		v.setX(0);
-		v.setY(435);
-		if(rNum == 1) {
-			v.spawn1();
-		}else if(rNum == 2) {
-			v.spawn2();
-		}else if(rNum == 3) {
-			v.spawn3();
-		}else if(rNum == 4) {
-			v.spawn4();
-		}else if(rNum == 5) {
-			v.spawn5();
-		}else if(rNum == 6) {
-			v.spawn6();
-		}
-		
-		rNum = (int)(Math.random() * 6 + 1);
-		v.setGameStarted();
-		//start = System.currentTimeMillis();
-	}
-	
-	public void addToArrayList(int num) {
-		virus.add(v1);
-		virus.add(v2);
-		virus.add(v3);
-		if(num > 0) {
-			virus.add(v4);
-		}
-		if(num > 1) {
-			virus.add(v5);
-			virus.add(v6);
-		}
-		
-	}
-	
-	
-	public void attackReset(Virus v) {
-		v.setX(0);
-		v.setY(435);
+	public void spawnAttack() {
+		virus.add(new Virus(0, 435));
+		virus.get(virus.size()-1).setGameStarted();
 	}
 	
 	public Virus calculateClosestToSoap(Soap s) {
@@ -744,12 +688,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		c.drawString("1. Use the top bar to select the", 350, 120);
 		c.drawString(" defender you want if you have sufficient ", 350, 140);
 		c.drawString("funds", 350, 160);
-		c.drawString("2. Place defender on anywhere on the", 350, 220);
-		c.drawString("screen except for the white path", 350, 240);
-		c.drawString("3. To upgrade click on defender and", 350, 300);
-		c.drawString("click y or n on keyboard", 350, 320);
-		c.drawString("4. To sell, click on defender and press", 350, 380);
-		c.drawString("s on the keyboard", 350, 400);
+		c.drawString("2. Place defender on anywhere on the", 350, 200);
+		c.drawString("screen except for the white path", 350, 220);
+		c.drawString("3. To upgrade click on defender and", 350, 260);
+		c.drawString("click y or n on keyboard", 350, 280);
+		c.drawString("4. To sell, click on defender and press", 350, 340);
+		c.drawString("s on the keyboard", 350, 360);
+		c.drawString("5. Click enter to start wave", 350, 420);
 	}
 	public void paintDefenderGUI(Graphics g) {
 		if (openSoapGUI) {
@@ -848,5 +793,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				upgradeError = false;
 			}
 		}
+	}
+	public void setGameStarted() {
+		gameStarted = true;
+		startAttack = System.currentTimeMillis();
+
 	}
 }

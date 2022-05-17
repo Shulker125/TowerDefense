@@ -74,6 +74,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeAttack = 0;
 					startAttack = System.currentTimeMillis();
 				}
+		}
 			if (soap.size() > 1) {
 				//System.out.println(soap.get(1).getX() + "," + soap.get(1).getY());
 			}
@@ -158,11 +159,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.drawString("$" + sanitizer.get(0).getCost(), 255, 95);
 			g.drawString("$" + bleach.get(0).getCost(), 360, 95);
 			g.drawString("$" + flame.get(0).getCost(), 460, 95);
-		}
 		paintErrors(g);
 		paintDefenderGUI(g);
-		p = MouseInfo.getPointerInfo().getLocation();
+		
 		}
+		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
 		Frame f = new Frame();

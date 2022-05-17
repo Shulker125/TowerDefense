@@ -67,7 +67,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		if (!isOnHomescreen) {
 			if (gameStarted) {
-
+				back.start = null;
 				timeAttack = System.currentTimeMillis() - startAttack;
 				if(virus.size() < level &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
 					spawnAttack();
@@ -207,12 +207,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(key == 68) {
 			Virus v = calculateClosestToBleach(bleach.get(1));
 			bleach.get(1).fire(v.getX(), v.getY());
-		}
-		if (key == 10) {
-			if (!gameStarted) {
-				setGameStarted();
-			}
-
 		}
 		if (key == 83) {
 			if (openSoapGUI) {
@@ -391,7 +385,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					}
 					virus.clear();
 				}
-				
+				if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen) {
+					setGameStarted();
+				}
 				if (!isPointerActive) {
 					for (int i = 1; i < soap.size(); i++) {
 						if(soap.get(i).isInHitbox(cursorX, cursorY)) {
@@ -516,6 +512,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			else {
 				back.returnMenu();
 			}
+			if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen) {
+				back.switchStart();
+			}
+			else if (!gameStarted){
+				back.returnStart();
+			}
+			
 		}
 		
 	}
@@ -695,7 +698,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		c.drawString("click y or n on keyboard", 350, 280);
 		c.drawString("4. To sell, click on defender and press", 350, 340);
 		c.drawString("s on the keyboard", 350, 360);
-		c.drawString("5. Click enter to start wave", 350, 420);
+		c.drawString("5. Click start to begin wave", 350, 420);
 	}
 	public void paintDefenderGUI(Graphics g) {
 		if (openSoapGUI) {

@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Background {
-	public Image img, easy, medium, hard, menu, help; 	
+	public Image img, easy, medium, hard, menu, help, start, left, right; 	
 	private AffineTransform tx;
 	public Background(int x, int y) {
 		img = getImage("/imgs/homescreen.png"); //load the image for Tree
@@ -16,6 +16,9 @@ public class Background {
 		medium = getImage("/imgs/medium.png");
 		help = getImage("/imgs/help.png");
 		hard = getImage("/imgs/hard.png");
+		left = null;
+		right = null;
+		start = null;
 		menu = null;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
@@ -39,6 +42,10 @@ public class Background {
 		g2.drawImage(hard, 400, 300, 100, 50, null);
 		g2.drawImage(menu, 10, 10, 100, 50, null);
 		g2.drawImage(help, 250, 370, 100, 50, null);
+		g2.drawImage(start, 10, 430, 120, 50, null);
+		g2.drawImage(left, 20, 490, 100, 50, null);
+		g2.drawImage(right, 450, 490, 100, 50, null);
+		
 
 	}
 	/* update the picture variable location */
@@ -93,12 +100,21 @@ public class Background {
 	public void returnHelp() {
 		help = getImage("/imgs/help.png");
 	}
+	public void switchStart() {
+		start = getImage("/imgs/start-hover.png");
+	}
+	public void returnStart() {
+		start = getImage("/imgs/start.png");
+	}
 	public void enterHelp() {
 		easy = null;
 		medium = null;
 		hard = null;
 		help = null;
+		start = null;
 		menu = getImage("/imgs/menu.png");
+		left = getImage("/imgs/left-arrow.png");
+		right = getImage("/imgs/right-arrow.png");
 	}
 	public void leaveHelp() {
 		img = getImage("/imgs/homescreen.png");
@@ -107,9 +123,12 @@ public class Background {
 		hard = getImage("imgs/hard.png");
 		help = getImage("/imgs/help.png");
 		menu = null;
+		left = null;
+		right = null;
 	}
 	public void setBackground(String imageName) {
 		img = getImage(imageName);
+		start = getImage("/imgs/start.png");
 		easy = null;
 		medium = null;
 		hard = null;
@@ -121,6 +140,9 @@ public class Background {
 		medium = getImage("/imgs/medium.png");
 		hard = getImage("/imgs/hard.png");
 		help = getImage("/imgs/help.png");
+		left = null;
+		right = null;
+		start = null;
 		menu = null;
 	}
 }

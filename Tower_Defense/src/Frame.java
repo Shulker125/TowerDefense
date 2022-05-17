@@ -79,9 +79,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 			for (Virus v : virus) {
 				v.paint(g);
-				if(v.getX() > 500 && v.getY() > 550) {
-					attackReset(v);
-				}
 				v.setGameStarted();
 			}
 			for (Soap s : soap) {
@@ -165,6 +162,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		paintErrors(g);
 		paintDefenderGUI(g);
 		p = MouseInfo.getPointerInfo().getLocation();
+		}
 	}
 	public static void main(String[] arg) {
 		Frame f = new Frame();

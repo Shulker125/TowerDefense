@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.net.URL;
 
@@ -34,6 +35,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Flamethrower> flame = new ArrayList<Flamethrower>();
 	ArrayList<Sanitizer> sanitizer = new ArrayList<Sanitizer>();
 	ArrayList<Virus> virus = new ArrayList<Virus>(); 
+	ArrayList<Rectangle> virusRectangles = new ArrayList<Rectangle>();
+	ArrayList<Rectangle> soapRectangles = new ArrayList<Rectangle>();
+	ArrayList<Rectangle> sanitizerRectangles = new ArrayList<Rectangle>();
+	ArrayList<Rectangle> bleachRectangles = new ArrayList<Rectangle>();
+	ArrayList<Rectangle> flamethrowerRectangles = new ArrayList<Rectangle>();
 	Point p = MouseInfo.getPointerInfo().getLocation();
 	Picture game = new Picture("bigBackground.png");
 	Pixel[][] pixel = game.getPixels2D();
@@ -67,7 +73,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		if (!isOnHomescreen) {
 			if (gameStarted) {
-
+				
+				//timing for spawning
 				timeAttack = System.currentTimeMillis() - startAttack;
 				if(virus.size() < level &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
 					spawnAttack();
@@ -75,6 +82,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					startAttack = System.currentTimeMillis();
 				}
 				
+				//firing for defenders
 				if(soap.size() > 1) {
 					timeDefend1 = System.currentTimeMillis() - startDefend1;
 					for(Soap s: soap) {
@@ -127,6 +135,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if (soap.size() > 1) {
 				//System.out.println(soap.get(1).getX() + "," + soap.get(1).getY());
 			}
+			
+			//painting defenders
 			for (Virus v : virus) {
 				v.paint(g);
 				v.setGameStarted();
@@ -152,6 +162,45 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.projectileMove(100, 100);
 			}
 			
+			//creating hitboxes for viruses
+			//g.drawRect(100, 150, 40, 40);
+			for(Virus v: virus) {
+				virusRectangles.add(new Rectangle(v.getX(), v.getY(), 40, 40));
+				g.drawRect(v.getX(), v.getY(), 40, 40);
+				for(Rectangle r: virusRectangles) {
+					//g.drawRect((int)r.getX(), (int)r.getY(), r.width, r.height);
+				}
+			}
+			for(Soap s: soap) {
+				ArrayList<Projectile> projectile = s.getProjectile();
+				for(Projectile p: projectile) {
+					soapRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
+					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+				}
+			}
+			for(Sanitizer s: sanitizer) {
+				ArrayList<Projectile> projectile = s.getProjectile();
+				for(Projectile p: projectile) {
+					sanitizerRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
+					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+				}
+			}
+			for(Bleach s: bleach) {
+				ArrayList<Projectile> projectile = s.getProjectile();
+				for(Projectile p: projectile) {
+					bleachRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
+					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+				}
+			}
+			for(Flamethrower s: flame) {
+				ArrayList<Projectile> projectile = s.getProjectile();
+				for(Projectile p: projectile) {
+					flamethrowerRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
+					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+				}
+			}
+			
+
 
 			
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -190,6 +239,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		start = System.currentTimeMillis();
+		
+		//manual firing for defenders
 		int key = e.getKeyCode();
 		if (key == 32) {
 			//System.out.println(calculateClosestToSoap(soap.get(1)));
@@ -327,6 +378,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (e.getButton() == 3) {
 			System.out.println(cursorX + "," + cursorY);
 		}
+		
+		//clicking buttons
 		if(e.getButton() == 1) {
 			openSoapGUI = false;
 			openBleachGUI = false;
@@ -334,6 +387,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			openFlameGUI = false;
 			if (isOnHomescreen && !isOnHelpscreen) {
 				back.menu = null;
+				//easy
 				if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 0;
 					back.setBackground("/imgs/Background.png");
@@ -345,6 +399,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 					attackStagger = 15;
 				}
+				//medium
 				if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 1;
 					back.setBackground("/imgs/Background.png");
@@ -356,6 +411,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 					attackStagger = 10;
 				}
+				//hard
 				if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
 					difficulty = 2;
 					back.setBackground("imgs/Background.png");
@@ -367,6 +423,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 					attackStagger = 5;
 				}
+				//help
 				if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
 					back.enterHelp();
 					helpScreen1 = getImage("/imgs/helpWalkthrough1.gif");
@@ -375,6 +432,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 			else { 
 				
+				//back to home screen
 				if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 					back.returnToMenu();
 					soap.clear();
@@ -585,6 +643,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		virus.get(virus.size()-1).setGameStarted();
 	}
 	
+	//calculating closest virus to certain defender
 	public Virus calculateClosestToSoap(Soap s) {
 		int x1 = s.getX();
 		int y1 = s.getY();

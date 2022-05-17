@@ -7,14 +7,13 @@ import java.net.URL;
 
 public class Virus {
 	public Image virus1, virus2, virus3, virus4, virus5, virus6;
-	private int x, y, speed;  //for now, max speed is 5
+	private int x, y, speed, type;  //for now, max speed is 5
 	private boolean gameStarted;
 	private AffineTransform tx;
 	
-	public Virus(int x, int y, int speed1) {
+	public Virus(int x, int y) {
 		this.x = x;
 		this.y = y;
-		speed = speed1;
 		virus1 = null;
 		virus2 = null;
 		virus3 = null;
@@ -22,6 +21,27 @@ public class Virus {
 		virus5 = null;
 		virus6 = null;
 		gameStarted = false;
+		int rnd = (int)(Math.random() * 6 + 1);
+		switch (rnd) {
+			case 1: 
+				spawn1();
+				break;
+			case 2:
+				spawn2();
+				break;
+			case 3:
+				spawn3();
+				break;
+			case 4:
+				spawn4();
+				break;
+			case 5:
+				spawn5();
+				break;
+			case 6:
+				spawn6();
+				break;
+		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
 									//use your variables
@@ -99,31 +119,38 @@ public class Virus {
 	}
 	
 	public void spawn() {
-		virus1 = getImage("/imgs/virus1.png");
-		virus2 = getImage("/imgs/virus2.png");
-		virus3 = getImage("/imgs/virus3.png");
-		virus4 = getImage("/imgs/virus4.png");
-		virus5 = getImage("/imgs/virus5.png");
-		virus6 = getImage("/imgs/virus6.png");
+		
 	}
 	
 	public void spawn1() {
 		virus1 = getImage("/imgs/virus1.png");
+		type = 1;
+		speed = 2;
 	}
 	public void spawn2() {
-		virus2 = getImage("/imgs/virus2.png");
+		virus1 = getImage("/imgs/virus2.png");
+		type = 2;
+		speed = 2;
 	}
 	public void spawn3() {
-		virus3 = getImage("/imgs/virus3.png");
+		virus1 = getImage("/imgs/virus3.png");
+		type = 3;
+		speed = 3;
 	}
 	public void spawn4() {
-		virus4 = getImage("/imgs/virus4.png");
+		virus1 = getImage("/imgs/virus4.png");
+		type = 4;
+		speed = 4;
 	}
 	public void spawn5() {
-		virus5 = getImage("/imgs/virus5.png");
+		virus1 = getImage("/imgs/virus5.png");
+		type = 5;
+		speed = 4;
 	}
 	public void spawn6() {
-		virus6 = getImage("/imgs/virus6.png");
+		virus1 = getImage("/imgs/virus6.png");
+		type = 6;
+		speed = 5;
 	}
 	
 	public void homescreenVirus() {
@@ -150,6 +177,9 @@ public class Virus {
 	}
 	public void setY(int y1) {
 		y = y1;
+	}
+	public int getType(){
+		return type;
 	}
 	
 }

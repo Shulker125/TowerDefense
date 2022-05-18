@@ -16,8 +16,6 @@ public class Background {
 		medium = getImage("/imgs/medium.png");
 		help = getImage("/imgs/help.png");
 		hard = getImage("/imgs/hard.png");
-		left = null;
-		right = null;
 		start = null;
 		menu = null;
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -43,8 +41,6 @@ public class Background {
 		g2.drawImage(menu, 10, 10, 100, 50, null);
 		g2.drawImage(help, 250, 370, 100, 50, null);
 		g2.drawImage(start, 10, 430, 120, 50, null);
-		g2.drawImage(left, 20, 490, 100, 50, null);
-		g2.drawImage(right, 450, 490, 100, 50, null);
 		
 
 	}
@@ -113,8 +109,6 @@ public class Background {
 		help = null;
 		start = null;
 		menu = getImage("/imgs/menu.png");
-		left = getImage("/imgs/left-arrow.png");
-		right = getImage("/imgs/right-arrow.png");
 	}
 	public void leaveHelp() {
 		img = getImage("/imgs/homescreen.png");
@@ -123,8 +117,6 @@ public class Background {
 		hard = getImage("imgs/hard.png");
 		help = getImage("/imgs/help.png");
 		menu = null;
-		left = null;
-		right = null;
 	}
 	public void setBackground(String imageName) {
 		img = getImage(imageName);
@@ -140,8 +132,6 @@ public class Background {
 		medium = getImage("/imgs/medium.png");
 		hard = getImage("/imgs/hard.png");
 		help = getImage("/imgs/help.png");
-		left = null;
-		right = null;
 		start = null;
 		menu = null;
 	}

@@ -43,7 +43,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public int cursorX, cursorY;
 	public int money = 20000;
 	public int index = 0;
-	public int level = 10;
+	public int level = 1;
 	public boolean isOnHomescreen = true, isOnHelpscreen = false, isPointerActive = false, placementError = false, fundError = false, upgradeError = false, openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false, gameStarted = false;
 	public long start = System.currentTimeMillis();
 	public long startAttack;
@@ -69,7 +69,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if (gameStarted) {
 				back.start = null;
 				timeAttack = System.currentTimeMillis() - startAttack;
-				if(virus.size() < level &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
+				if(virus.size() < level * 2 &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
 					spawnAttack();
 					timeAttack = 0;
 					startAttack = System.currentTimeMillis();
@@ -191,116 +191,106 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		start = System.currentTimeMillis();
 		int key = e.getKeyCode();
-		if (key == 32) {
-			//System.out.println(calculateClosestToSoap(soap.get(1)));
-			Virus v = calculateClosestToSoap(soap.get(1));
-			soap.get(1).fire(v.getX(), v.getY());
-		}
-		if(key == 65) {
-			Virus v = calculateClosestToSanitizer(sanitizer.get(1));
-			sanitizer.get(1).fire(v.getX(), v.getY());
-		}
-		if(key == 70) {
-			Virus v = calculateClosestToFlamethrower(flame.get(1));
-			flame.get(1).fire(v.getX(), v.getY());
-		}
-		if(key == 68) {
-			Virus v = calculateClosestToBleach(bleach.get(1));
-			bleach.get(1).fire(v.getX(), v.getY());
-		}
-		if (key == 83) {
-			if (openSoapGUI) {
-				if (soap.get(index).getUpgrade()) {
-					money += soap.get(0).getUpgradeCost();
-				}
-				soap.remove(index);
-				money += soap.get(0).getCost();
-				openSoapGUI = false;
-			}
-			if (openBleachGUI) {
-				if (bleach.get(index).getUpgrade()) {
-					money += bleach.get(0).getUpgradeCost();
-				}
-				bleach.remove(index);
-				money += bleach.get(0).getCost();
-				openBleachGUI = false;
-			}
-			if (openSanGUI) {
-				if (sanitizer.get(index).getUpgrade()) {
-					money += sanitizer.get(0).getUpgradeCost();
-				}
-				sanitizer.remove(index);
-				money += sanitizer.get(0).getCost();
-				openSanGUI = false;
-			}
-			if (openFlameGUI) {
-				if (flame.get(index).getUpgrade()) {
-					money += flame.get(0).getUpgradeCost();
-				}
-				flame.remove(index);
-				money += flame.get(0).getCost();
-				openFlameGUI = false;
-			}
-		}
-		if (key == 89) {
-			if (openSoapGUI) {
-				if (soap.get(index).getUpgrade()) {
-					upgradeError = true;
-				}
-				if (money >= soap.get(index).getUpgradeCost() && !soap.get(index).getUpgrade()) {
-					money -= soap.get(index).getUpgradeCost();
-					soap.get(index).upgrade();
+		switch(key) {
+			case 10:
+				gameStarted = false;
+				virus.clear();
+				level++;
+				break;
+			case 83:
+				if (openSoapGUI) {
+					if (soap.get(index).getUpgrade()) {
+						money += soap.get(0).getUpgradeCost();
+					}
+					soap.remove(index);
+					money += soap.get(0).getCost();
 					openSoapGUI = false;
 				}
-				else if (money < soap.get(index).getUpgradeCost()){
-					fundError = true;
-				}
-			}
-			else if (openBleachGUI) {
-				if (bleach.get(index).getUpgrade()) {
-					upgradeError = true;
-				}
-				if (money >= bleach.get(index).getUpgradeCost() && !bleach.get(index).getUpgrade()) {
-					money -= bleach.get(index).getUpgradeCost();
-					bleach.get(index).upgrade();
+				if (openBleachGUI) {
+					if (bleach.get(index).getUpgrade()) {
+						money += bleach.get(0).getUpgradeCost();
+					}
+					bleach.remove(index);
+					money += bleach.get(0).getCost();
 					openBleachGUI = false;
 				}
-				else if (money < bleach.get(index).getUpgradeCost()){
-					fundError = true;
-				}
-			}
-			else if (openSanGUI) {
-				if (sanitizer.get(index).getUpgrade()) {
-					upgradeError = true;
-				}
-				if (money >= sanitizer.get(index).getUpgradeCost() && !sanitizer.get(index).getUpgrade()) {
-					money -= sanitizer.get(index).getUpgradeCost();
-					sanitizer.get(index).upgrade();
+				if (openSanGUI) {
+					if (sanitizer.get(index).getUpgrade()) {
+						money += sanitizer.get(0).getUpgradeCost();
+					}
+					sanitizer.remove(index);
+					money += sanitizer.get(0).getCost();
 					openSanGUI = false;
 				}
-				else if (money < sanitizer.get(index).getUpgradeCost()){
-					fundError = true;
-				}
-			}
-			else if (openFlameGUI) {
-				if (flame.get(index).getUpgrade()) {
-					upgradeError = true;
-				}
-				if (money >= flame.get(index).getUpgradeCost() && !flame.get(index).getUpgrade()) {
-					money -= flame.get(index).getUpgradeCost();
-					flame.get(index).upgrade();
+				if (openFlameGUI) {
+					if (flame.get(index).getUpgrade()) {
+						money += flame.get(0).getUpgradeCost();
+					}
+					flame.remove(index);
+					money += flame.get(0).getCost();
 					openFlameGUI = false;
 				}
-				else if (money < flame.get(index).getUpgradeCost()){
-					fundError = true;
+				break;
+			case 89:
+				if (openSoapGUI) {
+					if (soap.get(index).getUpgrade()) {
+						upgradeError = true;
+					}
+					if (money >= soap.get(index).getUpgradeCost() && !soap.get(index).getUpgrade()) {
+						money -= soap.get(index).getUpgradeCost();
+						soap.get(index).upgrade();
+						openSoapGUI = false;
+					}
+					else if (money < soap.get(index).getUpgradeCost()){
+						fundError = true;
+					}
 				}
-			}
-		}
-		else if (key == 78) {
-			openSoapGUI = false;
-			openBleachGUI = false;
-			openSanGUI = false;
-			openFlameGUI = false;
+				else if (openBleachGUI) {
+					if (bleach.get(index).getUpgrade()) {
+						upgradeError = true;
+					}
+					if (money >= bleach.get(index).getUpgradeCost() && !bleach.get(index).getUpgrade()) {
+						money -= bleach.get(index).getUpgradeCost();
+						bleach.get(index).upgrade();
+						openBleachGUI = false;
+					}
+					else if (money < bleach.get(index).getUpgradeCost()){
+						fundError = true;
+					}
+				}
+				else if (openSanGUI) {
+					if (sanitizer.get(index).getUpgrade()) {
+						upgradeError = true;
+					}
+					if (money >= sanitizer.get(index).getUpgradeCost() && !sanitizer.get(index).getUpgrade()) {
+						money -= sanitizer.get(index).getUpgradeCost();
+						sanitizer.get(index).upgrade();
+						openSanGUI = false;
+					}
+					else if (money < sanitizer.get(index).getUpgradeCost()){
+						fundError = true;
+					}
+				}
+				else if (openFlameGUI) {
+					if (flame.get(index).getUpgrade()) {
+						upgradeError = true;
+					}
+					if (money >= flame.get(index).getUpgradeCost() && !flame.get(index).getUpgrade()) {
+						money -= flame.get(index).getUpgradeCost();
+						flame.get(index).upgrade();
+						openFlameGUI = false;
+					}
+					else if (money < flame.get(index).getUpgradeCost()){
+						fundError = true;
+					}
+				}
+				break;
+			case 78:
+				openSoapGUI = false;
+				openBleachGUI = false;
+				openSanGUI = false;
+				openFlameGUI = false;
+				break;
 		}
 		
 		
@@ -384,6 +374,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 						v.homescreenVirus();
 					}
 					virus.clear();
+					level = 1;
 				}
 				if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen) {
 					setGameStarted();
@@ -584,7 +575,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	
 	public void spawnAttack() {
-		virus.add(new Virus(0, 435));
+		virus.add(new Virus(0, 435, level));
 		virus.get(virus.size()-1).setGameStarted();
 	}
 	
@@ -801,6 +792,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void setGameStarted() {
 		gameStarted = true;
 		startAttack = System.currentTimeMillis();
+		if (difficulty == 0 && level % 2 == 0 && attackStagger > 1) {
+			attackStagger--;
+		}
+		else if (difficulty == 1 && level % 3 == 0 && attackStagger > 1) {
+			attackStagger--;
+		}
+		else if (difficulty == 2 && level % 5 == 0 && attackStagger > 1) {
+			attackStagger--;
+		}
 
 	}
 }

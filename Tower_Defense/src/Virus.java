@@ -33,13 +33,16 @@ public class Virus {
 			rnd = (int)(Math.random() * 3)+1;
 		}
 		else if (level >= 9 && level <= 10) {
-			rnd = (int)(Math.random() * 4)+1;
+			rnd = (int)(Math.random() * 3)+2;
 		}
 		else if (level >= 11 && level <= 12) {
-			rnd = (int)(Math.random() * 5)+1;
+			rnd = (int)(Math.random() * 3)+3;
+		}
+		else if (level >= 13 && level <= 30){
+			rnd = (int)(Math.random() * 4)+3;
 		}
 		else {
-			rnd = (int)(Math.random() * 6)+1;
+			rnd = (int)(Math.random()* 3)+ 4;
 		}
 		switch (rnd) {
 			case 1: 

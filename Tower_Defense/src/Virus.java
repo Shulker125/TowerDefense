@@ -181,5 +181,9 @@ public class Virus {
 	public int getType(){
 		return type;
 	}
+	public void reset() {
+		x = 0;
+		y = 435;
+	}
 	
 }

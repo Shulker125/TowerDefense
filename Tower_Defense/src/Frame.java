@@ -14,6 +14,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
 import java.awt.MouseInfo;
@@ -164,40 +165,83 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 			//creating hitboxes for viruses
 			//g.drawRect(100, 150, 40, 40);
-			for(Virus v: virus) {
-				virusRectangles.add(new Rectangle(v.getX(), v.getY(), 40, 40));
-				g.drawRect(v.getX(), v.getY(), 40, 40);
-				for(Rectangle r: virusRectangles) {
-					//g.drawRect((int)r.getX(), (int)r.getY(), r.width, r.height);
+			try {
+				for(Virus v: virus) {
+					//virusRectangles.add(new Rectangle(v.getX(), v.getY(), 40, 40));
+					Rectangle r = new Rectangle(v.getX(), v.getY(), 40, 40);
+					g.drawRect(v.getX(), v.getY(), 40, 40);
+					//System.out.println(virusRectangles.size());
+				
+					for(Soap s: soap) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 50);
+							g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								s.removeProjectile(p);
+								//System.out.println("yes");
+							}
+						}
+					}
+					for(Sanitizer s: sanitizer) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 20, 30);
+							g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								s.removeProjectile(p);
+								//System.out.println("yes");
+							}
+						}
+					}
+					for(Bleach s: bleach) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 35);
+							g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								s.removeProjectile(p);
+								//System.out.println("yes");
+							}
+						}
+					}
+					for(Flamethrower s: flame) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 27, 34);
+							g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								s.removeProjectile(p);
+								//System.out.println("yes");
+							}
+						}
+					}
+				
+				//whoo colorful
+//				for(Rectangle r: virusRectangles) {
+//					int red = (int)(Math.random() * 256);
+//					int green = (int)(Math.random() * 256);
+//					int blue = (int)(Math.random() * 256);
+//					Color c = new Color(red, green, blue);
+//					g.setColor(c);
+//					g.drawRect((int)r.getX(), (int)r.getY(), r.width, r.height);
+//				}
 				}
+			} catch(ConcurrentModificationException e) {
+				
 			}
-			for(Soap s: soap) {
-				ArrayList<Projectile> projectile = s.getProjectile();
-				for(Projectile p: projectile) {
-					soapRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
-					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
-				}
-			}
+			
 			for(Sanitizer s: sanitizer) {
 				ArrayList<Projectile> projectile = s.getProjectile();
-				for(Projectile p: projectile) {
-					sanitizerRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
-					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
-				}
+				sanitizerRectangles = s.getHitbox();
 			}
 			for(Bleach s: bleach) {
 				ArrayList<Projectile> projectile = s.getProjectile();
-				for(Projectile p: projectile) {
-					bleachRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
-					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
-				}
+				bleachRectangles = s.getHitbox();
 			}
 			for(Flamethrower s: flame) {
 				ArrayList<Projectile> projectile = s.getProjectile();
-				for(Projectile p: projectile) {
-					flamethrowerRectangles.add(new Rectangle((int)p.getX(), (int)p.getY(), 40, 50));
-					g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
-				}
+				flamethrowerRectangles = s.getHitbox();
 			}
 			
 

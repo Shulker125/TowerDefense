@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class Bleach{
 	private Image img;
 	private ArrayList<Projectile> projectile;
+	private ArrayList<Rectangle> hitboxes;
 	private AffineTransform tx;
 	private double scale;
 	private boolean hover, upgrade;
@@ -16,6 +18,7 @@ public class Bleach{
 	public Bleach(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/bleach.png");
 		projectile = new ArrayList<Projectile>();
+		hitboxes = new ArrayList<Rectangle>();
 		tx = AffineTransform.getTranslateInstance(x, y);
 		this.x = x;
 		this.y = y;
@@ -40,6 +43,7 @@ public class Bleach{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img,  tx, null);
 		for (Projectile p : projectile) {
+			//drawing projectiles
 			p.paint(g);
 		}
 	}
@@ -91,6 +95,12 @@ public class Bleach{
 	}
 	public ArrayList<Projectile> getProjectile() {
 		return projectile;
+	}
+	public ArrayList<Rectangle> getHitbox() {
+		return hitboxes;
+	}
+	public void removeProjectile(Projectile p) {
+		projectile.remove(p);
 	}
 	public boolean isInHitbox(int pointerX, int pointerY) {
 		if (pointerX-10 >= x && pointerX-10 <= x+63 && pointerY-40 >= y && pointerY-40 <= y+63) {

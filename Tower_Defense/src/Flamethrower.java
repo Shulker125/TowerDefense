@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class Flamethrower{
 	private Image img;
 	private ArrayList<Projectile> projectile;
+	private ArrayList<Rectangle> hitboxes;
 	private AffineTransform tx;
 	private double scale;
 	private boolean hover, upgrade;
@@ -16,6 +18,7 @@ public class Flamethrower{
 	public Flamethrower(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/flamethrower.png");
 		projectile = new ArrayList<Projectile>();
+		hitboxes = new ArrayList<Rectangle>();
 		tx = AffineTransform.getTranslateInstance(x, y);
 		this.x = x;
 		this.y = y;
@@ -40,7 +43,11 @@ public class Flamethrower{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img,  tx, null);
 		for (Projectile p : projectile) {
+			//drawing projectiles
 			p.paint(g);
+			//drawing hitboxes
+			hitboxes.add(new Rectangle((int)p.getX(), (int)p.getY(), 27, 34));
+			g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
 		}
 	}
 	private void init(double a, double b) {
@@ -91,6 +98,12 @@ public class Flamethrower{
 	}
 	public ArrayList<Projectile> getProjectile() {
 		return projectile;
+	}
+	public ArrayList<Rectangle> getHitbox() {
+		return hitboxes;
+	}
+	public void removeProjectile(Projectile p) {
+		projectile.remove(p);
 	}
 	public boolean isInHitbox(int pointerX, int pointerY) {
 		if (pointerX-10 >= x && pointerX-10 <= x+63 && pointerY-40 >= y && pointerY-40 <= y+63) {

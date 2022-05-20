@@ -89,6 +89,12 @@ public class Soap{
 	public boolean getUpgrade() {
 		return upgrade;
 	}
+	public ArrayList<Projectile> getProjectile() {
+		return projectile;
+	}
+	public void removeProjectile(Projectile p) {
+		projectile.remove(p);
+	}
 	public boolean isInHitbox(int pointerX, int pointerY) {
 		if (pointerX-10 >= x && pointerX-10 <= x+63 && pointerY-40 >= y && pointerY-40 <= y+63) {
 			return true;

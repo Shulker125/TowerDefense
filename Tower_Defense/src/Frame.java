@@ -14,10 +14,12 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.net.URL;
 
@@ -160,6 +162,66 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.projectileMove(100, 100);
 			}
 			
+			//creating hitboxes for viruses
+			try {
+				for(Virus v: virus) {
+					Rectangle r = new Rectangle(v.getX(), v.getY(), 40, 40);
+					g.drawRect(v.getX(), v.getY(), 40, 40);
+				
+					for(Soap s: soap) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 50);
+							g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								s.removeProjectile(p);
+							}
+						}
+					}
+					for(Sanitizer s: sanitizer) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 20, 30);
+							g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								s.removeProjectile(p);
+							}
+						}
+					}
+					for(Bleach s: bleach) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 35);
+							g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								s.removeProjectile(p);
+							}
+						}
+					}
+					for(Flamethrower s: flame) {
+						for(Projectile p: s.getProjectile()) {
+							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 27, 34);
+							g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
+							if(r.intersects(sRect)) {
+								virus.remove(v);
+								//s.removeProjectile(p);
+							}
+						}
+					}
+				
+				//whoo colorful
+//				for(Rectangle r: virusRectangles) {
+//					int red = (int)(Math.random() * 256);
+//					int green = (int)(Math.random() * 256);
+//					int blue = (int)(Math.random() * 256);
+//					Color c = new Color(red, green, blue);
+//					g.setColor(c);
+//					g.drawRect((int)r.getX(), (int)r.getY(), r.width, r.height);
+//				}
+				}
+			} catch(ConcurrentModificationException e) {
+				
+			}
 
 			
 			g.setFont(new Font("Arial", Font.PLAIN, 20));

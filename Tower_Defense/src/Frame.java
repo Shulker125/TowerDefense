@@ -46,6 +46,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public int money = 20000;
 	public int index = 0;
 	public int level = 1;
+	public int numVirus = 1;
+	public int virusSpawned = 0;
 	public int hp = 100;
 	public boolean isOnHomescreen = true, isOnHelpscreen = false, isPointerActive = false, placementError = false, fundError = false, upgradeError = false, openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false, gameStarted = false, levelSwitch = false, gameOver = false;
 	public long start = System.currentTimeMillis();
@@ -75,7 +77,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if (gameStarted) {
 				back.start = null;
 				timeAttack = System.currentTimeMillis() - startAttack;
-				if(virus.size() < level * 2 &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
+				if(virus.size() < numVirus &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
 					spawnAttack();
 					timeAttack = 0;
 					startAttack = System.currentTimeMillis();
@@ -612,6 +614,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void spawnAttack() {
 		virus.add(new Virus(0, 435, level));
 		virus.get(virus.size()-1).setGameStarted();
+		virusSpawned++;
 	}
 	
 	public Virus calculateClosestToSoap(Soap s) {
@@ -842,18 +845,24 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void setGameStarted() {
 		levelSwitch = true;
 		gameStarted = true;
+		virusSpawned = 0;
+		numVirus = level * 2;
 		spawnAttack();
 		startAttack = System.currentTimeMillis();
 
 	}
 	public boolean isGameEnded() {
-		if (gameStarted && virus.size() == 0) {
+		if (virusSpawned < numVirus) {
+			return false;
+		}
+		else if (gameStarted && virus.size() == 0) {
 			return true;
 		}
 		for (Virus v : virus) {
 			if (v.getY() < 600) {
 				return false;
 			}
+			
 		}
 		return true;
 		
@@ -921,4 +930,5 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 	}
+	
 }

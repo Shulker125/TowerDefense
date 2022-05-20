@@ -44,7 +44,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public int money = 20000;
 	public int index = 0;
 	public int level = 1;
-	public boolean isOnHomescreen = true, isOnHelpscreen = false, isPointerActive = false, placementError = false, fundError = false, upgradeError = false, openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false, gameStarted = false, levelSwitch = false;
+	public int hp = 100;
+	public boolean isOnHomescreen = true, isOnHelpscreen = false, isPointerActive = false, placementError = false, fundError = false, upgradeError = false, openSoapGUI = false, openSanGUI = false, openBleachGUI = false, openFlameGUI = false, gameStarted = false, levelSwitch = false, gameOver = false;
 	public long start = System.currentTimeMillis();
 	public long startAttack;
 	public long timeAttack;
@@ -133,6 +134,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			for (Virus v : virus) {
 				v.paint(g);
 				v.setGameStarted();
+				if (v.getY() > 580 && !v.getHasDamaged()) {
+					hp -= v.getDamage();
+					v.setHasDamaged(true);
+				}
 			}
 			for (Soap s : soap) {
 				s.paint(g);
@@ -160,6 +165,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
 			g.drawString("Balance", 10, 78);
 			g.drawString("$"+money, 10, 95);
+			g.drawString("HP", 95, 78);
+			g.drawString(hp + "%", 85, 95);
 			g.drawString("$" + soap.get(0).getCost(), 160, 95);
 			g.drawString("$" + sanitizer.get(0).getCost(), 255, 95);
 			g.drawString("$" + bleach.get(0).getCost(), 360, 95);
@@ -322,37 +329,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				if (isOnHomescreen && !isOnHelpscreen) {
 					back.menu = null;
 					if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
-						difficulty = 0;
-						back.setBackground("/imgs/Background.png");
-						back.returnMenu();
-						isOnHomescreen = false;
-						soap.add(new Soap(150, 10, 2.5, false, difficulty));
-						bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
-						flame.add(new Flamethrower(450, 10, 3, false, difficulty));
-						sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-						attackStagger = 15;
+						setDifficulty(0);
 					}
 					if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
-						difficulty = 1;
-						back.setBackground("/imgs/Background.png");
-						back.returnMenu();
-						isOnHomescreen = false;
-						soap.add(new Soap(150, 10, 2.5, false, difficulty));
-						bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
-						flame.add(new Flamethrower(450, 10, 3, false, difficulty));
-						sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-						attackStagger = 10;
+						setDifficulty(1);
 					}
 					if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
-						difficulty = 2;
-						back.setBackground("imgs/Background.png");
-						back.returnMenu();
-						isOnHomescreen = false;
-						soap.add(new Soap(150, 10, 2.5, false, difficulty));
-						bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
-						flame.add(new Flamethrower(450, 10, 3, false, difficulty));
-						sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-						attackStagger = 5;
+						setDifficulty(2);
 					}
 					if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
 						back.enterHelp();
@@ -363,21 +346,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				else { 
 					
 					if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
-						back.returnToMenu();
-						soap.clear();
-						bleach.clear();
-						sanitizer.clear();
-						flame.clear();
-						money = 200;
-						isOnHomescreen = true;
-						isOnHelpscreen = false;
-						gameStarted = false;
-						helpScreen1 = null;
-						for(Virus v: virus) {
-							v.homescreenVirus();
-						}
-						virus.clear();
-						level = 1;
+						reset();
 					}
 					if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen) {
 						setGameStarted();
@@ -827,6 +796,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		return true;
 		
 	}
+	public void setGameFailed() {
+		if (hp <= 0) {
+			gameOver = true;
+			gameStarted = false;
+			virus.clear();
+		}
+	}
 	public void nextLevel() {
 		gameStarted = false;
 		virus.clear();
@@ -840,5 +816,47 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		else if (difficulty == 2 && level % 5 == 0 && attackStagger > 1) {
 			attackStagger--;
 		}
+	}
+	public void reset() {
+		back.returnToMenu();
+		soap.clear();
+		bleach.clear();
+		sanitizer.clear();
+		flame.clear();
+		money = 200;
+		isOnHomescreen = true;
+		isOnHelpscreen = false;
+		gameStarted = false;
+		helpScreen1 = null;
+		for(Virus v: virus) {
+			v.homescreenVirus();
+		}
+		virus.clear();
+		level = 1;
+		hp = 100;
+	}
+	public void setDifficulty(int num) {
+		back.setBackground("/imgs/Background.png");
+		back.returnMenu();
+		isOnHomescreen = false;
+		soap.add(new Soap(150, 10, 2.5, false, difficulty));
+		bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
+		flame.add(new Flamethrower(450, 10, 3, false, difficulty));
+		sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
+		switch(num) {
+			case 0:
+				difficulty = 0;
+				attackStagger = 15;
+				break;
+			case 1:
+				difficulty = 1;
+				attackStagger = 10;
+				break;
+			case 2:
+				difficulty = 2;
+				attackStagger = 5;
+				break;
+		}
+		
 	}
 }

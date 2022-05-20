@@ -6,22 +6,40 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Virus {
-	public Image virus1, virus2, virus3, virus4, virus5, virus6;
-	private int x, y, speed, type;  //for now, max speed is 5
-	private boolean gameStarted;
+	public Image virus1;
+	private int x, y, speed, type, damage;  //for now, max speed is 5
+	private boolean gameStarted, hasDamaged;
 	private AffineTransform tx;
 	
-	public Virus(int x, int y) {
+	public Virus(int x, int y, int level) {
 		this.x = x;
 		this.y = y;
 		virus1 = null;
-		virus2 = null;
-		virus3 = null;
-		virus4 = null;
-		virus5 = null;
-		virus6 = null;
 		gameStarted = false;
-		int rnd = (int)(Math.random() * 6 + 1);
+		hasDamaged = false;
+		int rnd = 0;
+		if (level >= 1 && level <= 3) {
+			rnd = 1;
+		}
+		else if (level >= 4 && level <= 5) {
+			rnd = (int)(Math.random() * 2)+1;
+			
+		}
+		else if (level >= 6 && level <= 8) {
+			rnd = (int)(Math.random() * 3)+1;
+		}
+		else if (level >= 9 && level <= 10) {
+			rnd = (int)(Math.random() * 3)+2;
+		}
+		else if (level >= 11 && level <= 12) {
+			rnd = (int)(Math.random() * 3)+3;
+		}
+		else if (level >= 13 && level <= 30){
+			rnd = (int)(Math.random() * 4)+3;
+		}
+		else {
+			rnd = (int)(Math.random()* 3)+ 4;
+		}
 		switch (rnd) {
 			case 1: 
 				spawn1();
@@ -58,11 +76,6 @@ public class Virus {
 		
 		
 		g2.drawImage(virus1, x, y, 40, 40, null);
-		g2.drawImage(virus2, x, y, 40, 40, null);
-		g2.drawImage(virus3, x, y, 40, 40, null);
-		g2.drawImage(virus4, x, y, 40, 40, null);
-		g2.drawImage(virus5, x, y, 40, 40, null);
-		g2.drawImage(virus6, x, y, 40, 40, null);
 	}
 	
 	private void update() {
@@ -81,11 +94,11 @@ public class Virus {
 			y += speed;
 		}else if(y < 240 && y < 260 && x < 450) {
 			x += speed;
-		}else if(y > 150 && y < 240 && x < 455) {
+		}else if(y > 150 && y < 240 && x < 460) {
 			y -= speed;
 		}else if(y > 145 && y < 165 && x < 535) {
 			x += speed;
-		}else if(y < 335 && x < 540) {
+		}else if(y < 335 && x < 545) {
 			y += speed;
 		}else if(y < 340 && x > 265) {
 			x -= speed;
@@ -95,7 +108,7 @@ public class Virus {
 			x += speed;
 		}else if(y > 410 && x > 390 && x < 430) {
 			y -= speed;
-		}else if(y > 405 && x < 525) {
+		}else if(y > 400 && x < 525) {
 			x += speed;
 		}else if(y < 600 && x < 530) {
 			y += speed;
@@ -126,40 +139,41 @@ public class Virus {
 		virus1 = getImage("/imgs/virus1.png");
 		type = 1;
 		speed = 2;
+		damage = 1;
 	}
 	public void spawn2() {
 		virus1 = getImage("/imgs/virus2.png");
 		type = 2;
-		speed = 2;
+		speed = 3;
+		damage = 1;
 	}
 	public void spawn3() {
 		virus1 = getImage("/imgs/virus3.png");
 		type = 3;
-		speed = 3;
+		speed = 4;
+		damage = 2;
 	}
 	public void spawn4() {
 		virus1 = getImage("/imgs/virus4.png");
 		type = 4;
-		speed = 4;
+		speed = 5;
+		damage = 3;
 	}
 	public void spawn5() {
 		virus1 = getImage("/imgs/virus5.png");
 		type = 5;
-		speed = 4;
+		speed = 6;
+		damage = 4;
 	}
 	public void spawn6() {
 		virus1 = getImage("/imgs/virus6.png");
 		type = 6;
-		speed = 5;
+		speed = 7;
+		damage = 5;
 	}
 	
 	public void homescreenVirus() {
 		virus1 = null;
-		virus2 = null;
-		virus3 = null;
-		virus4 = null;
-		virus5 = null;
-		virus6 = null;
 	}
 	
 	public void setGameStarted() {
@@ -181,5 +195,13 @@ public class Virus {
 	public int getType(){
 		return type;
 	}
-	
+	public int getDamage() {
+		return damage;
+	}
+	public boolean getHasDamaged() {
+		return hasDamaged;
+	}
+	public void setHasDamaged(boolean b) {
+		hasDamaged = b;
+	}
 }

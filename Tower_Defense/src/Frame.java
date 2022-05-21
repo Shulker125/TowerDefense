@@ -77,7 +77,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if (gameStarted) {
 				back.start = null;
 				timeAttack = System.currentTimeMillis() - startAttack;
-				if(virus.size() < numVirus &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
+				if(virusSpawned < numVirus &&  (timeAttack/100) / attackStagger == 1 || virus.size() == 0) {
 					spawnAttack();
 					timeAttack = 0;
 					startAttack = System.currentTimeMillis();
@@ -87,7 +87,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeDefend1 = System.currentTimeMillis() - startDefend1;
 					for(Soap s: soap) {
 						Virus v = calculateClosestToSoap(s);
-						if(timeDefend1 > 500) {
+						if(timeDefend1 > 1000) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}

@@ -55,7 +55,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public long timeAttack;
 	private long startDefend1, startDefend2, startDefend3, startDefend4;
 	private long timeDefend1, timeDefend2, timeDefend3, timeDefend4;
+	private int fireRate1, fireRate2, fireRate3, fireRate4;
 	private double attackStagger;
+	private int flameCount = 0;
 	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -87,7 +89,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeDefend1 = System.currentTimeMillis() - startDefend1;
 					for(Soap s: soap) {
 						Virus v = calculateClosestToSoap(s);
-						if(timeDefend1 > 1000) {
+						if(timeDefend1 > fireRate1) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
@@ -99,7 +101,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeDefend2 = System.currentTimeMillis() - startDefend2;
 					for(Sanitizer s: sanitizer) {
 						Virus v = calculateClosestToSanitizer(s);
-						if(timeDefend2 > 500) {
+						if(timeDefend2 > fireRate2) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
@@ -111,7 +113,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeDefend3 = System.currentTimeMillis() - startDefend3;
 					for(Bleach s: bleach) {
 						Virus v = calculateClosestToBleach(s);
-						if(timeDefend3 > 500) {
+						if(timeDefend3 > fireRate3) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
@@ -123,7 +125,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeDefend4 = System.currentTimeMillis() - startDefend4;
 					for(Flamethrower s: flame) {
 						Virus v = calculateClosestToFlamethrower(s);
-						if(timeDefend4 > 500) {
+						if(timeDefend4 > fireRate4) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
@@ -164,17 +166,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.projectileMove(100, 100);
 			}
 			
-			//creating hitboxes for viruses
+			//hitboxes and collision for viruses and projectiles
 			try {
 				for(Virus v: virus) {
 					Rectangle r = new Rectangle(v.getX(), v.getY(), 40, 40);
-					g.drawRect(v.getX(), v.getY(), 40, 40);
+					//g.drawRect(v.getX(), v.getY(), 40, 40);
 				
 					for(Soap s: soap) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 50);
-							g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
 								s.removeProjectile(p);
 							}
@@ -183,8 +186,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					for(Sanitizer s: sanitizer) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 20, 30);
-							g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
 								s.removeProjectile(p);
 							}
@@ -193,8 +197,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					for(Bleach s: bleach) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 35);
-							g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
 								s.removeProjectile(p);
 							}
@@ -203,10 +208,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					for(Flamethrower s: flame) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 27, 34);
-							g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
-								//s.removeProjectile(p);
+								flameCount++;
+								if(flameCount > 2) {
+									s.removeProjectile(p);
+									flameCount = 0;
+								}
+								
 							}
 						}
 					}
@@ -266,9 +277,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		start = System.currentTimeMillis();
 		int key = e.getKeyCode();
 		switch(key) {
+			//next level
 			case 10:
 				nextLevel();
 				break;
+			//selling, key: s
 			case 83:
 				if (openSoapGUI) {
 					if (soap.get(index).getUpgrade()) {
@@ -303,6 +316,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					openFlameGUI = false;
 				}
 				break;
+			//upgrade, key: y
 			case 89:
 				if (openSoapGUI) {
 					if (soap.get(index).getUpgrade()) {
@@ -390,17 +404,22 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				openBleachGUI = false;
 				openSanGUI = false;
 				openFlameGUI = false;
+				//checking if on menu
 				if (isOnHomescreen && !isOnHelpscreen) {
 					back.menu = null;
+					//easy
 					if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 						setDifficulty(0);
 					}
+					//medium
 					if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
 						setDifficulty(1);
 					}
+					//hard
 					if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
 						setDifficulty(2);
 					}
+					//help
 					if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
 						back.enterHelp();
 						helpScreen1 = getImage("/imgs/helpWalkthrough1.gif");
@@ -409,12 +428,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 				else { 
 					
+					//back to menu
 					if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 						reset();
 					}
+					//start
 					if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen) {
 						setGameStarted();
 					}
+					//selecting
 					if (!isPointerActive) {
 						for (int i = 1; i < soap.size(); i++) {
 							if(soap.get(i).isInHitbox(cursorX, cursorY)) {
@@ -440,6 +462,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 								index = i;
 							}
 						}
+						
+						//buying defenders
 						if (cursorX >= 155 && cursorX <= 215 && cursorY >= 45 && cursorY <= 100) {
 							buyDefender(1);
 						}
@@ -454,6 +478,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 						}
 					}
 					else {
+						//placing defenders
 						if (cursorY > 130 && !isInNoZone()) {
 							for (Soap s : soap) {
 								s.setHover(false);
@@ -507,6 +532,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public void checkHover() {
+		//checking if pointer is hovering on button
+		//changes button image if pointer is hovering
 		if (isOnHomescreen && !isOnHelpscreen) {
 			if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 				back.switchEasy();
@@ -551,6 +578,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public boolean isInNoZone() {
+		//checking if defender is on track (invalid area)
+		//imperfect
 		try {
 			for (Pixel[] r : cursor) {
 				for (Pixel p : r) {
@@ -585,6 +614,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			cursorY = 0;
 		}
 	}
+	//buying defenders
 	public void buyDefender(int num) {
 		if (num == 1 && money >= soap.get(0).getCost()) {
 			soap.add(new Soap(cursorX-40, cursorY-40, 2.5, true, difficulty));
@@ -607,16 +637,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			money -= flame.get(0).getCost();
 		}
 		else {
+			//not enough money
 			fundError = true;
 		}
 	}
-	
+	//spawning viruses
 	public void spawnAttack() {
 		virus.add(new Virus(0, 435, level));
 		virus.get(virus.size()-1).setGameStarted();
 		virusSpawned++;
 	}
 	
+	//calculating closest virus to defender
 	public Virus calculateClosestToSoap(Soap s) {
 		int x1 = s.getX();
 		int y1 = s.getY();
@@ -918,17 +950,40 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			case 0:
 				difficulty = 0;
 				attackStagger = 15;
+				money = 125;
+				fireRate1 = 1500; 
+				fireRate2 = 1000;
+				fireRate3 = 750;
+				fireRate4 = 750;
 				break;
 			case 1:
 				difficulty = 1;
 				attackStagger = 10;
+				money = 150;
+				fireRate1 = 2000; 
+				fireRate2 = 1500;
+				fireRate3 = 1000;
+				fireRate4 = 1000;
 				break;
 			case 2:
 				difficulty = 2;
 				attackStagger = 5;
+				money = 175;
+				fireRate1 = 2500; 
+				fireRate2 = 2000;
+				fireRate3 = 1500;
+				fireRate4 = 1500;
 				break;
 		}
 		
+	}
+	
+	public void earnMoney(Virus v) {
+		if(v.getType() == 1 || v.getType() == 2 || v.getType() == 3) {
+			money += 5;
+		}else if(v.getType() == 4 || v.getType() == 5 || v.getType() == 6) {
+			money += 10;
+		}
 	}
 	
 }

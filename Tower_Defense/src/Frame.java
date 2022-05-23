@@ -62,6 +62,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		pointerSet();
 		setCursor();
 		checkHover();
+		setGameFailed();
 		if (gameStarted && isGameEnded()) {
 			nextLevel();
 		}
@@ -412,7 +413,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 						reset();
 					}
-					if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen) {
+					if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen && !gameOver) {
 						setGameStarted();
 					}
 					if (!isPointerActive) {
@@ -540,10 +541,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			else {
 				back.returnMenu();
 			}
-			if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen) {
+			if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen && !gameOver) {
 				back.switchStart();
 			}
-			else if (!gameStarted){
+			else if (!gameStarted && !gameOver){
 				back.returnStart();
 			}
 			
@@ -840,6 +841,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				levelSwitch = false;
 			}
 		}
+		if (gameOver) {
+			g.setColor(new Color(235, 236, 239));
+			g.fillRect(230, 330, 140, 35);
+			g.setColor(Color.black);
+			g.drawRect(230, 330, 140, 35);
+			g.setFont(new Font("Arial", Font.PLAIN, 20));
+			g.drawString("Game Over!", 247, 355);
+		}
 		
 	}
 	public void setGameStarted() {
@@ -897,6 +906,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		money = 200;
 		isOnHomescreen = true;
 		isOnHelpscreen = false;
+		gameOver = false;
 		gameStarted = false;
 		helpScreen1 = null;
 		for(Virus v: virus) {

@@ -12,11 +12,16 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -31,6 +36,7 @@ import javax.swing.Timer;
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener{
 	JFrame f = new JFrame("Tower Defense");
 	Background back = new Background(0, 0);
+	Music soundtrack = new Music("game-soundtrack.wav", true);
 	ArrayList<Soap> soap = new ArrayList<Soap>();
 	ArrayList<Bleach> bleach = new ArrayList<Bleach>();
 	ArrayList<Flamethrower> flame = new ArrayList<Flamethrower>();
@@ -46,6 +52,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public int money = 20000;
 	public int index = 0;
 	public int level = 1;
+	public int maxLevel;
 	public int numVirus = 1;
 	public int virusSpawned = 0;
 	public int hp = 100;
@@ -240,6 +247,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		paintDefenderGUI(g);
 		
 		}
+		else if (!isOnHelpscreen){
+			
+			g.setColor(new Color(235, 236, 239));
+			g.fillRect(210, 440, 180, 50);
+			g.setFont(new Font("Arial", Font.PLAIN, 25));
+			g.setColor(Color.black);
+			g.drawRect(210, 440, 180, 50);
+			g.drawString("Highscore: " + maxLevel, 220, 475);
+		}
 		p = MouseInfo.getPointerInfo().getLocation();
 	}
 	public static void main(String[] arg) {
@@ -247,6 +263,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 ;	}
 	public Frame() {
+		soundtrack.loop();
 		Timer t = new Timer(16, this);
 		f.setSize(new Dimension(600, 600));
 		f.setBackground(Color.blue);
@@ -258,7 +275,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
-		
+		setMaxLevel();
 		
 	}
 	@Override
@@ -881,6 +898,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			gameOver = true;
 			gameStarted = false;
 			virus.clear();
+			if (level > maxLevel) {
+				maxLevel = level;
+				try {
+					FileWriter fileWriter = new FileWriter("highscore.txt");
+					fileWriter.write(maxLevel + "");
+					fileWriter.close();
+				} 
+				catch (IOException l) {
+				      System.out.println("An error occurred.");
+				      l.printStackTrace();
+				}
+			}
 		}
 	}
 	public void nextLevel() {
@@ -940,5 +969,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 	}
-	
+	public void setMaxLevel() {
+		try {
+		      File myObj = new File("highscore.txt");
+		      Scanner myReader = new Scanner(myObj);
+		      while (myReader.hasNextLine()) {
+		        maxLevel = Integer.parseInt(myReader.nextLine());
+		        
+		      }
+		      myReader.close();
+		    } catch (FileNotFoundException l) {
+		      System.out.println("An error occurred.");
+		      l.printStackTrace();
+		    }
+	}
 }

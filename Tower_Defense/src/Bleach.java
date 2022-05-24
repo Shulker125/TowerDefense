@@ -13,6 +13,8 @@ public class Bleach{
 	private double scale;
 	private boolean hover, upgrade;
 	private int cost, x, y, upgradeCost;
+	private int fireRate;
+	private long startDefend, timeDefend;
 	public Bleach(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/bleach.png");
 		projectile = new ArrayList<Projectile>();
@@ -25,15 +27,19 @@ public class Bleach{
 		if (difficulty == 0) {
 			cost = 200;
 			upgradeCost = 250;
+			fireRate = 750;
 		}
 		else if (difficulty == 1) {
 			cost = 250;
 			upgradeCost = 300;
+			fireRate = 1000;
 		}
 		else {
 			cost = 275;
 			upgradeCost = 350;
+			fireRate = 1500;
 		}
+		startDefend = 0;
 		init(x, y);
 	}
 	public void paint(Graphics g) {
@@ -42,6 +48,7 @@ public class Bleach{
 		for (Projectile p : projectile) {
 			p.paint(g);
 		}
+		timeDefend = System.currentTimeMillis() - startDefend;
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
@@ -85,9 +92,19 @@ public class Bleach{
 	}
 	public void upgrade() {
 		upgrade = true;
+		fireRate -= 500;
 	}
 	public boolean getUpgrade() {
 		return upgrade;
+	}
+	public int getFireRate() {
+		return fireRate;
+	}
+	public long getTimeDefend() {
+		return timeDefend;
+	}
+	public void setStartDefend() {
+		startDefend = System.currentTimeMillis();
 	}
 	public ArrayList<Projectile> getProjectile() {
 		return projectile;

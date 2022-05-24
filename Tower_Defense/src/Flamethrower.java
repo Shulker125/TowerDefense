@@ -13,6 +13,8 @@ public class Flamethrower{
 	private double scale;
 	private boolean hover, upgrade;
 	private int cost, x, y, upgradeCost;
+	private int fireRate;
+	private long startDefend, timeDefend;
 	public Flamethrower(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/flamethrower.png");
 		projectile = new ArrayList<Projectile>();
@@ -25,15 +27,19 @@ public class Flamethrower{
 		if (difficulty == 0) {
 			cost = 500;
 			upgradeCost = 600;
+			fireRate = 750;
 		}
 		else if (difficulty == 1) {
 			cost = 550;
 			upgradeCost = 650;
+			fireRate = 1000;
 		}
 		else {
 			cost = 600;
 			upgradeCost = 700;
+			fireRate = 1500;
 		}
+		startDefend = 0;
 		init(x, y);
 	}
 	public void paint(Graphics g) {
@@ -42,6 +48,7 @@ public class Flamethrower{
 		for (Projectile p : projectile) {
 			p.paint(g);
 		}
+		timeDefend = System.currentTimeMillis() - startDefend;
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
@@ -85,9 +92,19 @@ public class Flamethrower{
 	}
 	public void upgrade() {
 		upgrade = true;
+		fireRate -= 500;
 	}
 	public boolean getUpgrade() {
 		return upgrade;
+	}
+	public int getFireRate() {
+		return fireRate;
+	}
+	public long getTimeDefend() {
+		return timeDefend;
+	}
+	public void setStartDefend() {
+		startDefend = System.currentTimeMillis();
 	}
 	public ArrayList<Projectile> getProjectile() {
 		return projectile;

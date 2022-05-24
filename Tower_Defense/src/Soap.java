@@ -13,6 +13,8 @@ public class Soap{
 	private double scale;
 	private boolean hover, upgrade;
 	private int cost, x, y, upgradeCost;
+	private int fireRate;
+	private long startDefend, timeDefend;
 	public Soap(int x, int y, double scale, boolean hover, int difficulty){
 		img = getImage("/imgs/soap.png");
 		projectile = new ArrayList<Projectile>();
@@ -25,15 +27,19 @@ public class Soap{
 		if (difficulty == 0) {
 			cost = 50;
 			upgradeCost = 100;
+			fireRate = 1500;
 		}
 		else if (difficulty == 1) {
 			cost = 75;
 			upgradeCost = 125;
+			fireRate = 2000;
 		}
 		else {
 			cost = 80;
 			upgradeCost = 150;
+			fireRate = 2500;
 		}
+		startDefend = 0;
 		init(x, y);
 	}
 	public void paint(Graphics g) {
@@ -42,6 +48,7 @@ public class Soap{
 		for (Projectile p : projectile) {
 			p.paint(g);
 		}
+		timeDefend = System.currentTimeMillis() - startDefend;
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
@@ -85,9 +92,19 @@ public class Soap{
 	}
 	public void upgrade() {
 		upgrade = true;
+		fireRate -= 500;
 	}
 	public boolean getUpgrade() {
 		return upgrade;
+	}
+	public int getFireRate() {
+		return fireRate;
+	}
+	public long getTimeDefend() {
+		return timeDefend;
+	}
+	public void setStartDefend() {
+		startDefend = System.currentTimeMillis();
 	}
 	public ArrayList<Projectile> getProjectile() {
 		return projectile;

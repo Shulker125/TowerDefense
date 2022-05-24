@@ -53,9 +53,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public long start = System.currentTimeMillis();
 	public long startAttack;
 	public long timeAttack;
-	private long startDefend1, startDefend2, startDefend3, startDefend4;
-	private long timeDefend1, timeDefend2, timeDefend3, timeDefend4;
-	private int fireRate1, fireRate2, fireRate3, fireRate4;
 	private double attackStagger;
 	private int flameCount = 0;
 	
@@ -86,50 +83,46 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 				
 				if(soap.size() > 1) {
-					timeDefend1 = System.currentTimeMillis() - startDefend1;
 					for(Soap s: soap) {
 						Virus v = calculateClosestToSoap(s);
-						if(timeDefend1 > fireRate1) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend1 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}
 				if(sanitizer.size() > 1) {
-					timeDefend2 = System.currentTimeMillis() - startDefend2;
 					for(Sanitizer s: sanitizer) {
 						Virus v = calculateClosestToSanitizer(s);
-						if(timeDefend2 > fireRate2) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend2 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}
 				if(bleach.size() > 1) {
-					timeDefend3 = System.currentTimeMillis() - startDefend3;
 					for(Bleach s: bleach) {
 						Virus v = calculateClosestToBleach(s);
-						if(timeDefend3 > fireRate3) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend3 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}
 				if(flame.size() > 1) {
-					timeDefend4 = System.currentTimeMillis() - startDefend4;
 					for(Flamethrower s: flame) {
 						Virus v = calculateClosestToFlamethrower(s);
-						if(timeDefend4 > fireRate4) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend4 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}
@@ -951,10 +944,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				attackStagger = 15;
 				money = 125;
-				fireRate1 = 1500; 
-				fireRate2 = 1000;
-				fireRate3 = 750;
-				fireRate4 = 750;
 				break;
 			case 1:
 				difficulty = 1;
@@ -964,10 +953,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				attackStagger = 10;
 				money = 150;
-				fireRate1 = 2000; 
-				fireRate2 = 1500;
-				fireRate3 = 1000;
-				fireRate4 = 1000;
 				break;
 			case 2:
 				difficulty = 2;
@@ -976,11 +961,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				attackStagger = 5;
-				money = 175;
-				fireRate1 = 2500; 
-				fireRate2 = 2000;
-				fireRate3 = 1500;
-				fireRate4 = 1500;
+				money = 20000; //175
 				break;
 		}
 		

@@ -63,6 +63,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private long startDefend1, startDefend2, startDefend3, startDefend4;
 	private long timeDefend1, timeDefend2, timeDefend3, timeDefend4;
 	private double attackStagger;
+	private int flameCount;
 	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -172,17 +173,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				st.projectileMove(100, 100);
 			}
 			
-			//creating hitboxes for viruses
+			//creating hitboxes and collisions for viruses and projectiles
 			try {
 				for(Virus v: virus) {
 					Rectangle r = new Rectangle(v.getX(), v.getY(), 40, 40);
-					g.drawRect(v.getX(), v.getY(), 40, 40);
+					//g.drawRect(v.getX(), v.getY(), 40, 40);
 				
 					for(Soap s: soap) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 50);
-							g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
 								s.removeProjectile(p);
 							}
@@ -191,8 +193,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					for(Sanitizer s: sanitizer) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 20, 30);
-							g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
 								s.removeProjectile(p);
 							}
@@ -201,8 +204,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					for(Bleach s: bleach) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 35);
-							g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
 								s.removeProjectile(p);
 							}
@@ -211,8 +215,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					for(Flamethrower s: flame) {
 						for(Projectile p: s.getProjectile()) {
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 27, 34);
-							g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
+							//g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
 							if(r.intersects(sRect)) {
+								earnMoney(v);
 								virus.remove(v);
 								//s.removeProjectile(p);
 							}
@@ -949,22 +954,33 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		back.setBackground("/imgs/Background.png");
 		back.returnMenu();
 		isOnHomescreen = false;
-		soap.add(new Soap(150, 10, 2.5, false, difficulty));
-		bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
-		flame.add(new Flamethrower(450, 10, 3, false, difficulty));
-		sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 		switch(num) {
 			case 0:
+				soap.add(new Soap(150, 10, 2.5, false, difficulty));
+				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
+				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
+				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				difficulty = 0;
 				attackStagger = 15;
+				money = 125;
 				break;
 			case 1:
+				soap.add(new Soap(150, 10, 2.5, false, difficulty));
+				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
+				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
+				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				difficulty = 1;
 				attackStagger = 10;
+				money = 150;
 				break;
 			case 2:
+				soap.add(new Soap(150, 10, 2.5, false, difficulty));
+				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
+				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
+				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				difficulty = 2;
 				attackStagger = 5;
+				money = 20000; //175
 				break;
 		}
 		
@@ -982,5 +998,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		      System.out.println("An error occurred.");
 		      l.printStackTrace();
 		    }
+	}
+	
+	public void earnMoney(Virus v) {
+		if(v.getType() == 1 || v.getType() == 2 || v.getType() == 3) {
+			money += 5;
+		}else if(v.getType() == 4 || v.getType() == 5 || v.getType() == 6) {
+			money += 10;
+		}
 	}
 }

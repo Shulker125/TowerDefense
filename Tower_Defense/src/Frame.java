@@ -183,7 +183,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 50);
 							g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
 							if(r.intersects(sRect)) {
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								s.removeProjectile(p);
 							}
 						}
@@ -193,7 +198,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 20, 30);
 							g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
 							if(r.intersects(sRect)) {
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								s.removeProjectile(p);
 							}
 						}
@@ -203,7 +213,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 35);
 							g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
 							if(r.intersects(sRect)) {
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								s.removeProjectile(p);
 							}
 						}
@@ -213,7 +228,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 27, 34);
 							g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
 							if(r.intersects(sRect)) {
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								//s.removeProjectile(p);
 							}
 						}

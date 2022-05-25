@@ -67,7 +67,7 @@ public class Virus {
 			y -= speed;
 		}else if(y > 270 && x > 30 && x < 200) {
 			x -= speed;
-		}else if(y > 150 && x > 20 && x < 50) {
+		}else if(y > 155 && x > 20 && x < 50) {
 			y -= speed;
 		}else if(y > 145 && y < 195 && x < 285) {
 			x += speed;

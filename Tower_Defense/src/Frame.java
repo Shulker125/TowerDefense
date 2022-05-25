@@ -957,6 +957,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		isOnHelpscreen = false;
 		gameOver = false;
 		gameStarted = false;
+		isPointerActive = false;
 		helpScreen1 = null;
 		for(Virus v: virus) {
 			v.homescreenVirus();

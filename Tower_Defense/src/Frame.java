@@ -60,8 +60,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public long start = System.currentTimeMillis();
 	public long startAttack;
 	public long timeAttack;
-	private long startDefend1, startDefend2, startDefend3, startDefend4;
-	private long timeDefend1, timeDefend2, timeDefend3, timeDefend4;
 	private double attackStagger;
 	private int flameCount;
 	
@@ -94,50 +92,46 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 				//firing for defenders
 				if(soap.size() > 1) {
-					timeDefend1 = System.currentTimeMillis() - startDefend1;
 					for(Soap s: soap) {
 						Virus v = calculateClosestToSoap(s);
-						if(timeDefend1 > 1000) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend1 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}
 				if(sanitizer.size() > 1) {
-					timeDefend2 = System.currentTimeMillis() - startDefend2;
 					for(Sanitizer s: sanitizer) {
 						Virus v = calculateClosestToSanitizer(s);
-						if(timeDefend2 > 500) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend2 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}
 				if(bleach.size() > 1) {
-					timeDefend3 = System.currentTimeMillis() - startDefend3;
 					for(Bleach s: bleach) {
 						Virus v = calculateClosestToBleach(s);
-						if(timeDefend3 > 500) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend3 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}
 				if(flame.size() > 1) {
-					timeDefend4 = System.currentTimeMillis() - startDefend4;
 					for(Flamethrower s: flame) {
 						Virus v = calculateClosestToFlamethrower(s);
-						if(timeDefend4 > 500) {
+						if(s.getTimeDefend() > s.getFireRate()) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
-							startDefend4 = System.currentTimeMillis();
+							s.setStartDefend();
 						}
 					}
 				}

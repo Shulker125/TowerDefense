@@ -185,7 +185,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							//g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
 							if(r.intersects(sRect)) {
 								earnMoney(v);
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								s.removeProjectile(p);
 							}
 						}
@@ -196,7 +201,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							//g.drawRect((int)p.getX(), (int)p.getY(), 0, 30);
 							if(r.intersects(sRect)) {
 								earnMoney(v);
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								s.removeProjectile(p);
 							}
 						}
@@ -207,7 +217,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							//g.drawRect((int)p.getX(), (int)p.getY(), 40, 35);
 							if(r.intersects(sRect)) {
 								earnMoney(v);
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								s.removeProjectile(p);
 							}
 						}
@@ -218,7 +233,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							//g.drawRect((int)p.getX(), (int)p.getY(), 27, 34);
 							if(r.intersects(sRect)) {
 								earnMoney(v);
-								virus.remove(v);
+								if (v.getType() > 1) {
+									v.spawn(v.getType()-1);
+								}
+								else {
+									virus.remove(v);
+								}
 								//s.removeProjectile(p);
 							}
 						}
@@ -942,6 +962,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		isOnHelpscreen = false;
 		gameOver = false;
 		gameStarted = false;
+		isPointerActive = false;
 		helpScreen1 = null;
 		for(Virus v: virus) {
 			v.homescreenVirus();

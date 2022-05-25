@@ -15,6 +15,7 @@ public class Sanitizer{
 	private int cost, x, y, upgradeCost;
 	private int fireRate;
 	private long startDefend, timeDefend;
+	private int damage;
 	public Sanitizer(int x, int y, double scale, boolean hover, int difficulty) {
 		img = getImage("/imgs/handSanitizer.png");
 		projectile = new ArrayList<Projectile>();
@@ -38,6 +39,7 @@ public class Sanitizer{
 		}
 		fireRate = 700;
 		startDefend = 0;
+		damage = 1;
 		init(x, y);
 	}
 	public void paint(Graphics g) {
@@ -91,6 +93,7 @@ public class Sanitizer{
 	public void upgrade() {
 		upgrade = true;
 		fireRate -= 100;
+		damage++;
 	}
 	public boolean getUpgrade() {
 		return upgrade;
@@ -103,6 +106,9 @@ public class Sanitizer{
 	}
 	public void setStartDefend() {
 		startDefend = System.currentTimeMillis();
+	}
+	public int getDamage() {
+		return damage;
 	}
 	public ArrayList<Projectile> getProjectile() {
 		return projectile;

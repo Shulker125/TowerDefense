@@ -82,6 +82,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			paintHelp(g);
 			g2.drawImage(helpScreen1, 20, 120, 300, 300, null);
 		}
+		//run game
 		if (!isOnHomescreen) {
 			if (gameStarted) {
 				back.start = null;
@@ -91,7 +92,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeAttack = 0;
 					startAttack = System.currentTimeMillis();
 				}
-				
+				//firing for defenders
 				if(soap.size() > 1) {
 					timeDefend1 = System.currentTimeMillis() - startDefend1;
 					for(Soap s: soap) {
@@ -144,9 +145,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if (soap.size() > 1) {
 				//System.out.println(soap.get(1).getX() + "," + soap.get(1).getY());
 			}
+			//painting viruses and defenders
 			for (Virus v : virus) {
 				v.paint(g);
 				v.setGameStarted();
+				//damage hp if virus gets to the end
 				if (v.getY() > 580 && !v.getHasDamaged()) {
 					hp -= v.getDamage();
 					v.setHasDamaged(true);
@@ -258,7 +261,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				
 			}
 
-			
+			//text for shop
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
 			g.drawString("Balance", 10, 78);
 			g.drawString("$"+money, 10, 95);
@@ -309,10 +312,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		start = System.currentTimeMillis();
 		int key = e.getKeyCode();
 		switch(key) {
-			case 10:
+			case 10: //enter key - moves to next level, for dev purposes
 				nextLevel();
-				break;
-			case 83:
+				break;	
+			case 83: //key: s - selling defenders
 				if (openSoapGUI) {
 					if (soap.get(index).getUpgrade()) {
 						money += soap.get(0).getUpgradeCost();
@@ -346,7 +349,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					openFlameGUI = false;
 				}
 				break;
-			case 89:
+			case 89: //key: y - upgrade defenders
 				if (openSoapGUI) {
 					if (soap.get(index).getUpgrade()) {
 						upgradeError = true;
@@ -400,7 +403,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					}
 				}
 				break;
-			case 78:
+			case 78: //key n: rejecting offer to upgrade
 				openSoapGUI = false;
 				openBleachGUI = false;
 				openSanGUI = false;
@@ -425,25 +428,26 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		start = System.currentTimeMillis();
 		int key = e.getButton();
 		switch(key){
-			case 3:
+			case 3: //right click
 				System.out.println(cursorX + "," + cursorY);
 				break;
-			case 1:
+			case 1: //left click
 				openSoapGUI = false;
 				openBleachGUI = false;
 				openSanGUI = false;
 				openFlameGUI = false;
 				if (isOnHomescreen && !isOnHelpscreen) {
 					back.menu = null;
+					//easy mode (clicking easy button)
 					if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 						setDifficulty(0);
-					}
+					}//medium mode
 					if (cursorX >= 250 && cursorX <= 365 && cursorY >= 340 && cursorY <= 385) {
 						setDifficulty(1);
-					}
+					}//hard mode
 					if (cursorX >= 410 && cursorX <= 505 && cursorY >= 340 && cursorY <= 385) {
 						setDifficulty(2);
-					}
+					}//help screen
 					if (cursorX >= 260 && cursorX <= 355 && cursorY >= 410 && cursorY <= 455) {
 						back.enterHelp();
 						helpScreen1 = getImage("/imgs/helpWalkthrough1.gif");
@@ -451,13 +455,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					}
 				}
 				else { 
-					
+					//back to menu
 					if (cursorX >= 20 && cursorX <= 115 && cursorY >= 50 && cursorY <= 95) {
 						reset();
-					}
+					}//starting game (clicking start button)
 					if (cursorX >= 20 && cursorX <= 135 && cursorY >= 470 && cursorY <= 510 && !gameStarted && !isOnHomescreen && !gameOver) {
 						setGameStarted();
-					}
+					}//checking to see if mouse is hovering over certain defender
 					if (!isPointerActive) {
 						for (int i = 1; i < soap.size(); i++) {
 							if(soap.get(i).isInHitbox(cursorX, cursorY)) {
@@ -483,6 +487,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 								index = i;
 							}
 						}
+						//buying defenders from shop
 						if (cursorX >= 155 && cursorX <= 215 && cursorY >= 45 && cursorY <= 100) {
 							buyDefender(1);
 						}
@@ -497,6 +502,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 						}
 					}
 					else {
+						//placing defenders - imperfect
 						if (cursorY > 130 && !isInNoZone()) {
 							for (Soap s : soap) {
 								s.setHover(false);
@@ -550,6 +556,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public void checkHover() {
+		//changing image of buttons if mouse is hovering over it
+		//image gets darker if mouse is hovering on button
+		//image returns to normal if mouse stops hovering over button
 		if (isOnHomescreen && !isOnHelpscreen) {
 			if (cursorX >= 105 && cursorX <= 210 && cursorY >= 340 && cursorY <= 385) {
 				back.switchEasy();
@@ -594,6 +603,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 	}
 	public boolean isInNoZone() {
+		//method for seeing if defender is on track
+		//used to determine if defender can be placed there
+		//imperfect
 		try {
 			for (Pixel[] r : cursor) {
 				for (Pixel p : r) {
@@ -629,6 +641,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 	}
 	public void buyDefender(int num) {
+		//buying defenders
 		if (num == 1 && money >= soap.get(0).getCost()) {
 			soap.add(new Soap(cursorX-40, cursorY-40, 2.5, true, difficulty));
 			isPointerActive = true;
@@ -653,13 +666,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			fundError = true;
 		}
 	}
-	
+	//spawning viruses
 	public void spawnAttack() {
 		virus.add(new Virus(0, 435, level));
 		virus.get(virus.size()-1).setGameStarted();
 		virusSpawned++;
 	}
 	
+	//calculating closest virus to defender
 	public Virus calculateClosestToSoap(Soap s) {
 		int x1 = s.getX();
 		int y1 = s.getY();
@@ -759,6 +773,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		return tempImage;
 	}
+	//help screen text
 	public void paintHelp(Graphics c) {
 		c.setColor(Color.black);
 		c.drawString("1. Use the top bar to select the", 350, 120);
@@ -826,6 +841,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.drawString("Click s to sell" , 263, 365);
 		}
 	}
+	//invalid message if defender cannot be placed
 	public void paintErrors(Graphics g) {
 		if (placementError) {
 			long time = System.currentTimeMillis() - start;
@@ -841,6 +857,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				placementError = false;
 			}
 		}
+		//not enough money message if not enough money to buy defender
 		if (fundError) {
 			long time2 = System.currentTimeMillis() - start;
 			if (time2 <= 500) {
@@ -855,6 +872,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				fundError = false;
 			}
 		}
+		//message if defender is already upgraded
 		if (upgradeError) {
 			long time3 = System.currentTimeMillis() - start;
 			if (time3 <= 500) {
@@ -869,6 +887,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				upgradeError = false;
 			}
 		}
+		//message for new level
 		if (levelSwitch) {
 			long time4 = System.currentTimeMillis() - start;
 			if (time4 <= 1000) {
@@ -883,6 +902,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				levelSwitch = false;
 			}
 		}
+		//message for game over
 		if (gameOver) {
 			g.setColor(new Color(235, 236, 239));
 			g.fillRect(230, 330, 140, 35);
@@ -893,6 +913,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 	}
+	//starting game
 	public void setGameStarted() {
 		levelSwitch = true;
 		gameStarted = true;
@@ -902,6 +923,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		startAttack = System.currentTimeMillis();
 
 	}
+	//checking if level has ended
 	public boolean isGameEnded() {
 		if (virusSpawned < numVirus) {
 			return false;
@@ -937,6 +959,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 		}
 	}
+	//moving to next level
 	public void nextLevel() {
 		gameStarted = false;
 		virus.clear();
@@ -951,6 +974,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			attackStagger--;
 		}
 	}
+	//resetting game when going back to menu
 	public void reset() {
 		back.returnToMenu();
 		soap.clear();
@@ -971,6 +995,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		level = 1;
 		hp = 100;
 	}
+	//changing game based on difficulty chosen
 	public void setDifficulty(int num) {
 		back.setBackground("/imgs/Background.png");
 		back.returnMenu();
@@ -1020,7 +1045,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		      l.printStackTrace();
 		    }
 	}
-	
+	//earning money when virus is killed
 	public void earnMoney(Virus v) {
 		if(v.getType() == 1 || v.getType() == 2 || v.getType() == 3) {
 			money += 5;

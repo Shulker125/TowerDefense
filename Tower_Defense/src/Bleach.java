@@ -23,16 +23,16 @@ public class Bleach{
 		this.hover = hover;
 		upgrade = false;
 		if (difficulty == 0) {
-			cost = 200;
-			upgradeCost = 250;
+			cost = 250;
+			upgradeCost = 275;
 		}
 		else if (difficulty == 1) {
-			cost = 250;
-			upgradeCost = 300;
+			cost = 260;
+			upgradeCost = 275;
 		}
 		else {
-			cost = 275;
-			upgradeCost = 350;
+			cost = 285;
+			upgradeCost = 300;
 		}
 		init(x, y);
 	}

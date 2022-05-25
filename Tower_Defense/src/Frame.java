@@ -108,7 +108,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					timeDefend2 = System.currentTimeMillis() - startDefend2;
 					for(Sanitizer s: sanitizer) {
 						Virus v = calculateClosestToSanitizer(s);
-						if(timeDefend2 > 500) {
+						if(timeDefend2 > 700) {
 							if(!s.getHover()) {
 								s.fire(v.getX(), v.getY());
 							}
@@ -779,7 +779,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.setColor(Color.black);
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + soap.get(index).getUpgradeCost() + " Upgrade? y/n" , 192, 325);
+			g.drawString("Upgrade Costs: $" + soap.get(0).getUpgradeCost() + " Upgrade? y/n" , 192, 325);
 			g.setColor(new Color(235, 236, 239, 220));
 			g.fillRect(255, 340, 100, 35);
 			g.setColor(Color.black);
@@ -792,7 +792,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.setColor(Color.black);
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + bleach.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.drawString("Upgrade Costs: $" + bleach.get(0).getUpgradeCost() + " Upgrade? y/n", 192, 325);
 			g.setColor(new Color(235, 236, 239, 220));
 			g.fillRect(255, 340, 100, 35);
 			g.setColor(Color.black);
@@ -805,7 +805,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.setColor(Color.black);
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + sanitizer.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.drawString("Upgrade Costs: $" + sanitizer.get(0).getUpgradeCost() + " Upgrade? y/n", 192, 325);
 			g.setColor(new Color(235, 236, 239, 220));
 			g.fillRect(255, 340, 100, 35);
 			g.setColor(Color.black);
@@ -818,7 +818,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.setColor(Color.black);
 			g.drawRect(180, 300, 250, 35);
 			g.setFont(new Font("Arial", Font.PLAIN, 15));
-			g.drawString("Upgrade Costs: $" + flame.get(index).getUpgradeCost() + " Upgrade? y/n", 192, 325);
+			g.drawString("Upgrade Costs: $" + flame.get(0).getUpgradeCost() + " Upgrade? y/n", 192, 325);
 			g.setColor(new Color(235, 236, 239, 220));
 			g.fillRect(255, 340, 100, 35);
 			g.setColor(Color.black);
@@ -941,7 +941,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		gameStarted = false;
 		virus.clear();
 		level++;
-		if (difficulty == 0 && level % 2 == 0 && attackStagger > 1) {
+		if (difficulty == 0 && level % 3 == 0 && attackStagger > 1) {
 			attackStagger--;
 		}
 		else if (difficulty == 1 && level % 3 == 0 && attackStagger > 1) {
@@ -982,7 +982,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-				attackStagger = 15;
+				attackStagger = 10;
 				money = 125;
 				break;
 			case 1:
@@ -991,7 +991,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-				attackStagger = 10;
+				attackStagger = 7;
 				money = 150;
 				break;
 			case 2:
@@ -1001,7 +1001,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
 				attackStagger = 5;
-				money = 20000; //175
+				money = 175; //175
 				break;
 		}
 		

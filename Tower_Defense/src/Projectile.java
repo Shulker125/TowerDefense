@@ -18,7 +18,7 @@ public class Projectile {
 		this.scale = scale;
 		vy = 0;
 		vx = 0;
-		baseSpeed = 0.1;
+		baseSpeed = 0.15;
 		this.x = x;
 		this.y = y;
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -84,7 +84,6 @@ public class Projectile {
 		vx = (displacementX * baseSpeed);
 		vy = (displacementY * baseSpeed);
 	
-		System.out.println(vx + "," + vy);
 	}
 	public void move() {
 

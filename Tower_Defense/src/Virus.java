@@ -21,20 +21,20 @@ public class Virus {
 		if (level >= 1 && level <= 3) {
 			rnd = 1;
 		}
-		else if (level >= 4 && level <= 5) {
+		else if (level >= 4 && level <= 6) {
 			rnd = (int)(Math.random() * 2)+1;
 			
 		}
-		else if (level >= 6 && level <= 8) {
+		else if (level >= 7 && level <= 14) {
 			rnd = (int)(Math.random() * 3)+1;
 		}
-		else if (level >= 9 && level <= 10) {
+		else if (level >= 15 && level <= 19) {
 			rnd = (int)(Math.random() * 3)+2;
 		}
-		else if (level >= 11 && level <= 12) {
+		else if (level >= 20 && level <= 24) {
 			rnd = (int)(Math.random() * 3)+3;
 		}
-		else if (level >= 13 && level <= 30){
+		else if (level >= 25 && level <= 30){
 			rnd = (int)(Math.random() * 4)+3;
 		}
 		else {

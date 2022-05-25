@@ -40,26 +40,7 @@ public class Virus {
 		else {
 			rnd = (int)(Math.random()* 3)+ 4;
 		}
-		switch (rnd) {
-			case 1: 
-				spawn1();
-				break;
-			case 2:
-				spawn2();
-				break;
-			case 3:
-				spawn3();
-				break;
-			case 4:
-				spawn4();
-				break;
-			case 5:
-				spawn5();
-				break;
-			case 6:
-				spawn6();
-				break;
-		}
+		spawn(rnd);
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
 									//use your variables
@@ -80,13 +61,13 @@ public class Virus {
 	
 	private void update() {
 		//code for attacker movement through the course
-		if(y > 400 && x < 185) {
+		if(y > 400 && x < 180) {
 			x += speed;
 		}else if(y > 275 && x < 190) {
 			y -= speed;
-		}else if(y > 270 && x > 25 && x < 200) {
+		}else if(y > 270 && x > 30 && x < 200) {
 			x -= speed;
-		}else if(y > 150 && x > 20 && x < 50) {
+		}else if(y > 155 && x > 20 && x < 50) {
 			y -= speed;
 		}else if(y > 145 && y < 195 && x < 285) {
 			x += speed;
@@ -98,7 +79,7 @@ public class Virus {
 			y -= speed;
 		}else if(y > 145 && y < 165 && x < 535) {
 			x += speed;
-		}else if(y < 335 && x < 545) {
+		}else if(y < 330 && x < 545) {
 			y += speed;
 		}else if(y < 340 && x > 265) {
 			x -= speed;
@@ -110,7 +91,7 @@ public class Virus {
 			y -= speed;
 		}else if(y > 400 && x < 525) {
 			x += speed;
-		}else if(y < 600 && x < 530) {
+		}else if(y < 600 && x < 535) {
 			y += speed;
 		}
 	}
@@ -131,45 +112,45 @@ public class Virus {
 		return tempImage;
 	}
 	
-	public void spawn() {
-		
-	}
-	
-	public void spawn1() {
-		virus1 = getImage("/imgs/virus1.png");
-		type = 1;
-		speed = 2;
-		damage = 1;
-	}
-	public void spawn2() {
-		virus1 = getImage("/imgs/virus2.png");
-		type = 2;
-		speed = 3;
-		damage = 1;
-	}
-	public void spawn3() {
-		virus1 = getImage("/imgs/virus3.png");
-		type = 3;
-		speed = 4;
-		damage = 2;
-	}
-	public void spawn4() {
-		virus1 = getImage("/imgs/virus4.png");
-		type = 4;
-		speed = 5;
-		damage = 3;
-	}
-	public void spawn5() {
-		virus1 = getImage("/imgs/virus5.png");
-		type = 5;
-		speed = 6;
-		damage = 4;
-	}
-	public void spawn6() {
-		virus1 = getImage("/imgs/virus6.png");
-		type = 6;
-		speed = 7;
-		damage = 5;
+	public void spawn(int num) {
+		switch(num) {
+			case 1:
+				virus1 = getImage("/imgs/virus1.png");
+				type = 1;
+				speed = 2;
+				damage = 1;
+				break;
+			case 2:
+				virus1 = getImage("/imgs/virus2.png");
+				type = 2;
+				speed = 3;
+				damage = 1;
+				break;
+			case 3:
+				virus1 = getImage("/imgs/virus3.png");
+				type = 3;
+				speed = 4;
+				damage = 2;
+				break;
+			case 4:
+				virus1 = getImage("/imgs/virus4.png");
+				type = 4;
+				speed = 5;
+				damage = 3;
+				break;
+			case 5:
+				virus1 = getImage("/imgs/virus5.png");
+				type = 5;
+				speed = 6;
+				damage = 4;
+				break;
+			case 6:
+				virus1 = getImage("/imgs/virus6.png");
+				type = 6;
+				speed = 7;
+				damage = 5;
+				break;
+		}
 	}
 	
 	public void homescreenVirus() {

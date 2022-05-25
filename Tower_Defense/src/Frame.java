@@ -956,29 +956,29 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		isOnHomescreen = false;
 		switch(num) {
 			case 0:
+				difficulty = 0;
 				soap.add(new Soap(150, 10, 2.5, false, difficulty));
 				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-				difficulty = 0;
 				attackStagger = 15;
 				money = 125;
 				break;
 			case 1:
+				difficulty = 1;
 				soap.add(new Soap(150, 10, 2.5, false, difficulty));
 				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-				difficulty = 1;
 				attackStagger = 10;
 				money = 150;
 				break;
 			case 2:
+				difficulty = 2;
 				soap.add(new Soap(150, 10, 2.5, false, difficulty));
 				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-				difficulty = 2;
 				attackStagger = 5;
 				money = 20000; //175
 				break;

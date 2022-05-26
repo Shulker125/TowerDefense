@@ -27,15 +27,15 @@ public class Soap{
 		upgrade = false;
 		if (difficulty == 0) {
 			cost = 100;
-			upgradeCost = 125;
+			upgradeCost = 50;
 		}
 		else if (difficulty == 1) {
 			cost = 120;
-			upgradeCost = 145;
+			upgradeCost = 60;
 		}
 		else {
 			cost = 150;
-			upgradeCost = 175;
+			upgradeCost = 65;
 		}
 		fireRate = 1000;
 		startDefend = 0;
@@ -93,7 +93,6 @@ public class Soap{
 	public void upgrade() {
 		upgrade = true;
 		fireRate -= 100;
-		damage++;
 	}
 	public boolean getUpgrade() {
 		return upgrade;

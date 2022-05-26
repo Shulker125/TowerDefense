@@ -181,9 +181,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 							Rectangle sRect = new Rectangle((int)p.getX(), (int)p.getY(), 40, 50);
 							//g.drawRect((int)p.getX(), (int)p.getY(), 40, 50);
 							if(r.intersects(sRect)) {
-								if (v.getType() > 1 && s.getDamage() == 1) {
-									v.spawn(v.getType() - s.getDamage());
-								}else if(v.getType() > 2 && s.getDamage() == 2) {
+								if (v.getType() > 1) {
 									v.spawn(v.getType() - s.getDamage());
 								}
 								else {

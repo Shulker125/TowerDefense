@@ -14,6 +14,11 @@ The game background shows the track that the viruses follow.
 #### Frame
 
 
+#### Modes
+There are three modes: easy, medium, and hard.
+
+The harder the mode, the more expensive the defenders 
+
 #### Virus
 There are six levels of viruses, indicated by their color. 
 
@@ -35,7 +40,11 @@ For each level, the number of viruses spawned is double the level number. Earlie
 #### Defenders
 The four defenders, from cheapest to most expensive, are soap, sanitizer, bleach, and flamethrower. 
 
-More expensive defenders have faster rates of fire. Bleach and flamethrower have the same rate of fire but are faster than soap and sanitizer. Flamethrower is the only defender that 
+More expensive defenders have faster rates of fire. Bleach and flamethrower have the same rate of fire but are faster than soap and sanitizer. Flamethrower is the only defender that does three "levels" of damage, which means that it can take out three red viruses, or one blue virus and one red virus, with one projectile. The other defenders only deal one "level" of damage.
+
+Defenders can be upgraded for a certain amount of money that is greater than the initial cost in the shop. Upgrading doubles the damage that projectiles deal and increases the fire rate.
+
+Defenders can be sold for 3/4 of the original price. If a defender is upgraded and then sold, the cost of upgrading is not returned to the player.
 
 
 

@@ -22,7 +22,9 @@ There are six levels of viruses, indicated by their color.
 ![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus5.png?raw=true)
 ![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus6.png?raw=true)
 
-Red
+Red is the weakest and slowest, while gray is the fastest and strongest.
+
+If a defensive projectile hits a virus of another color, the virus will lose a level, which means that it will change into the next weakest virus. For example, if a green virus is hit by a projectile, it will turn into a blue virus, and if the blue virus is hit, it will turn into a red virus. When a red virus is hit, the virus will disappear and the player will earn money. 
 
 #### Defenders
 

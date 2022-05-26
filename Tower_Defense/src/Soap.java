@@ -34,7 +34,7 @@ public class Soap{
 			upgradeCost = 60;
 		}
 		else {
-			cost = 150;
+			cost = 130;
 			upgradeCost = 65;
 		}
 		fireRate = 1000;

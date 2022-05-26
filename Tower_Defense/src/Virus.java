@@ -10,7 +10,7 @@ public class Virus {
 	private int x, y, speed, type, damage;  //for now, max speed is 5
 	private boolean gameStarted, hasDamaged;
 	private AffineTransform tx;
-	
+
 	public Virus(int x, int y, int level) {
 		this.x = x;
 		this.y = y;
@@ -21,44 +21,44 @@ public class Virus {
 		if (level >= 1 && level <= 3) {
 			rnd = 1;
 		}
-		else if (level >= 4 && level <= 5) {
+		else if (level >= 4 && level <= 6) {
 			rnd = (int)(Math.random() * 2)+1;
-			
+
 		}
-		else if (level >= 6 && level <= 8) {
+		else if (level >= 7 && level <= 14) {
 			rnd = (int)(Math.random() * 3)+1;
 		}
-		else if (level >= 9 && level <= 10) {
+		else if (level >= 15 && level <= 19) {
 			rnd = (int)(Math.random() * 3)+2;
 		}
-		else if (level >= 11 && level <= 12) {
+		else if (level >= 20 && level <= 24) {
 			rnd = (int)(Math.random() * 3)+3;
 		}
-		else if (level >= 13 && level <= 30){
+		else if (level >= 25 && level <= 30){
 			rnd = (int)(Math.random() * 4)+3;
 		}
 		else {
-			rnd = (int)(Math.random()* 3)+ 4;
+			rnd = (int)(Math.random()* 2)+ 5;
 		}
 		spawn(rnd);
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
 									//use your variables
 	}
-	
+
 	public void paint(Graphics g) {
 		//these are the 2 lines of code needed draw an image on the screen
 		Graphics2D g2 = (Graphics2D) g;		
-		
+
 		//call update to update the actualy picture location
 		if(gameStarted) {
 			update();
 		}
-		
-		
+
+
 		g2.drawImage(virus1, x, y, 40, 40, null);
 	}
-	
+
 	private void update() {
 		//code for attacker movement through the course
 		if(y > 400 && x < 180) {
@@ -95,12 +95,12 @@ public class Virus {
 			y += speed;
 		}
 	}
-	
+
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(5, 5);
 	}
-	
+
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
@@ -111,7 +111,7 @@ public class Virus {
 		}
 		return tempImage;
 	}
-	
+
 	public void spawn(int num) {
 		switch(num) {
 			case 1:
@@ -152,15 +152,15 @@ public class Virus {
 				break;
 		}
 	}
-	
+
 	public void homescreenVirus() {
 		virus1 = null;
 	}
-	
+
 	public void setGameStarted() {
 		gameStarted = true;
 	}
-	
+
 	public int getX() {
 		return x;
 	}

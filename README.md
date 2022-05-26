@@ -5,5 +5,5 @@ Bathroom Battle is a tower defense game, inspired partially by the Bloons TD ser
 
 
 #####Contributors
--Zayne
--Jonathan
+- Zayne
+- Jonathan

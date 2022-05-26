@@ -26,16 +26,16 @@ public class Soap{
 		this.hover = hover;
 		upgrade = false;
 		if (difficulty == 0) {
-			cost = 50;
-			upgradeCost = 100;
-		}
-		else if (difficulty == 1) {
-			cost = 75;
+			cost = 100;
 			upgradeCost = 125;
 		}
+		else if (difficulty == 1) {
+			cost = 120;
+			upgradeCost = 145;
+		}
 		else {
-			cost = 80;
-			upgradeCost = 150;
+			cost = 150;
+			upgradeCost = 175;
 		}
 		fireRate = 1000;
 		startDefend = 0;

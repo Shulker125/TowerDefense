@@ -34,7 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener{
-	JFrame f = new JFrame("Tower Defense");
+	JFrame f = new JFrame("Bathroom Battle");
 	Background back = new Background(0, 0);
 	Music soundtrack = new Music("game-soundtrack.wav", true);
 	ArrayList<Soap> soap = new ArrayList<Soap>();

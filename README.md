@@ -15,6 +15,11 @@ The game background shows the track that the viruses follow.
 #### Virus
 There are six levels of viruses, indicated by their color. 
 ![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus1.png?raw=true)
+![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus2.png?raw=true)
+![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus3.png?raw=true)
+![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus4.png?raw=true)
+![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus5.png?raw=true)
+![Image](https://github.com/Shulker125/TowerDefense/blob/master/Tower_Defense/src/imgs/virus6.png?raw=true)
 
 #### Defenders
 

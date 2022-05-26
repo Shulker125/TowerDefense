@@ -14,7 +14,7 @@ The game background shows the track that the viruses follow.
 
 #### Virus
 There are six levels of viruses, indicated by their color. 
-![Image](/assets/images/virus1.png)
+![Image](/src/imgs/virus1.png)
 
 #### Defenders
 

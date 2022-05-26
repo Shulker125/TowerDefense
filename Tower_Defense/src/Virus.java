@@ -38,7 +38,7 @@ public class Virus {
 			rnd = (int)(Math.random() * 4)+3;
 		}
 		else {
-			rnd = (int)(Math.random()* 3)+ 4;
+			rnd = (int)(Math.random()* 2)+ 5;
 		}
 		spawn(rnd);
 		tx = AffineTransform.getTranslateInstance(x, y);

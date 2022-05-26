@@ -982,7 +982,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				bleach.add(new Bleach(350, 10, 2.7, false, difficulty));
 				flame.add(new Flamethrower(450, 10, 3, false, difficulty));
 				sanitizer.add(new Sanitizer(250, 10, 2.8, false, difficulty));
-				attackStagger = 10;
+				attackStagger = 9;
 				money = 125;
 				break;
 			case 1:

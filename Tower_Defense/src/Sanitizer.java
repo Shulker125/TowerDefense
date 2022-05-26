@@ -26,16 +26,16 @@ public class Sanitizer{
 		this.hover = hover;
 		upgrade = false;
 		if (difficulty == 0) {
-			cost = 100;
-			upgradeCost = 150;
+			cost = 175;
+			upgradeCost = 200;
 		}
 		else if (difficulty == 1) {
-			cost = 125;
-			upgradeCost = 175;
+			cost = 185;
+			upgradeCost = 205;
 		}
 		else {
-			cost = 140;
-			upgradeCost = 200;
+			cost = 200;
+			upgradeCost = 225;
 		}
 		fireRate = 700;
 		startDefend = 0;

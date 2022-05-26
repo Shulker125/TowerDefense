@@ -317,35 +317,23 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				break;	
 			case 83: //key: s - selling defenders
 				if (openSoapGUI) {
-					if (soap.get(index).getUpgrade()) {
-						money += soap.get(0).getUpgradeCost();
-					}
 					soap.remove(index);
-					money += soap.get(0).getCost();
+					money += soap.get(0).getCost()*3/4;
 					openSoapGUI = false;
 				}
 				if (openBleachGUI) {
-					if (bleach.get(index).getUpgrade()) {
-						money += bleach.get(0).getUpgradeCost();
-					}
 					bleach.remove(index);
-					money += bleach.get(0).getCost();
+					money += bleach.get(0).getCost()*3/4;
 					openBleachGUI = false;
 				}
 				if (openSanGUI) {
-					if (sanitizer.get(index).getUpgrade()) {
-						money += sanitizer.get(0).getUpgradeCost();
-					}
 					sanitizer.remove(index);
-					money += sanitizer.get(0).getCost();
+					money += sanitizer.get(0).getCost()*3/4;
 					openSanGUI = false;
 				}
 				if (openFlameGUI) {
-					if (flame.get(index).getUpgrade()) {
-						money += flame.get(0).getUpgradeCost();
-					}
 					flame.remove(index);
-					money += flame.get(0).getCost();
+					money += flame.get(0).getCost()*3/4;
 					openFlameGUI = false;
 				}
 				break;

@@ -12,6 +12,7 @@ public class Projectile {
 	private double scale;
 	private AffineTransform tx;
 	private double displacementX, displacementY;
+	private int flameCount;
 	
 	public Projectile(double x, double y, String fileName, double scale) {
 		img = getImage(fileName);
@@ -19,6 +20,7 @@ public class Projectile {
 		vy = 0;
 		vx = 0;
 		baseSpeed = 0.15;
+		flameCount = 0;
 		this.x = x;
 		this.y = y;
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -93,6 +95,15 @@ public class Projectile {
 		}
 		tx.setToTranslation(this.x, this.y);
 		tx.scale(scale, scale);
+	}
+	public int getFlameCount() {
+		return flameCount;
+	}
+	public void addFlameCount() {
+		flameCount++;
+	}
+	public void setFlameCount(int num) {
+		flameCount = num;
 	}
 	
 }

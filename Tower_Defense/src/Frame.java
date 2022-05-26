@@ -61,7 +61,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public long startAttack;
 	public long timeAttack;
 	private double attackStagger;
-	private int flameCount;
+	
 	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -242,7 +242,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 									earnMoney(v);
 									virus.remove(v);
 								}
-								//s.removeProjectile(p);
+								p.addFlameCount();
+								if(p.getFlameCount() == 3) {
+									s.removeProjectile(p);
+								}
+								
 							}
 						}
 					}

@@ -37,6 +37,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	JFrame f = new JFrame("Bathroom Battle");
 	Background back = new Background(0, 0);
 	Music soundtrack = new Music("game-soundtrack.wav", true);
+	Music hit = new Music("enemyHit.wav", false);
+	Music gameFailed = new Music("gameOver.wav", false);
 	ArrayList<Soap> soap = new ArrayList<Soap>();
 	ArrayList<Bleach> bleach = new ArrayList<Bleach>();
 	ArrayList<Flamethrower> flame = new ArrayList<Flamethrower>();
@@ -185,6 +187,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 									v.spawn(v.getType() - s.getDamage());
 								}
 								else {
+									hit.play();
 									earnMoney(v);
 									virus.remove(v);
 								}
@@ -203,6 +206,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 									v.spawn(v.getType() - s.getDamage());
 								}
 								else {
+									hit.play();
 									earnMoney(v);
 									virus.remove(v);
 								}
@@ -221,6 +225,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 									v.spawn(v.getType() - s.getDamage());
 								}
 								else {
+									hit.play();
 									earnMoney(v);
 									virus.remove(v);
 								}
@@ -239,6 +244,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 									v.spawn(v.getType() - s.getDamage());
 								}
 								else {
+									hit.play();
 									earnMoney(v);
 									virus.remove(v);
 								}
@@ -295,7 +301,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 ;	}
 	public Frame() {
-		soundtrack.loop();
 		Timer t = new Timer(16, this);
 		f.setSize(new Dimension(600, 600));
 		f.setBackground(Color.blue);
@@ -317,7 +322,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		int key = e.getKeyCode();
 		switch(key) {
 			case 10: //enter key - moves to next level, for dev purposes
-				nextLevel();
+				//nextLevel();
 				break;	
 			case 83: //key: s - selling defenders
 				if (openSoapGUI) {
@@ -934,6 +939,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	public void setGameFailed() {
 		if (hp <= 0) {
+			if (virus.size() > 0) {
+				soundtrack.stop();
+				gameFailed.play();
+			}
 			gameOver = true;
 			gameStarted = false;
 			virus.clear();
@@ -989,6 +998,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	//changing game based on difficulty chosen
 	public void setDifficulty(int num) {
+		soundtrack.loop();
 		back.setBackground("/imgs/Background.png");
 		back.returnMenu();
 		isOnHomescreen = false;

@@ -46,6 +46,11 @@ Defenders can be upgraded for a certain amount of money that is greater than the
 
 Defenders can be sold for 3/4 of the original price. If a defender is upgraded and then sold, the cost of upgrading is not returned to the player.
 
+#### Gameplay
+
+
+https://user-images.githubusercontent.com/78383186/171082267-4c837049-052f-4f26-9731-f8a502e42dac.mp4
+
 
 
 #### Contributors

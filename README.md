@@ -39,6 +39,10 @@ For each level, the number of viruses spawned is double the level number. Earlie
 
 #### Defenders
 The four defenders, from cheapest to most expensive, are soap, sanitizer, bleach, and flamethrower. 
+![soap](https://user-images.githubusercontent.com/78383186/171507053-638f08ca-c75d-44f7-a67b-ccaceac733da.png)
+![handSanitizer](https://user-images.githubusercontent.com/78383186/171507066-6bfe69f2-7688-4eb8-a597-3b78dcacd48d.png)
+![bleach](https://user-images.githubusercontent.com/78383186/171507078-d2f55835-00d6-490c-a8f9-ca4beeb2bac0.png)
+![flamethrower](https://user-images.githubusercontent.com/78383186/171507083-67f490f8-61de-488d-a64e-7b96b8e3c066.png)
 
 More expensive defenders have faster rates of fire. Bleach and flamethrower have the same rate of fire but are faster than soap and sanitizer. Flamethrower is the only defender that does three "levels" of damage, which means that it can take out three red viruses, or one blue virus and one red virus, with one projectile. The other defenders only deal one "level" of damage.
 
